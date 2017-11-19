@@ -3,6 +3,7 @@
 class Square:
     def __init__(self, w, xcoor, ycoor):
         self.world = w
+        self.world.squares.append(self)
         self.coordinates = (xcoor,ycoor)
         self.exits = {}
         for squ in self.world.squares:
