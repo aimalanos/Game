@@ -6,7 +6,7 @@ class Player:
         self.diet = input("Is your creature a carnivore or an herbivore? ").lower()
         w.add_player(self)
         self.world = w
-        self.location = random.choice(self.word.squares) # If we want the player to start at a random location on the map.
+        self.location = random.choice(self.world.squares) # If we want the player to start at a random location on the map.
         self.home = self.location # The player's home base will be their starting location.
         self.hunger = 100 # If self.hunger reaches 0, the player's health will decrease at each update
         self.health = 15
