@@ -8,7 +8,7 @@ w = World()
 for i in range(-8,9):
     for j in range(-8, 9):
         Square(w, i, j)
-p = Player()
+p = Player(w)
 for i in range(0,80):
     r = random.choice(w.squares)
     if not r.creature:
@@ -24,4 +24,3 @@ for i in range(0,80):
 for i in range(0,200):
     r = random.choice(w.squares)
     r.fruit += 1
-w.player = p
