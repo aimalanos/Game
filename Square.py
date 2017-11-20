@@ -18,6 +18,6 @@ class Square:
                 elif squ.coordinates[1] == self.coordinates[1] + 1:
                     self.exits[north] = squ    
         self.creature = None # I think there should be a max of one NPC per square
-        self.food = 0 # I think different squares should have different quantities of food
+        self.fruit = 0 # I think different squares should have different quantities of food
         self.items = []
     
