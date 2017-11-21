@@ -34,4 +34,15 @@ def help():
 
 while playing and p.alive:
     command = input("What would you like to do next? \n help \n me \n go " + str(p.availabledirs) + " \n inventory")
-    
+    if command == 'help':
+        help()
+    elif command == 'me':
+        me()
+    elif command == 'go north':
+        p.north()
+    elif command == 'go south':
+        p.south()
+    elif command == 'go west':
+        p.west()
+    elif command == 'go east':
+        p.east()
