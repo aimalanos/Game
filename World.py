@@ -8,6 +8,10 @@ class World:
         self.hungerLoss = 3 # Determines how much the player's hunger increases when updating
         self.speedPenalty = 0 # The penalties will be applied depending on the weather
         self.sociabilityPenalty = 0
+    def makeMap(self,x,y):
+        for num in range(-x,x):
+            for nums in range(-y,y):
+                self.squares.append(Square(self,num,nums))
     def add_player(self, player):
         self.player = player
     def reset(self):
