@@ -5,6 +5,7 @@ from Creature import Creature
 import random
 
 w = World()
+w.makeMap(8,8)
 for i in range(-8,9):
     for j in range(-8, 9):
         Square(w, i, j)
