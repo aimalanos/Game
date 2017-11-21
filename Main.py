@@ -48,3 +48,9 @@ while playing and p.alive:
         p.west()
     elif command == 'go east':
         p.east()
+    elif command == 'change location':
+        x = input('x-coordinate?')
+        y = input('y-coordinate?')
+        for squ in w.squares:
+            if squ.coordinates[0] == x and squ.coordinates[1] == y:
+                p.location = squ
