@@ -80,8 +80,8 @@ class Player:
         
     def stats(self):
             print("You are a " + self.diet)
-            print("Your location is " + str(self.location[0]) + ',' + + str(self.location[1]))
-            print("Your home is at " + str(self.home[0]) + ',' + + str(self.home[1]))
+            print("Your location is " + str(self.location.coordinates))
+            print("Your home is at " + str(self.home.coordinates))
             print("Hunger = " + str(self.hunger))
             print("Health = " + str(self.health))
             print("Strength = " + str(self.strength))
