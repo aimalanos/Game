@@ -4,6 +4,7 @@ from Player import Player
 from Creature import Creature
 import random
 
+playing = true
 w = World()
 w.makeMap(8,8)
 for i in range(-8,9):
@@ -30,3 +31,7 @@ def me():
 def help():
     print("type 'me' for player stats")
     print("you may travel" + str(p.availabledirs))
+
+while playing and p.alive:
+    command = input("What would you like to do next? \n help \n me \n go p.availabledirs \n inventory")
+    
