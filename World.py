@@ -12,6 +12,17 @@ class World:
         for num in range(-x,x):
             for nums in range(-y,y):
                 self.squares.append(Square(self,num,nums))
+        for squ in self.world.squares:
+            if squ.coordinates[1] == self.coordinates[1]: # To be east-west adjacent, they must have the same y-coordinate
+                if squ.coordinates[0] == self.coordinates[0] - 1:
+                    self.exits[east] = squ
+                elif squ.coordinates[0] == self.coordinates[0] + 1:
+                    self.exits[west] = squ
+            elif squ.coordinates[0] == self.coordinates[0]: # To be north-south adjacent, they must have the same x-coordinate
+                if squ.coordinates[1] == self.coordinates[1] - 1:
+                    self.exits[south] = squ
+                elif squ.coordinates[1] == self.coordinates[1] + 1:
+                    self.exits[north] = squ 
     def add_player(self, player):
         self.player = player
     def reset(self):
