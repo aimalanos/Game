@@ -58,23 +58,23 @@ class Player:
         self.hunger += 25
     #def drink(self): #did we decide to do this or nah? could be interesting when we implement aquatic skills and stuff
     def north(self):
-        if self.location.exits[north] != None:
-            self.location = self.location.exits[north]
+        if self.location.exits['north'] != None:
+            self.location = self.location.exits['north']
         else:
             print('You may not move North. Try again.')
     def east(self):
-        if self.location.exits[eash] != None:
-            self.location = self.location.exits[east]
+        if self.location.exits['east'] != None:
+            self.location = self.location.exits['east']
         else:
             print('You may not move East. Try again.')
     def west(self):
-        if self.location.exits[west] != None:
-            self.location = self.location.exits[west]
+        if self.location.exits['west'] != None:
+            self.location = self.location.exits['west']
         else:
             print('You may not move West. Try again.')
     def south(self):
-        if self.location.exits[south] != None:
-            self.location = self.location.exits[south]
+        if self.location.exits['south'] != None:
+            self.location = self.location.exits['south']
         else:
             print('You may not move South. Try again.')
         
