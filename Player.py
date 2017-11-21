@@ -51,7 +51,8 @@ class Player:
         w.gameOver()
     def eat(self):
         self.fillStats()
-    def drink(self): #did we decide to do this or nah? could be interesting when we implement aquatic skills and stuff
+        self.hunger += 25
+    #def drink(self): #did we decide to do this or nah? could be interesting when we implement aquatic skills and stuff
         
 def stats(self):
         print("You are a " + self.diet)
