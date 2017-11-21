@@ -26,3 +26,16 @@ class Player:
             self.hunger -= self.world.hungerLoss
             if self.hunger < 0:
                 self.hunger = 0
+def stats(self):
+        print("You are a " + self.diet)
+        print("Your location is " + str(self.location))
+        print("Your home is at " + str(self.home))
+        print("Hunger = " + str(self.hunger))
+        print("Health = " + str(self.health))
+        print("Strength = " + str(self.strength))
+        print("Sociability = " + str(self.sociability))
+        print("Speed = " + str(self.speed))
+        print("Intelligence = " + str(self.intelligence))
+        print("Experience = " + str(self.experience))
+        print("Abilities = " + str(self.abilities))
+        print("Inventory = " + str(self.inventory))
