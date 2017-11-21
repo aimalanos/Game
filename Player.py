@@ -34,16 +34,16 @@ class Player:
             self.health -= self.health // 10
         else:
             r = random.randint(0,4) #player will randomly takes to health, strength, sociability, speed, or intelligence
-                if r == 0:
-                    self.health -= self.health/10
-                elif r == 1:
-                    self.strength -= self.strength/10
-                elif r == 2:
-                    self.sociability -= self.sociability/10
-                elif r == 3:
-                    self.speed -= self.speed/10
-                elif r == 4:
-                    self.intelligence -= self.intelligence/10
+            if r == 0:
+                self.health -= self.health/10
+            elif r == 1:
+                self.strength -= self.strength/10
+            elif r == 2:
+                self.sociability -= self.sociability/10
+            elif r == 3:
+                self.speed -= self.speed/10
+            elif r == 4:
+                self.intelligence -= self.intelligence/10
             if self.hunger < 0:
                 self.hunger = 0
     def fillStats(self):
