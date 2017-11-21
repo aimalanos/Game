@@ -52,6 +52,7 @@ class World:
                 squ.exits['east'] = self.squares[i+1]
                 squ.exits['west'] = self.squares[i-1]
                 squ.exits['north'] = self.squares[i-2*x]
+            i += 1
     def add_player(self, player):
         self.player = player
     def reset(self):
