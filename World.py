@@ -15,6 +15,8 @@ class World:
         self.hungerLoss = 3
         self.speedPenalty = 0
         self.sociabilityPenalty = 0
+    def gameOver(self):
+        self.player = None
     def update(self):
         self.player.update()
         self.turn_count += 1
@@ -23,7 +25,7 @@ class World:
             if self.weather == "rainy":
                 self.speedPenalty = self.player.speed // 10
             elif self.weather == "hailing":
-                self.healthLoss = self.player.health // 15
+                self.healthLoss = self.player.health // 15 #wow this is savage
             elif self.weather == "snowy":
                 self.sociabilityPenalty = self.player.sociability // 10
             elif self.weather == "drought":
