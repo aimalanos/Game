@@ -6,9 +6,11 @@ import random
 
 playing = True
 w = World()
-w.makeMap(4,4)
-for i in range(-x,x+1):
-    for j in range(-y, y+1):
+mapx = 4
+mapy = 4
+w.makeMap(mapx,mapy)
+for i in range(-mapx,mapx+1):
+    for j in range(-mapy, mapy+1):
         Square(w, i, j)
 p = Player(w)
 for i in range(0,80):
