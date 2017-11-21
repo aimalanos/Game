@@ -33,5 +33,5 @@ def help():
     print("you may travel" + str(p.availabledirs))
 
 while playing and p.alive:
-    command = input("What would you like to do next? \n help \n me \n go p.availabledirs \n inventory")
+    command = input("What would you like to do next? \n help \n me \n go " + str(p.availabledirs) + " \n inventory")
     
