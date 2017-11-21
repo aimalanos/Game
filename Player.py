@@ -26,6 +26,7 @@ class Player:
         for elem in self.location.exits:
             if elem != None:
                 self.availabledirs.append(elem)
+        self.alive = True
     def update(self):
         self.health -= self.world.healthLoss
         if health <= 0:
@@ -53,6 +54,7 @@ class Player:
         self.speed = self.maxSpeed
     def die(self):
         w.gameOver()
+        self.alive = False
     def eat(self):
         self.fillStats()
         self.hunger += 25
