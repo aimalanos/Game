@@ -18,40 +18,40 @@ class World:
         while i < 2*x*2*y:
             squ = self.squares[i]
             if squ.coordinates[0] == x:
-                squ.exits[west] = self.squares[i-1]
+                squ.exits['west'] = self.squares[i-1]
                 if squ.coordinates[1] == y:
-                    squ.exits[south] = self.squares[i+2*x]
-                    squ.exits[north] = None
-                    squ.exits[east] = None
+                    squ.exits['south'] = self.squares[i+2*x]
+                    squ.exits['north'] = None
+                    squ.exits['east'] = None
                 elif squ.coordinates[1] == -y: ##check for edges and corners
-                    squ.exits[north] = self.squares[i-2*x]
-                    squ.exits[south] = None
-                    squ.exits[east] = None
+                    squ.exits['north'] = self.squares[i-2*x]
+                    squ.exits['south'] = None
+                    squ.exits['east'] = None
             elif squ.coordinates[0] == -x:
-                squ.exits[east] = self.squares[i+1]
+                squ.exits['east'] = self.squares[i+1]
                 if squ.coordinates[1] == y:
-                    squ.exits[south] = self.squares[i+2*x]
-                    squ.exits[north] = None
-                    squ.exits[west] = None
+                    squ.exits['south'] = self.squares[i+2*x]
+                    squ.exits['north'] = None
+                    squ.exits['west'] = None
                 elif squ.coordinates[1] == -y: ##check for edges and corners
-                    squ.exits[north] = self.squares[i-2*x]
-                    squ.exits[south] = None
-                    squ.exits[west] = None
+                    squ.exits['north'] = self.squares[i-2*x]
+                    squ.exits['south'] = None
+                    squ.exits['west'] = None
             elif squ.coordinates[1] == y:
-                squ.exits[south] = self.squares[i+2*x]
-                squ.exits[east] = self.squares[i+1]
-                squ.exits[west] = self.squares[i-1]
-                squ.exits[north] = None
+                squ.exits['south'] = self.squares[i+2*x]
+                squ.exits['east'] = self.squares[i+1]
+                squ.exits['west'] = self.squares[i-1]
+                squ.exits['north'] = None
             elif squ.coordinates[1] == -y:
-                squ.exits[north] = self.squares[i-2*x]
-                squ.exits[east] = self.squares[i+1]
-                squ.exits[west] = self.squares[i-1]
-                squ.exits[south] = None
+                squ.exits['north'] = self.squares[i-2*x]
+                squ.exits['east'] = self.squares[i+1]
+                squ.exits['west'] = self.squares[i-1]
+                squ.exits['south'] = None
             else:
-                squ.exits[south] = self.squares[i+2*x]
-                squ.exits[east] = self.squares[i+1]
-                squ.exits[west] = self.squares[i-1]
-                squ.exits[north] = self.squares[i-2*x]
+                squ.exits['south'] = self.squares[i+2*x]
+                squ.exits['east'] = self.squares[i+1]
+                squ.exits['west'] = self.squares[i-1]
+                squ.exits['north'] = self.squares[i-2*x]
     def add_player(self, player):
         self.player = player
     def reset(self):
