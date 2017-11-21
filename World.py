@@ -9,10 +9,25 @@ class World:
         self.speedPenalty = 0 # The penalties will be applied depending on the weather
         self.sociabilityPenalty = 0
     def makeMap(self,x,y):
-        for num in range(-x,x):
+        for num in range(-x,x): #draw the grid
             for nums in range(-y,y):
                 self.squares.append(Square(self,num,nums))
-        for squ in self.world.squares:
+        for squ in self.squares: #more efficient square exit assignment
+            if squ.coordinates[0] == x:
+                if squ.coordinates[1] == y:
+                    
+                elif squ.coordinates[1] == -y: ##check for edges and corners
+                
+                else:
+                    
+            elif squ.coordinates[0] == -x:
+                if squ.coordinates[1] == y:
+                    
+                elif squ.coordinates[1] == -y:
+                
+                else:
+                    
+        for squ in self.world.squares: #assign squares' exits
             if squ.coordinates[1] == self.coordinates[1]: # To be east-west adjacent, they must have the same y-coordinate
                 if squ.coordinates[0] == self.coordinates[0] - 1:
                     self.exits[east] = squ
