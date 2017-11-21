@@ -93,3 +93,4 @@ class Player:
             print("Experience = " + str(self.experience))
             print("Abilities = " + str(self.abilities))
             print("Inventory = " + str(self.inventory) + '\n')
+            print(self.location.exits)
