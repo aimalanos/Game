@@ -92,4 +92,4 @@ class Player:
             print("Intelligence = " + str(self.intelligence))
             print("Experience = " + str(self.experience))
             print("Abilities = " + str(self.abilities))
-            print("Inventory = " + str(self.inventory))
+            print("Inventory = " + str(self.inventory) + '\n')
