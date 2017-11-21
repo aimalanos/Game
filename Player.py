@@ -22,6 +22,10 @@ class Player:
         self.experience = 0
         self.abilities = []
         self.inventory = []
+        self.availabledirs = []
+        for elem in self.location.exits:
+            if elem != None:
+                self.availabledirs.append(elem)
     def update(self):
         self.health -= self.world.healthLoss
         if health == 0 or health < 0:
