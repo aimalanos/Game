@@ -24,3 +24,5 @@ for i in range(0,80):
 for i in range(0,200):
     r = random.choice(w.squares)
     r.fruit += 1
+def me():
+    return p.stats
