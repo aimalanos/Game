@@ -8,5 +8,4 @@ class Creature:
         self.strength = random.randint(level*(5-2), level*(5+2))
         self.hostility = random.randint(level*(5-2), level*(5+2))
         self.speed = random.randint(level*(5-2), level*(5+2))
-        self.experience = (self.health + self.strength + self.sociability + self.speed) // 4
-        self.sociability = random.randint(level*(5-2), level*(5+2))
+        self.experience = (self.health + self.strength + self.hostility + self.speed) // 4
