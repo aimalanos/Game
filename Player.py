@@ -28,12 +28,12 @@ class Player:
                 self.availabledirs.append(elem)
     def update(self):
         self.health -= self.world.healthLoss
-        if health == 0 or health < 0:
+        if health <= 0:
             self.die()
         if self.hunger == 0:
             self.health -= self.health // 10
         else:
-            r = random.randint(0,4) #player will randomly takes to health, strength, sociability, speed, or intelligence
+            r = random.randint(0,4) #player will randomly take damage to health, strength, sociability, speed, or intelligence
             if r == 0:
                 self.health -= self.health/10
             elif r == 1:
@@ -58,23 +58,23 @@ class Player:
         self.hunger += 25
     #def drink(self): #did we decide to do this or nah? could be interesting when we implement aquatic skills and stuff
     def north(self):
-        if self.position.exits[north] != None:
-            self.position = self.position.exits[north]
+        if self.location.exits[north] != None:
+            self.location = self.location.exits[north]
         else:
             print('You may not move North. Try again.')
     def east(self):
-        if self.position.exits[eash] != None:
-            self.position = self.position.exits[east]
+        if self.location.exits[eash] != None:
+            self.location = self.location.exits[east]
         else:
             print('You may not move East. Try again.')
     def west(self):
-        if self.position.exits[west] != None:
-            self.position = self.position.exits[west]
+        if self.location.exits[west] != None:
+            self.location = self.location.exits[west]
         else:
             print('You may not move West. Try again.')
     def south(self):
-        if self.position.exits[south] != None:
-            self.position = self.position.exits[south]
+        if self.location.exits[south] != None:
+            self.location = self.location.exits[south]
         else:
             print('You may not move South. Try again.')
         
