@@ -11,15 +11,14 @@ class Player:
         self.hunger = 100 # If self.hunger reaches 0, the player's health will decrease at each update
         self.maxHealth = 15
         self.health = 15
-        self.tophealth = self.health
         self.strength = 5
-        self.topstrength = self.strength
+        self.maxStrength = self.strength
         self.sociability = 5
-        self.topsociability =  self.sociability
+        self.maxSociability =  self.sociability
         self.speed = 5
-        self.topspeed = self.speed
+        self.maxSpeed = self.speed
         self.intelligence = 0
-        self.topintelligence = self.intelligence
+        self.maxIntelligence = self.intelligence
         self.experience = 0
         self.abilities = []
         self.inventory = []
@@ -32,22 +31,26 @@ class Player:
         else:
             r = random.randint(0,4) #player will randomly takes to health, strength, sociability, speed, or intelligence
                 if r == 0:
-                    self.hunger -= self.world.hungerLoss
+                    self.health -= self.health/10
                 elif r == 1:
                     self.strength -= self.strength/10
                 elif r == 2:
                     self.sociability -= self.sociability/10
                 elif r == 3:
                     self.speed -= self.speed/10
+                elif r == 4:
+                    self.intelligence -= self.intelligence/10
             if self.hunger < 0:
                 self.hunger = 0
-                r = random.randint(0,4) #player will randomly takes to health, strength, sociability, speed, or intelligence
-                if r == 0:
-                elif r == 1:
-                    
+    def fillStats(self):
+        self.health = self.maxHealth
+        self.strength = self.maxStrength
+        self.sociability = self.sociability
+        self.speed = self.maxSpeed
     def die(self):
         w.gameOver()
     def eat(self):
+        self.fillStats()
     def drink(self): #did we decide to do this or nah? could be interesting when we implement aquatic skills and stuff
         
 def stats(self):
