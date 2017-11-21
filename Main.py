@@ -26,3 +26,6 @@ for i in range(0,200):
     r.fruit += 1
 def me():
     return p.stats
+def help():
+    print("type 'me' for player stats")
+    print("you may travel
