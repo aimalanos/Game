@@ -30,10 +30,10 @@ def me():
     return p.stats()
 def help():
     print("type 'me' for player stats")
-    print("you may travel" + str(p.availabledirs))
+    print("you may travel" + str(p.availabledirs) + "\n")
 
 while playing and p.alive:
-    command = input("What would you like to do next? \n help \n me \n go " + str(p.availabledirs) + " \n inventory")
+    command = input("What would you like to do next? \n help \n me \n go " + str(p.availabledirs) + " \n inventory \n")
     if command == 'help':
         help()
     elif command == 'me':
