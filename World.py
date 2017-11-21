@@ -12,32 +12,21 @@ class World:
         for num in range(-x,x): #draw the grid
             for nums in range(-y,y):
                 self.squares.append(Square(self,num,nums))
-        for squ in self.squares: #more efficient square exit assignment
+        i = 0
+        while i < 2*x*2*y:
+            squ = self.squares[i]
             if squ.coordinates[0] == x:
+                squ.exits[west] = self.squares[i-1]
                 if squ.coordinates[1] == y:
-                    
+                    squ.exits[south] = self.squares[i+2*x]
                 elif squ.coordinates[1] == -y: ##check for edges and corners
-                
-                else:
-                    
+                    squ.exits[north] = self.squares[i-2*x]
             elif squ.coordinates[0] == -x:
+                squ.exits[east] = self.squares[i+1]
                 if squ.coordinates[1] == y:
-                    
-                elif squ.coordinates[1] == -y:
-                
-                else:
-                    
-        for squ in self.world.squares: #assign squares' exits
-            if squ.coordinates[1] == self.coordinates[1]: # To be east-west adjacent, they must have the same y-coordinate
-                if squ.coordinates[0] == self.coordinates[0] - 1:
-                    self.exits[east] = squ
-                elif squ.coordinates[0] == self.coordinates[0] + 1:
-                    self.exits[west] = squ
-            elif squ.coordinates[0] == self.coordinates[0]: # To be north-south adjacent, they must have the same x-coordinate
-                if squ.coordinates[1] == self.coordinates[1] - 1:
-                    self.exits[south] = squ
-                elif squ.coordinates[1] == self.coordinates[1] + 1:
-                    self.exits[north] = squ 
+                    squ.exits[south] = self.squares[i+2*x]
+                elif squ.coordinates[1] == -y: ##check for edges and corners
+                    squ.exits[north] = self.squares[i-2*x]
     def add_player(self, player):
         self.player = player
     def reset(self):
