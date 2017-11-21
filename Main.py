@@ -28,4 +28,4 @@ def me():
     return p.stats
 def help():
     print("type 'me' for player stats")
-    print("you may travel
+    print("you may travel" + str(p.availabledirs))
