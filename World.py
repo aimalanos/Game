@@ -18,7 +18,7 @@ class World:
     def update(self):
         self.player.update()
         self.turn_count += 1
-        if turn_count % 5 = 0:
+        if turn_count % 5 == 0:
             self.weather = random.choice("clear", "rainy", "hailing", "snowy", "drought")
             if self.weather == "rainy":
                 self.speedPenalty = self.player.speed // 10
@@ -26,5 +26,5 @@ class World:
                 self.healthLoss = self.player.health // 15
             elif self.weather == "snowy":
                 self.sociabilityPenalty = self.player.sociability // 10
-            elif self.weather = "drought":
+            elif self.weather == "drought":
                 self.hungerLoss = 6
