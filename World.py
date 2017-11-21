@@ -27,6 +27,19 @@ class World:
                     squ.exits[south] = self.squares[i+2*x]
                 elif squ.coordinates[1] == -y: ##check for edges and corners
                     squ.exits[north] = self.squares[i-2*x]
+            elif squ.coordinates[1] == y:
+                squ.exits[south] = self.squares[i+2*x]
+                squ.exits[east] = self.squares[i+1]
+                squ.exits[west] = self.squares[i-1]
+            elif squ.coordinates[1] == -y:
+                squ.exits[north] = self.squares[i-2*x]
+                squ.exits[east] = self.squares[i+1]
+                squ.exits[west] = self.squares[i-1]
+            else:
+                squ.exits[south] = self.squares[i+2*x]
+                squ.exits[east] = self.squares[i+1]
+                squ.exits[west] = self.squares[i-1]
+                squ.exits[north] = self.squares[i-2*x]
     def add_player(self, player):
         self.player = player
     def reset(self):
