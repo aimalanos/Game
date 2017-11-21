@@ -3,7 +3,7 @@ import random
 class Player:
     def __init__(self, w):
         self.name = input("What is your creature's name? ")
-        self.diet = input("Is your creature a carnivore or an herbivore? ").lower()
+        self.diet = input("Is your creature a carnivore or an herbivore? ").lower() #what does .lower() do?
         w.add_player(self)
         self.world = w
         self.location = random.choice(self.world.squares) # If we want the player to start at a random location on the map.
@@ -53,6 +53,14 @@ class Player:
         self.fillStats()
         self.hunger += 25
     #def drink(self): #did we decide to do this or nah? could be interesting when we implement aquatic skills and stuff
+    def north(self):
+        self.position = self.position.exits[north]
+    def east(self):
+        self.position = self.position.exits[east]
+    def west(self):
+        self.position = self.position.exits[west]
+    def south(self):
+        self.position = self.position.exits[south]
         
 def stats(self):
         print("You are a " + self.diet)
