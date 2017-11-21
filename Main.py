@@ -26,7 +26,7 @@ for i in range(0,200):
     r = random.choice(w.squares)
     r.fruit += 1
 def me():
-    return p.stats
+    return p.stats()
 def help():
     print("type 'me' for player stats")
     print("you may travel" + str(p.availabledirs))
