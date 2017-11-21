@@ -4,7 +4,7 @@ from Player import Player
 from Creature import Creature
 import random
 
-playing = true
+playing = True
 w = World()
 w.makeMap(8,8)
 for i in range(-8,9):
