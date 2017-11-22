@@ -18,14 +18,14 @@ class World:
                 for nei in self.squares:
                     if squ.coordinates[1] == nei.coordinates[1]: # To be east-west adjacent, they must have the same y-coordinate
                         if squ.coordinates[0] == nei.coordinates[0] - 1:
-                            nei.exits[west] = squ
+                            nei.exits['west'] = squ
                         elif squ.coordinates[0] == nei.coordinates[0] + 1:
-                            nei.exits[west] = squ
+                            nei.exits['west'] = squ
                     elif squ.coordinates[0] == nei.coordinates[0]: # To be north-south adjacent, they must have the same x-coordinate
                         if squ.coordinates[1] == nei.coordinates[1] - 1:
-                            nei.exits[south] = squ
+                            nei.exits['south'] = squ
                         elif squ.coordinates[1] == nei.coordinates[1] + 1:
-                            nei.exits[north] = squ
+                            nei.exits['north'] = squ
 
     def add_player(self, player):
         self.player = player
