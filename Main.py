@@ -4,7 +4,7 @@ from Player import Player
 from Creature import Creature
 import random
 
-clear()
+#clear()
 
 playing = True
 w = World()
@@ -39,8 +39,8 @@ def help():
     print("Type 'me' for player stats.")
     print("You may travel" + str(p.availabledirs) + "\n")
     
-def clear():
-    os.system('cls' if os.name == 'nt' else 'clear')
+#def clear():
+ #   os.system('cls' if os.name == 'nt' else 'clear')
     
 #def printSituation():
     #clear()
@@ -51,7 +51,7 @@ def clear():
     
     
 def evolve():
-    clear()
+    #clear()
     print('Health increase: 5 exp')
     print('Stomach size increase: 5 exp')
     print('Strength increase: 5 exp')
