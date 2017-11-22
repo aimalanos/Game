@@ -4,7 +4,7 @@ class Square:
     def __init__(self, w, xcoor, ycoor):
         self.world = w
         self.world.squares.append(self)
-        self.coordinates = [xcoor,ycoor] #changed this to a list instead of (), hope that's chill
+        self.coordinates = (xcoor,ycoor) # I had it as parentheses so that it would be a tuple, which is immutable
         self.exits = {}
         #self.exits['north'] = None
         #self.exits['east'] = None
