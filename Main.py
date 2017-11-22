@@ -174,7 +174,7 @@ def evolve():
     
 
 while playing and p.alive:
-    command = input("What would you like to do next? \n help \n me \n go " + str(p.availabledirs) + " \n inventory \n").lower()
+    command = input("You are at " + str(p.location) + "\nWhat would you like to do next? \n help \n me \n go " + p.availabledirs + " \n inventory \n").lower()
     if command == 'help':
         help()
     elif command == 'me':
