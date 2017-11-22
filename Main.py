@@ -11,7 +11,7 @@ w = World()
 mapx = 4
 mapy = 4
 w.makeMap(mapx,mapy)
-for i in range(-mapx,mapx+1):
+for i in range(-mapx,mapx+1): # Isn't make map doing the same thing as these loops?
     for j in range(-mapy, mapy+1):
         Square(w, i, j)
 p = Player(w)
