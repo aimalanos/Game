@@ -14,8 +14,8 @@ class World:
         for num in range(-x,x): #draw the grid
             for nums in range(-y,y):
                 self.squares.append(Square(self,num,nums))
-            for squ in self.world.squares: #assign squares' exits
-                for nei in self.world.squares:
+            for squ in self.squares: #assign squares' exits
+                for nei in self.squares:
                     if squ.coordinates[1] == nei.coordinates[1]: # To be east-west adjacent, they must have the same y-coordinate
                         if squ.coordinates[0] == nei.coordinates[0] - 1:
                             nei.exits[west] = squ
