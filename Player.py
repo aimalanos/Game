@@ -19,6 +19,8 @@ class Player:
         self.abilities = []
         self.inventory = []
         self.availabledirs = []
+        self.defeated = 0 # to keep track of the number of enemies the player has defeated
+        self.allies = 0
         for exit in self.location.exits:
             if exit != None:
                 self.availabledirs.append(exit)
