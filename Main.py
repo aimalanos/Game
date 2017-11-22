@@ -42,11 +42,12 @@ def help():
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
     
-def printSituation()
+def printSituation():
     clear()
     print("Your coordinates are " + str(p.location.coordinates))
     # if p.location.
     # need to finish this
+    #how will this be different from me()
     
     
 def evolve():
