@@ -21,9 +21,6 @@ class Player:
         self.availabledirs = []
         self.defeated = 0 # to keep track of the number of enemies the player has defeated
         self.allies = 0
-        for exit in self.location.exits:
-            if exit != None:
-                self.availabledirs.append(exit)
                 
     def update(self):
         self.health -= self.world.healthLoss
@@ -43,6 +40,9 @@ class Player:
                 self.speed -= self.speed/10
         if self.hunger < 0:
             self.hunger = 0
+        for exit in self.location.exits:
+            if exit != None:
+                self.availabledirs.append(exit)
             
     def fillStats(self):
         self.health = self.maxHealth
