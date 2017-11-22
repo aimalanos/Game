@@ -42,9 +42,9 @@ def help():
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
     
-def printSituation():
-    clear()
-    print("Your coordinates are " + str(p.location.coordinates))
+#def printSituation():
+    #clear()
+    #print("Your coordinates are " + str(p.location.coordinates))
     # if p.location.
     # need to finish this
     #how will this be different from me()
@@ -161,7 +161,7 @@ def evolve():
                 
                 
     def victory():
-        clear()
+        #clear()
         if 'fire' in p.inventory:
             print('You have discovered fire! You have successfully set yourself on the path to civilization! Congratulations!')
         elif self.defeated >= 30:
