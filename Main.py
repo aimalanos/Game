@@ -31,6 +31,7 @@ for i in range(0,200):
     r = random.choice(w.squares)
     r.fruit += 1
     
+    
 def me():
     return p.stats()
 def help():
@@ -58,7 +59,7 @@ def evolve():
         print('Flexible responding – more options when you engage with other creatures: 20 exp') # Idk, maybe players will be able to change whether they want to socialize or attack. Also, I just thought that if the player attacks a creature, then the creature's hostility should go up
     if p.intelligence >= 20 and 'Flexible responding' in p.abilities:
         print('Fire: 30 exp')
-    print('Go back')
+    print('Go back.')
     print()
     transactionCompleted = False
     while not transactionCompleted:
@@ -106,20 +107,55 @@ def evolve():
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'metabolism increase':
-            if p.experience >= 10:
+            if p.experience >= 15:
                 p.abilities.append('Improved metabolism') # Will implement this later
-                self.experience -= 10
+                self.experience -= 15
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'fat reserves':
-            if p.experience >= 10:
+            if p.experience >= 15:
                 p.abilities.append('Fat reserves') # Will implement this later
-                self.experience -= 10
+                self.experience -= 15
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
-        # I'll finish writing this long-ass function later
+        elif choice.lower() in 'semiaquatic':
+            if p.experience >= 15:
+                p.abilities.append('Semiaquatic') # Will implement this later
+                self.experience -= 15
+                transactionCompleted = True
+            else:
+                ('Not enough experience. Try again.')
+        elif choice.lower() in 'tool use':
+            if p.experience >= 15:
+                p.abilities.append('Tool use') # Will implement this later
+                self.experience -= 15
+                transactionCompleted = True
+            else:
+                ('Not enough experience. Try again.')
+        elif choice.lower() in 'flexible responding':
+            if p.experience >= 30:
+                p.abilities.append('Fat reserves') # Will implement this later
+                self.experience -= 30
+                transactionCompleted = True
+            else:
+                ('Not enough experience. Try again.')
+        elif choice.lower() in 'fire':
+            if p.experience >= 50:
+                victory()
+            else:
+                ('Not enough experience. Try again.')
+    def victory():
+        clear()
+        if 'fire' in p.inventory:
+            print('You have discovered fire! You have successfully set yourself on the path to civilization! Congratulations!')
+        elif self.defeated >= 30:
+            print('You have defeated enough enemies that you are now at the top of the food chain! Congratulations!')
+        elif self.allies >= 30:
+            print('You have enough allies to be protected wherever you go! That means you win! Congratulations!')
+        # We should put some fireworks in here
+
     
 
 while playing and p.alive:
