@@ -26,19 +26,29 @@ for i in range(0,80):
 for i in range(0,80):
     r = random.choice(w.squares)
     if not r.creature:
-        r.creature = Creature(r, 2)
+        r.creature = Creature(r, 3)
 for i in range(0,200):
     r = random.choice(w.squares)
-    r.fruit += 1
+    r.plantFood += 1
     
     
 def me():
     return p.stats()
+
 def help():
-    print("type 'me' for player stats")
-    print("you may travel" + str(p.availabledirs) + "\n")
+    print("Type 'me' for player stats.")
+    print("You may travel" + str(p.availabledirs) + "\n")
+    
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
+    
+def printSituation()
+    clear()
+    print("Your coordinates are " + str(p.location.coordinates))
+    # if p.location.
+    # need to finish this
+    
+    
 def evolve():
     clear()
     print('Health increase: 5 exp')
@@ -146,6 +156,9 @@ def evolve():
                 victory()
             else:
                 ('Not enough experience. Try again.')
+                
+                
+                
     def victory():
         clear()
         if 'fire' in p.inventory:
