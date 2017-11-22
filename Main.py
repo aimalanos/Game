@@ -34,6 +34,7 @@ for i in range(0,200):
     
 def me():
     return p.stats()
+    print(p.location.exits)
 
 def help():
     print("Type 'me' for player stats.")
