@@ -24,7 +24,7 @@ class Player:
                 
     def update(self):
         self.health -= self.world.healthLoss
-        if health <= 0:
+        if self.health <= 0:
             self.die()
         if self.hunger > 0:
             self.hunger -= self.world.hungerLoss
