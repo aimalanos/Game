@@ -40,6 +40,7 @@ class Player:
                 self.speed -= self.speed/10
         if self.hunger < 0:
             self.hunger = 0
+        self.availabledirs = []
         for exit in self.location.exits:
             if exit != None:
                 self.availabledirs.append(exit)
