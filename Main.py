@@ -4,6 +4,8 @@ from Player import Player
 from Creature import Creature
 import random
 
+clear()
+
 playing = True
 w = World()
 mapx = 4
@@ -28,11 +30,97 @@ for i in range(0,80):
 for i in range(0,200):
     r = random.choice(w.squares)
     r.fruit += 1
+    
 def me():
     return p.stats()
 def help():
     print("type 'me' for player stats")
     print("you may travel" + str(p.availabledirs) + "\n")
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
+def evolve():
+    clear()
+    print('Health increase: 5 exp')
+    print('Stomach size increase: 5 exp')
+    print('Strength increase: 5 exp')
+    print('Sociability increase: 5 exp')
+    print('Speed increase: 5 exp')
+    print('Intelligence increase: 5 exp')
+    if 'Metabolism increase' not in p.abilities:
+        print('Metabolism increase – hunger increase more slowly: 10 exp')
+    if 'Fat reserves' not in p.abilities:
+        print('Fat reserves – reduced penalty when starving: 10 exp')
+    if 'Semiaquatic' not in p.abilities:
+        print('Semiaquatic – access watery terrain: 10 exp')
+    if p.intelligence >= 8 and 'Tool use' not in p.abilities:
+        print('Tool use: 10 exp')
+    if p.intelligence >= 13 and 'Tool use' in p.abilities and 'Flexible responding' not in p.abilities:
+        print('Flexible responding – more options when you engage with other creatures: 20 exp') # Idk, maybe players will be able to change whether they want to socialize or attack. Also, I just thought that if the player attacks a creature, then the creature's hostility should go up
+    if p.intelligence >= 20 and 'Flexible responding' in p.abilities:
+        print('Fire: 30 exp')
+    print('Go back')
+    print()
+    transactionCompleted = False
+    while not transactionCompleted:
+        choice = input('What would you like to improve? ')
+        if choice.lower() in 'health increase':
+            if p.experience >= 5:
+                p.maxHealth += 5
+                self.experience -= 5
+                transactionCompleted = True
+            else:
+                ('Not enough experience. Try again.')
+        elif choice.lower() in 'stomach size increase':
+            if p.experience >= 5:
+                p.maxHunger += 5
+                self.experience -= 5
+                transactionCompleted = True
+            else:
+                ('Not enough experience. Try again.')
+        elif choice.lower() in 'strength increase':
+            if p.experience >= 5:
+                p.maxStrength += 3
+                self.experience -= 5
+                transactionCompleted = True
+            else:
+                ('Not enough experience. Try again.')
+        elif choice.lower() in 'sociability increase':
+            if p.experience >= 5:
+                p.maxSociability += 3
+                self.experience -= 5
+                transactionCompleted = True
+            else:
+                ('Not enough experience. Try again.')
+        elif choice.lower() in 'speed increase':
+            if p.experience >= 5:
+                p.maxSpeed += 3
+                self.experience -= 5
+                transactionCompleted = True
+            else:
+                ('Not enough experience. Try again.')
+        elif choice.lower() in 'intelligence increase':
+            if p.experience >= 5:
+                p.intelligence += 4
+                self.experience -= 5
+                transactionCompleted = True
+            else:
+                ('Not enough experience. Try again.')
+        elif choice.lower() in 'metabolism increase':
+            if p.experience >= 10:
+                p.abilities.append('Improved metabolism') # Will implement this later
+                self.experience -= 10
+                transactionCompleted = True
+            else:
+                ('Not enough experience. Try again.')
+        elif choice.lower() in 'fat reserves':
+            if p.experience >= 10:
+                p.abilities.append('Fat reserves') # Will implement this later
+                self.experience -= 10
+                transactionCompleted = True
+            else:
+                ('Not enough experience. Try again.')
+        # I'll finish writing this long-ass function later
+    
 
 while playing and p.alive:
     command = input("What would you like to do next? \n help \n me \n go " + str(p.availabledirs) + " \n inventory \n")
