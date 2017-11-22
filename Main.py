@@ -54,3 +54,4 @@ while playing and p.alive:
         for squ in w.squares:
             if squ.coordinates[0] == x and squ.coordinates[1] == y:
                 p.location = squ
+    #pick up and drop
