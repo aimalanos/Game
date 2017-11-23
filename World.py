@@ -1,4 +1,5 @@
 from Square import Square
+import random
 
 class World:
     def __init__(self):
