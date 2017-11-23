@@ -96,3 +96,4 @@ class Player:
             print("Abilities = " + str(self.abilities))
             print("Inventory = " + str(self.inventory) + '\n')
             print(self.location.exits)
+            print('availabledirs = ' + str(self.availabledirs))
