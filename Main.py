@@ -33,8 +33,7 @@ for i in range(0,200):
     
     
 def me():
-    return p.stats()
-    print(p.location.exits)
+    p.stats()
 
 def help():
     print("Type 'me' for player stats.")
@@ -48,7 +47,7 @@ def help():
     #print("Your coordinates are " + str(p.location.coordinates))
     # if p.location.
     # need to finish this
-    #how will this be different from me()
+    #how will this be different from me()?
     
     
 def evolve():
@@ -157,9 +156,7 @@ def evolve():
             if p.experience >= 50:
                 victory()
             else:
-                ('Not enough experience. Try again.')
-                
-                
+                ('Not enough experience. Try again.')       
                 
     def victory():
         #clear()
@@ -171,11 +168,9 @@ def evolve():
             print('You have enough allies to be protected wherever you go! That means you win! Congratulations!')
         # We should put some fireworks in here
 
-    
-
 while playing and p.alive:
     w.update()
-    command = input("You are at " + str(p.location.coordinates) + "\n What would you like to do next? \n help \n me \n go " + str(p.availabledirs) + " \n inventory \n").lower()
+    command = input("You are at " + str(p.location.coordinates) + "\n What would you like to do next? \n <help> \n <me> \n <go ...> " + str(p.availabledirs) + " \n").lower()
     if command == 'help':
         help()
     elif command == 'me':
@@ -189,8 +184,8 @@ while playing and p.alive:
     elif command == 'go east':
         p.east()
     elif command == 'change location':
-        x = input('x-coordinate?')
-        y = input('y-coordinate?')
+        x = input('x-coordinate? ')
+        y = input('y-coordinate? ')
         for squ in w.squares:
             if squ.coordinates[0] == x and squ.coordinates[1] == y:
                 p.location = squ
