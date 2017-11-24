@@ -97,3 +97,14 @@ class Player:
             print("Inventory = " + str(self.inventory) + '\n')
             print(self.location.exits)
             print('availabledirs = ' + str(self.availabledirs))
+            
+    def attack(self, creature):
+        while self.alive and creature.health > 0:
+            print('Creature health = ' + str(creature.health))
+            print('Creature strength = ' + str(creature.strength))
+            print()
+            print('You may:')
+            print('\t attack)
+            print('\t flee)
+            # not finished
+        
