@@ -4,6 +4,8 @@ class Player:
     def __init__(self, w):
         self.name = input("What is your creature's name? ")
         self.diet = input("Is your creature a carnivore or an herbivore? ").lower() # lower() puts it in lowercase, which eliminates the problem of whether the player types with capital or lowercase letters
+        while self.diet != 'carnivore' and self.diet != 'herbivore':
+            print('Invalid response. Choose "carnivore" or "herbivore.")
         w.add_player(self)
         self.world = w
         self.location = random.choice(self.world.squares)
@@ -56,8 +58,33 @@ class Player:
         self.alive = False
         
     def eat(self):
-        self.fillStats()
-        self.hunger += 25
+        if self.diet == 'herbivore' or self.diet == 'omnivore':
+            if 'fruit' in self.location.items and self.location.items['fruit'] > 0:
+                self.fillStats()
+                self.hunger += 25
+                self.location.fruit -= 1
+            elif 'fruit' in self.inventory:
+                self.fillStats()
+                self.hunger += 25
+                self.inventory['fruit'] -= 1
+        elif self.diet == 'carnivore' or self.diet == 'omnivore':
+            if 'meat' in self.location.items and self.location.items['meat'] > 0:
+                self.fillStats()
+                self.hunger += 25
+                self.location.items['meat'] -= 1
+            elif 'meat' in self.inventory:
+                self.fillStats()
+                self.hunger += 25
+                self.inventory['fruit'] -= 1
+        
+    def pickup(self, item):
+        if item in self.location.items and self.location.items[item] > 0:
+            if item in self.inventory:
+                self.inventory[item] += 1
+            else:
+                self.inventory[item] = 1
+            self.location.items[item] -= 1
+        
         
     #def drink(self): #did we decide to do this or nah? could be interesting when we implement aquatic skills and stuff
     
@@ -166,6 +193,7 @@ class Player:
                 self.experience += creature.experience
                 self.defeated += 1
                 self.location.creature = False
+                self.location.items['meat'] = random.randint(1,3)
             elif self.health <= 0:
                 self.alive = False
                 self.world.gameOver()
@@ -317,6 +345,7 @@ class Player:
                 self.experience += creature.experience
                 self.defeated += 1
                 self.location.creature = False
+                self.location.items['meat'] = random.randint(1,3)
             elif creature.hostility <= 0 and self.health > 0:
                 self.experience += creature.experience
                 self.allies += 1
