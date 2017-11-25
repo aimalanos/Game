@@ -99,9 +99,10 @@ class Player:
             print('availabledirs = ' + str(self.availabledirs))
             
     def attack(self, creature):
-        while self.alive and creature.health > 0:
+        while self.health > 0 and creature.health > 0:
             print('Creature health = ' + str(creature.health))
             print('Creature strength = ' + str(creature.strength))
+            print('Creature hostility = ' + str(creature.hostility))
             print()
             print('You may:')
             print('\t attack)
@@ -113,8 +114,10 @@ class Player:
             if self.speed >= creature.speed:
                 # If the player is faster, the player goes first
                 if choice.lower() == 'attack':
+                    attackStrength = random.randint(self.strength // 2, self.strength
                     print("You attack!")
-                    print("The creature takes " + str(self.strength) + " damage!")
+                    print("The creature takes " + str(attackStrength) + " damage!")
+                    print("The creature's hostility increases!")
                     creature.health -= self.strength
                     creature.hostility += 3
                 elif choice.lower() == 'flee':
@@ -125,9 +128,11 @@ class Player:
                 if creatureChoice < creature.fleeRate:
                     print("The creature flees!")
                     break
-                elif creatureChoice < creatureAttackChance + .2:
+                elif creatureChoice < creatureAttackChance + creature.fleeRate:
+                    creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
                     print("The creature attacks!")
-                    self.health -= creature.strength
+                    print("You take " + str(creatureAttackStrength) + " damage!")
+                    self.health -= creatureAttackStrength
                 else:
                     print(random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...'])
             else:
@@ -137,14 +142,18 @@ class Player:
                 if creatureChoice < creature.fleeRate:
                     print("The creature flees!")
                     break
-                elif creatureChoice < creatureAttackChance + .2:
+                elif creatureChoice < creatureAttackChance + creature.fleeRate:
+                    creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
                     print("The creature attacks!")
-                    self.health -= creature.strength
+                    print("You take " + str(creatureAttackStrength) + " damage!")
+                    self.health -= creatureAttackStrength
                 else:
                     creatureChoice = random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...']
                 if choice.lower() == 'attack':
+                    attackStrength = random.randint(self.strength // 2, self.strength
                     print("You attack!")
-                    print("The creature takes " + str(self.strength) + " damage!")
+                    print("The creature takes " + str(attackStrength) + " damage!")
+                    print("The creature's hostility increases!")
                     creature.health -= self.strength
                     creature.hostility += 3
                 elif choice.lower() == 'flee':
@@ -153,4 +162,165 @@ class Player:
                 if type(creatureChoice) == str:
                     # If the creature does nothing, we say so at the end of the turn.
                     print(creatureChoice)
-        
+            if creature.health <= 0 and self.health > 0:
+                self.experience += creature.experience
+                self.defeated += 1
+                self.location.creature = False
+            elif self.health <= 0:
+                self.alive = False
+                self.world.gameOver()
+
+    def ally(self, creature):
+        while self.health > 0 and creature.hostility > 0:
+            print('Creature health = ' + str(creature.health))
+            print('Creature strength = ' + str(creature.strength))
+            print('Creature hostility = ' + str(creature.hostility))
+            print()
+            print('You may:')
+            print('\t befriend)
+            print('\t flee)
+            choice = input('What will you do? ')
+            while choice.lower() != 'befriend' and choice.lower() != 'flee':
+                print('Invalid command. Choose "befriend" or "flee."')
+                choice = input('What will you do? ')
+            if self.speed >= creature.speed:
+                # If the player is faster, the player goes first
+                if choice.lower() == 'befriend':
+                    befriendSuccess = random.randint(self.sociability // 2, self.sociability)
+                    print("You try to befriend the creature!")
+                    print("The creature's hostility decreases!")
+                    creature.hostility -= befriendSuccess
+                elif choice.lower() == 'flee':
+                    print("You flee!")
+                    break
+                creatureAttackChance = creature.hostility * .01
+                creatureChoice = random.random()
+                if creatureChoice < creature.fleeRate:
+                    print("The creature flees!")
+                    break
+                elif creatureChoice < creatureAttackChance + creature.fleeRate:
+                    creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
+                    print("The creature attacks!")
+                    print("You take " + str(creatureAttackStrength) + " damage!")
+                    self.health -= creatureAttackStrength
+                else:
+                    print(random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...'])
+            else:
+                # If the creature is faster, the creature goes first
+                creatureAttackChance = creature.hostility * .01
+                creatureChoice = random.random()
+                if creatureChoice < creature.fleeRate:
+                    print("The creature flees!")
+                    break
+                elif creatureChoice < creatureAttackChance + creature.fleeRate:
+                    creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
+                    print("The creature attacks!")
+                    print("You take " + str(creatureAttackStrength) + " damage!")
+                    self.health -= creatureAttackStrength
+                else:
+                    creatureChoice = random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...']
+                if choice.lower() == 'befriend':
+                    befriendSuccess = random.randint(self.sociability // 2, self.sociability)
+                    print("You try to befriend the creature!")
+                    print("The creature's hostility decreases!")
+                    creature.hostility -= befriendSuccess
+                elif choice.lower() == 'flee':
+                    print("You flee!")
+                    break
+                if type(creatureChoice) == str:
+                    # If the creature does nothing, we say so at the end of the turn.
+                    print(creatureChoice)
+            if creature.hostility <= 0 and self.health > 0:
+                self.experience += creature.experience
+                self.allies += 1
+                creature.allied = True
+            elif self.health <= 0:
+                self.alive = False
+                self.world.gameOver()
+
+    def flexibleResponse(self, creature):
+        while self.health > 0 and (creature.hostility > 0 or creature.health > 0):
+            print('Creature health = ' + str(creature.health))
+            print('Creature strength = ' + str(creature.strength))
+            print('Creature hostility = ' + str(creature.hostility))
+            print()
+            print('You may:')
+            print('\t attack')
+            print('\t befriend)
+            print('\t flee)
+            choice = input('What will you do? ')
+            while choice.lower() != 'befriend' and choice.lower() != 'flee':
+                print('Invalid command. Choose "attack," "befriend" or "flee."')
+                choice = input('What will you do? ')
+            if self.speed >= creature.speed:
+                # If the player is faster, the player goes first
+                if choice.lower() == 'attack':
+                    attackStrength = random.randint(self.strength // 2, self.strength
+                    print("You attack!")
+                    print("The creature takes " + str(attackStrength) + " damage!")
+                    print("The creature's hostility increases!")
+                    creature.health -= self.strength
+                    creature.hostility += 3
+                elif choice.lower() == 'befriend':
+                    befriendSuccess = random.randint(self.sociability // 2, self.sociability)
+                    print("You try to befriend the creature!")
+                    print("The creature's hostility decreases!")
+                    creature.hostility -= befriendSuccess
+                elif choice.lower() == 'flee':
+                    print("You flee!")
+                    break
+                creatureAttackChance = creature.hostility * .01
+                creatureChoice = random.random()
+                if creatureChoice < creature.fleeRate:
+                    print("The creature flees!")
+                    break
+                elif creatureChoice < creatureAttackChance + creature.fleeRate:
+                    creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
+                    print("The creature attacks!")
+                    print("You take " + str(creatureAttackStrength) + " damage!")
+                    self.health -= creatureAttackStrength
+                else:
+                    print(random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...'])
+            else:
+                # If the creature is faster, the creature goes first
+                creatureAttackChance = creature.hostility * .01
+                creatureChoice = random.random()
+                if creatureChoice < creature.fleeRate:
+                    print("The creature flees!")
+                    break
+                elif creatureChoice < creatureAttackChance + creature.fleeRate:
+                    creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
+                    print("The creature attacks!")
+                    print("You take " + str(creatureAttackStrength) + " damage!")
+                    self.health -= creatureAttackStrength
+                else:
+                    creatureChoice = random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...']
+                if choice.lower() == 'attack':
+                    attackStrength = random.randint(self.strength // 2, self.strength
+                    print("You attack!")
+                    print("The creature takes " + str(attackStrength) + " damage!")
+                    print("The creature's hostility increases!")
+                    creature.health -= self.strength
+                    creature.hostility += 3
+                elif choice.lower() == 'befriend':
+                    befriendSuccess = random.randint(self.sociability // 2, self.sociability)
+                    print("You try to befriend the creature!")
+                    print("The creature's hostility decreases!")
+                    creature.hostility -= befriendSuccess
+                elif choice.lower() == 'flee':
+                    print("You flee!")
+                    break
+                if type(creatureChoice) == str:
+                    # If the creature does nothing, we say so at the end of the turn.
+                    print(creatureChoice)
+            if creature.health <= 0 and self.health > 0:
+                self.experience += creature.experience
+                self.defeated += 1
+                self.location.creature = False
+            elif creature.hostility <= 0 and self.health > 0:
+                self.experience += creature.experience
+                self.allies += 1
+                creature.allied = True
+            elif self.health <= 0:
+                self.alive = False
+                self.world.gameOver()
