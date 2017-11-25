@@ -157,16 +157,6 @@ def evolve():
                 victory()
             else:
                 ('Not enough experience. Try again.')       
-                
-    def victory():
-        #clear()
-        if 'fire' in p.inventory:
-            print('You have discovered fire! You have successfully set yourself on the path to civilization! Congratulations!')
-        elif self.defeated >= 30:
-            print('You have defeated enough enemies that you are now at the top of the food chain! Congratulations!')
-        elif self.allies >= 30:
-            print('You have enough allies to be protected wherever you go! That means you win! Congratulations!')
-        # We should put some fireworks in here
 
 while playing and p.alive:
     w.update()
