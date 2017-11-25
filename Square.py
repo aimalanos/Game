@@ -13,5 +13,5 @@ class Square:
         #put the for loop into World.py   
         self.creature = None # I think there should be a max of one NPC per square
         self.fruit = 0 # I think different squares should have different quantities of food
-        self.items = []
+        self.items = {}
     
