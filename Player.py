@@ -54,7 +54,7 @@ class Player:
         self.speed = self.maxSpeed
         
     def die(self):
-        world.gameOver()
+        self.world.gameOver()
         self.alive = False
         
     def eat(self):
@@ -195,8 +195,7 @@ class Player:
                 self.location.creature = False
                 self.location.items['meat'] = random.randint(1,3)
             elif self.health <= 0:
-                self.alive = False
-                self.world.gameOver()
+                self.die()
 
     def ally(self, creature):
         while self.health > 0 and creature.hostility > 0:
@@ -263,8 +262,7 @@ class Player:
                 self.allies += 1
                 creature.allied = True
             elif self.health <= 0:
-                self.alive = False
-                self.world.gameOver()
+                self.die()
 
     def flexibleResponse(self, creature):
         while self.health > 0 and (creature.hostility > 0 or creature.health > 0):
@@ -351,5 +349,4 @@ class Player:
                 self.allies += 1
                 creature.allied = True
             elif self.health <= 0:
-                self.alive = False
-                self.world.gameOver()
+                self.die()
