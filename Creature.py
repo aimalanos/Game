@@ -3,6 +3,7 @@ import random
 class Creature:
     def __init__(self, square, level):
         self.location = square
+        self.location.creature = True
         self.world = self.location.world
         self.health = random.randint(level*(10-3), level*(10+3))
         self.strength = random.randint(level*(5-2), level*(5+2))
