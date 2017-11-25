@@ -106,5 +106,51 @@ class Player:
             print('You may:')
             print('\t attack)
             print('\t flee)
-            # not finished
+            choice = input('What will you do? ')
+            while choice.lower() != 'attack' and choice.lower() != 'flee':
+                print('Invalid command. Choose "attack" or "flee."')
+                choice = input('What will you do? ')
+            if self.speed >= creature.speed:
+                # If the player is faster, the player goes first
+                if choice.lower() == 'attack':
+                    print("You attack!")
+                    print("The creature takes " + str(self.strength) + " damage!")
+                    creature.health -= self.strength
+                    creature.hostility += 3
+                elif choice.lower() == 'flee':
+                    print("You flee!")
+                    break
+                creatureAttackChance = creature.hostility * .01
+                creatureChoice = random.random()
+                if creatureChoice < creature.fleeRate:
+                    print("The creature flees!")
+                    break
+                elif creatureChoice < creatureAttackChance + .2:
+                    print("The creature attacks!")
+                    self.health -= creature.strength
+                else:
+                    print(random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...'])
+            else:
+                # If the creature is faster, the creature goes first
+                creatureAttackChance = creature.hostility * .01
+                creatureChoice = random.random()
+                if creatureChoice < creature.fleeRate:
+                    print("The creature flees!")
+                    break
+                elif creatureChoice < creatureAttackChance + .2:
+                    print("The creature attacks!")
+                    self.health -= creature.strength
+                else:
+                    creatureChoice = random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...']
+                if choice.lower() == 'attack':
+                    print("You attack!")
+                    print("The creature takes " + str(self.strength) + " damage!")
+                    creature.health -= self.strength
+                    creature.hostility += 3
+                elif choice.lower() == 'flee':
+                    print("You flee!")
+                    break
+                if type(creatureChoice) == str:
+                    # If the creature does nothing, we say so at the end of the turn.
+                    print(creatureChoice)
         
