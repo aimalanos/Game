@@ -5,34 +5,6 @@ from Creature import Creature
 import os
 import random
 
-clear()
-
-playing = True
-w = World()
-mapx = 4
-mapy = 4
-w.makeMap(mapx,mapy)
-for i in range(-mapx,mapx+1): # Isn't make map doing the same thing as these loops?
-    for j in range(-mapy, mapy+1):
-        Square(w, i, j)
-p = Player(w)
-for i in range(0,80):
-    r = random.choice(w.squares)
-    if not r.creature:
-        r.creature = Creature(r, 1)
-for i in range(0,80):
-    r = random.choice(w.squares)
-    if not r.creature:
-        r.creature = Creature(r, 2)
-for i in range(0,80):
-    r = random.choice(w.squares)
-    if not r.creature:
-        r.creature = Creature(r, 3)
-for i in range(0,200):
-    r = random.choice(w.squares)
-    r.plantFood += 1
-    
-    
 def me():
     p.stats()
 
@@ -43,24 +15,28 @@ def help():
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
     
-#def printSituation():
-    #clear()
-    #print("Your coordinates are " + str(p.location.coordinates))
-    # if p.location.
-    # need to finish this
-    #how will this be different from me()?
+def printSituation():
+    clear()
+    print("Turn " + str(w.turn_count))
+    print()
+    print("Your coordinates are " + str(p.location.coordinates) + ".")
+    print("The weather is " + w.weather + ".")
+    print("The terrain is " + p.location.terrain + ".")
+    if p.location.creature:
+        print("There is a creature here.")
+    print()
+    print("Health: " + str(p.health))
     
-    def victory(self):
-        clear()
-        if 'fire' in self.player.inventory:
-            print('You have discovered fire! You have successfully set yourself on the path to civilization! Congratulations!')
-        elif self.player.defeated >= 30:
-            print('You have defeated enough enemies that you are now at the top of the food chain! Congratulations!')
-        elif self.player.allies >= 30:
-            print('You have enough allies to be protected wherever you go! That means you win! Congratulations!')
-        # We should put some fireworks in here
-    
-    
+def victory(self):
+    clear()
+    if 'fire' in self.player.inventory:
+        print('You have discovered fire! You have successfully set yourself on the path to civilization! Congratulations!')
+    elif self.player.defeated >= 30:
+        print('You have defeated enough enemies that you are now at the top of the food chain! Congratulations!')
+    elif self.player.allies >= 30:
+        print('You have enough allies to be protected wherever you go! That means you win! Congratulations!')
+    # We should put some fireworks in here
+          
 def evolve():
     #clear()
     print('Health increase: 5 exp')
@@ -167,7 +143,38 @@ def evolve():
             if p.experience >= 50:
                 victory()
             else:
-                ('Not enough experience. Try again.')       
+                ('Not enough experience. Try again.')
+
+clear()
+
+playing = True
+w = World()
+mapx = 4
+mapy = 4
+w.makeMap(mapx,mapy)
+for i in range(-mapx,mapx+1): # Isn't make map doing the same thing as these loops?
+    for j in range(-mapy, mapy+1):
+        Square(w, i, j)
+for i in range(0,80):
+    r = random.choice(w.squares)
+    if not r.creature:
+        r.creature = Creature(r, 1)
+for i in range(0,80):
+    r = random.choice(w.squares)
+    if not r.creature:
+        r.creature = Creature(r, 2)
+for i in range(0,80):
+    r = random.choice(w.squares)
+    if not r.creature:
+        r.creature = Creature(r, 3)
+for i in range(0,200):
+    r = random.choice(w.squares)
+    if 'fruit' in r.items:
+        r.items[fruit] += 1
+    else:
+        r.items[fruit] = 1
+
+p = Player(w)       
 
 while playing and p.alive:
     w.update()
