@@ -2,9 +2,10 @@ from World import World
 from Square import Square
 from Player import Player
 from Creature import Creature
+import os
 import random
 
-#clear()
+clear()
 
 playing = True
 w = World()
@@ -39,8 +40,8 @@ def help():
     print("Type 'me' for player stats.")
     print("You may travel" + str(p.availabledirs) + "\n")
     
-#def clear():
- #   os.system('cls' if os.name == 'nt' else 'clear')
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
     
 #def printSituation():
     #clear()
@@ -48,6 +49,16 @@ def help():
     # if p.location.
     # need to finish this
     #how will this be different from me()?
+    
+    def victory(self):
+        clear()
+        if 'fire' in self.player.inventory:
+            print('You have discovered fire! You have successfully set yourself on the path to civilization! Congratulations!')
+        elif self.player.defeated >= 30:
+            print('You have defeated enough enemies that you are now at the top of the food chain! Congratulations!')
+        elif self.player.allies >= 30:
+            print('You have enough allies to be protected wherever you go! That means you win! Congratulations!')
+        # We should put some fireworks in here
     
     
 def evolve():
