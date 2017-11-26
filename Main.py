@@ -6,9 +6,11 @@ import os
 import random
 
 def me():
+    clear()
     p.stats()
 
 def help():
+    clear()
     print("Type 'me' for player stats.")
     print("You may travel" + str(p.availabledirs) + "\n")
     
@@ -198,3 +200,6 @@ while playing and p.alive:
             if squ.coordinates[0] == x and squ.coordinates[1] == y:
                 p.location = squ
     #pick up and drop
+    else:
+        clear()
+        command = input('Sorry, I don\'t understand. What would you like to do? Type "options" for available options.'
