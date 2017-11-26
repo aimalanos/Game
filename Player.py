@@ -29,17 +29,30 @@ class Player:
         if self.health <= 0:
             self.die()
         if self.hunger > 0:
-            self.hunger -= self.world.hungerLoss
+            if 'Improved metabolism' in self.abilities:
+                self.hunger -= 3
+            else:
+                self.hunger -= self.world.hungerLoss
         elif self.hunger == 0:
             r = random.randint(0,3) #player will randomly take damage to health, strength, sociability, speed, or intelligence
-            if r == 0:
-                self.health -= self.health/10
-            elif r == 1:
-                self.strength -= self.strength/10
-            elif r == 2:
-                self.sociability -= self.sociability/10
-            elif r == 3:
-                self.speed -= self.speed/10
+            if 'Fat reserves' in self.abilities:
+                if r == 0:
+                    self.health -= self.health//20
+                elif r == 1:
+                    self.strength -= self.strength//20
+                elif r == 2:
+                    self.sociability -= self.sociability//20
+                elif r == 3:
+                    self.speed -= self.speed//20
+            else:
+                if r == 0:
+                    self.health -= self.health//10
+                elif r == 1:
+                    self.strength -= self.strength//10
+                elif r == 2:
+                    self.sociability -= self.sociability//10
+                elif r == 3:
+                    self.speed -= self.speed//10
         if self.hunger < 0:
             self.hunger = 0
         self.availabledirs = []
