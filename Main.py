@@ -170,9 +170,9 @@ for i in range(0,80):
 for i in range(0,200):
     r = random.choice(w.squares)
     if 'fruit' in r.items:
-        r.items[fruit] += 1
+        r.items['fruit'] += 1
     else:
-        r.items[fruit] = 1
+        r.items['fruit'] = 1
 
 p = Player(w)       
 
