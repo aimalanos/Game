@@ -17,13 +17,6 @@ def help():
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
     
-def asOrderedList(d):
-    ordered = []
-    for key in d:
-        ordered.append([key, d[key]])
-    ordered.sort()
-    return ordered
-    
 def printSituation():
     clear()
     print("Turn " + str(w.turn_count))
@@ -33,12 +26,6 @@ def printSituation():
     print("The terrain is " + p.location.terrain + ".")
     if p.location.creature:
         print("There is a creature here.")
-    if len(p.location.items) > 0:
-        print('There are the following items:')
-        orderedInventory = asOrderedList(p.location.items)
-        for kvp in orderedInventory: # For the key-value pairs in the ordered inventory...
-            if orderedInventory[kvp][1] > 0: # if there are actually items...
-                print('\t' + kvp[0] + ': ' + str(kvp[1]) # then we print them.
     print()
     print("Health: " + str(p.health))
     
@@ -121,35 +108,35 @@ def evolve():
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'metabolism increase':
             if p.experience >= 15:
-                p.abilities.append('improved metabolism') # Will implement this later
+                p.abilities.append('Improved metabolism') # Will implement this later
                 self.experience -= 15
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'fat reserves':
             if p.experience >= 15:
-                p.abilities.append('fat reserves') # Will implement this later
+                p.abilities.append('Fat reserves') # Will implement this later
                 self.experience -= 15
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'semiaquatic':
             if p.experience >= 15:
-                p.abilities.append('semiaquatic') # Will implement this later
+                p.abilities.append('Semiaquatic') # Will implement this later
                 self.experience -= 15
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'tool use':
             if p.experience >= 15:
-                p.abilities.append('tool use') # Will implement this later
+                p.abilities.append('Tool use') # Will implement this later
                 self.experience -= 15
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'flexible responding':
             if p.experience >= 30:
-                p.abilities.append('flexible responding') # Will implement this later
+                p.abilities.append('Fat reserves') # Will implement this later
                 self.experience -= 30
                 transactionCompleted = True
             else:
@@ -192,70 +179,46 @@ for i in range(0,200):
 p = Player(w)       
 
 while playing and p.alive:
-    printSituation()
-    commandSuccess = False
-    timePasses = False
-    while not commandSuccess:
-        commandSuccess = True
-        command = input('What will you do? ').lower()
-    #   command = input("You are at " + str(p.location.coordinates) + "\n What would you like to do next? \n <help> \n <me> \n <go ...> " + str(p.availabledirs) + " \n").lower()
-        commandWords = command.split()
-        if command in 'help':
-            help()
-        elif command == 'me':
-            me()
-        elif 'north' in command:
-            if p.location.exits['north'] == None:
-                print('You may not go north. Try again.')
-                commandSuccess = False
-            elif p.location.exits['north'].terrain == 'water':
-                if 'semiaquatic' not in player.abilities:
-                    print('There is water in that direction, and you cannot swim. Try again.')
-                    commandSuccess = False
-            else:
-                p.north()
-        elif 'south' in command:
-            if p.location.exits['south'] == None:
-                print('You may not go south. Try again.')
-                commandSuccess = False
-            elif p.location.exits['south'].terrain == 'water':
-                if 'semiaquatic' not in player.abilities:
-                    print('There is water in that direction, and you cannot swim. Try again.')
-                    commandSuccess = False
-            else:
-                p.south()
-        elif 'west' in command:
-            if p.location.exits['west'] == None:
-                print('You may not go west. Try again.')
-                commandSuccess = False
-            elif p.location.exits['west'].terrain == 'water':
-                if 'semiaquatic' not in player.abilities:
-                    print('There is water in that direction, and you cannot swim. Try again.')
-                    commandSuccess = False
-            else:
-                p.west()
-        elif 'east' in command:
-            if p.location.exits['east'] == None:
-                print('You may not go east. Try again.')
-                commandSuccess = False
-            elif p.location.exits['east'].terrain == 'water':
-                if 'semiaquatic' not in player.abilities:
-                    print('There is water in that direction, and you cannot swim. Try again.')
-                    commandSuccess = False
-            else:
-                p.east()
-#         elif command == 'change location':
-#             x = input('x-coordinate? ')
-#             y = input('y-coordinate? ')
-#             for squ in w.squares:
-#                 if squ.coordinates[0] == x and squ.coordinates[1] == y:
-#                     p.location = squ
-        elif commandWords[0] = 'take':
-            if commandWords[1] in p.location.items:
-                p.pickup(commandWords[1])
-            else:
-        else:
-            input('Sorry, I don\'t understand. Type "options" for available options.')
-            clear()
-            printSituation()
-            commandSuccess = False
+    w.update()
+    command = input("You are at " + str(p.location.coordinates) + "\n What would you like to do next? \n <help> \n <me> \n <go ...> " + str(p.availabledirs) + " \n").lower()
+    if command == 'help':
+        help()
+    elif command == 'me':
+        me()
+    elif command == 'go north':
+        p.north()
+    elif command == 'go south':
+        p.south()
+    elif command == 'go west':
+        p.west()
+    elif command == 'go east':
+        p.east()
+    elif command == 'change location':
+        x = input('x-coordinate? ')
+        y = input('y-coordinate? ')
+        for squ in w.squares:
+            if squ.coordinates[0] == x and squ.coordinates[1] == y:
+                p.location = squ
+    elif command == 'inventory':
+        inv = ''
+        for elem in self.inventory:
+            inv += elem
+        for elem in self.abilities:
+            abi += elem
+        print('Inventory: ' + inv + '\n Abilities: ' + abi)
+    elif command == 'location':
+        pickups = []
+        for item in p.location.items:
+            pickups.append(item)
+        print('coordinates: ' + str(p.location.coordinates) + '\n items available for pickup: ' + str(pickups))
+    elif command[:6] == 'pickup' and command[7:] in p.location.items:
+        item = command[7:]
+        p.pickup(item)
+        print('here')
+    else:
+        clear()
+        r = command[:6]
+        item = command[7:]
+        #player.pickup(item)
+        print(r,item)
+        command = input('Sorry, I don\'t understand. What would you like to do? Type "options" for available options.')
