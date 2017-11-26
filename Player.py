@@ -113,7 +113,7 @@ class Player:
             print("Your location is " + str(self.location.coordinates))
             print("Hunger = " + str(self.hunger))
             print("Health = " + str(self.health))
-            print('Type: \n \t "all stats" for all stats; \n \t "inventory" for abilities and inventory)
+            print('Type: \n \t "all stats" for all stats; \n \t "inventory" for abilities and inventory')
             
     def attack(self, creature):
         while self.health > 0 and creature.health > 0:
