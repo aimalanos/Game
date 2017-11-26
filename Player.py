@@ -5,7 +5,7 @@ class Player:
         self.name = input("What is your creature's name? ")
         self.diet = input("Is your creature a carnivore or an herbivore? ").lower() # lower() puts it in lowercase, which eliminates the problem of whether the player types with capital or lowercase letters
         while self.diet != 'carnivore' and self.diet != 'herbivore':
-            print('Invalid response. Choose "carnivore" or "herbivore.")
+            self.diet = input('Invalid response. Choose "carnivore" or "herbivore." ')
         w.add_player(self)
         self.world = w
         self.location = random.choice(self.world.squares)
@@ -132,8 +132,8 @@ class Player:
             print('Creature hostility = ' + str(creature.hostility))
             print()
             print('You may:')
-            print('\t attack)
-            print('\t flee)
+            print('\t attack')
+            print('\t flee')
             choice = input('What will you do? ')
             while choice.lower() != 'attack' and choice.lower() != 'flee':
                 print('Invalid command. Choose "attack" or "flee."')
@@ -141,7 +141,7 @@ class Player:
             if self.speed >= creature.speed:
                 # If the player is faster, the player goes first
                 if choice.lower() == 'attack':
-                    attackStrength = random.randint(self.strength // 2, self.strength
+                    attackStrength = random.randint(self.strength // 2, self.strength)
                     print("You attack!")
                     print("The creature takes " + str(attackStrength) + " damage!")
                     print("The creature's hostility increases!")
@@ -161,7 +161,7 @@ class Player:
                     print("You take " + str(creatureAttackStrength) + " damage!")
                     self.health -= creatureAttackStrength
                 else:
-                    print(random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...'])
+                    print(random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...']))
             else:
                 # If the creature is faster, the creature goes first
                 creatureAttackChance = creature.hostility * .01
@@ -175,9 +175,9 @@ class Player:
                     print("You take " + str(creatureAttackStrength) + " damage!")
                     self.health -= creatureAttackStrength
                 else:
-                    creatureChoice = random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...']
+                    creatureChoice = random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...'])
                 if choice.lower() == 'attack':
-                    attackStrength = random.randint(self.strength // 2, self.strength
+                    attackStrength = random.randint(self.strength // 2, self.strength)
                     print("You attack!")
                     print("The creature takes " + str(attackStrength) + " damage!")
                     print("The creature's hostility increases!")
@@ -204,8 +204,8 @@ class Player:
             print('Creature hostility = ' + str(creature.hostility))
             print()
             print('You may:')
-            print('\t befriend)
-            print('\t flee)
+            print('\t befriend')
+            print('\t flee')
             choice = input('What will you do? ')
             while choice.lower() != 'befriend' and choice.lower() != 'flee':
                 print('Invalid command. Choose "befriend" or "flee."')
@@ -231,7 +231,7 @@ class Player:
                     print("You take " + str(creatureAttackStrength) + " damage!")
                     self.health -= creatureAttackStrength
                 else:
-                    print(random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...'])
+                    print(random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...']))
             else:
                 # If the creature is faster, the creature goes first
                 creatureAttackChance = creature.hostility * .01
@@ -245,7 +245,7 @@ class Player:
                     print("You take " + str(creatureAttackStrength) + " damage!")
                     self.health -= creatureAttackStrength
                 else:
-                    creatureChoice = random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...']
+                    creatureChoice = random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...'])
                 if choice.lower() == 'befriend':
                     befriendSuccess = random.randint(self.sociability // 2, self.sociability)
                     print("You try to befriend the creature!")
@@ -272,8 +272,8 @@ class Player:
             print()
             print('You may:')
             print('\t attack')
-            print('\t befriend)
-            print('\t flee)
+            print('\t befriend')
+            print('\t flee')
             choice = input('What will you do? ')
             while choice.lower() != 'befriend' and choice.lower() != 'flee':
                 print('Invalid command. Choose "attack," "befriend" or "flee."')
@@ -281,7 +281,7 @@ class Player:
             if self.speed >= creature.speed:
                 # If the player is faster, the player goes first
                 if choice.lower() == 'attack':
-                    attackStrength = random.randint(self.strength // 2, self.strength
+                    attackStrength = random.randint(self.strength // 2, self.strength)
                     print("You attack!")
                     print("The creature takes " + str(attackStrength) + " damage!")
                     print("The creature's hostility increases!")
@@ -306,7 +306,7 @@ class Player:
                     print("You take " + str(creatureAttackStrength) + " damage!")
                     self.health -= creatureAttackStrength
                 else:
-                    print(random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...'])
+                    print(random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...']))
             else:
                 # If the creature is faster, the creature goes first
                 creatureAttackChance = creature.hostility * .01
@@ -320,9 +320,9 @@ class Player:
                     print("You take " + str(creatureAttackStrength) + " damage!")
                     self.health -= creatureAttackStrength
                 else:
-                    creatureChoice = random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...']
+                    creatureChoice = random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...'])
                 if choice.lower() == 'attack':
-                    attackStrength = random.randint(self.strength // 2, self.strength
+                    attackStrength = random.randint(self.strength // 2, self.strength)
                     print("You attack!")
                     print("The creature takes " + str(attackStrength) + " damage!")
                     print("The creature's hostility increases!")
