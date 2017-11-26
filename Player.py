@@ -110,10 +110,10 @@ class Player:
             print('You may not move South. Try again.')
         
     def stats(self):
-            print("Your location is " + str(self.location.coordinates))
-            print("Hunger = " + str(self.hunger))
-            print("Health = " + str(self.health))
-            print('Type: \n \t "all stats" for all stats; \n \t "inventory" for abilities and inventory')
+        print("Your location is " + str(self.location.coordinates))
+        print("Hunger = " + str(self.hunger))
+        print("Health = " + str(self.health))
+        print('Type: \n \t "all stats" for all stats; \n \t "inventory" for abilities and inventory')
             
     def attack(self, creature):
         while self.health > 0 and creature.health > 0:
@@ -334,7 +334,7 @@ class Player:
                 self.defeated += 1
                 self.location.creature = False
                 self.location.items['meat'] = random.randint(1,3)
-            elif creature.hostility <= 0 and self.health > 0:
+            elif creature.inhostility <= 0 and self.health > 0:
                 self.experience += creature.experience
                 self.allies += 1
                 creature.allied = True
