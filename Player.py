@@ -110,20 +110,10 @@ class Player:
             print('You may not move South. Try again.')
         
     def stats(self):
-            print("You are a " + self.diet)
             print("Your location is " + str(self.location.coordinates))
-            print("Your home is at " + str(self.home.coordinates))
             print("Hunger = " + str(self.hunger))
             print("Health = " + str(self.health))
-            print("Strength = " + str(self.strength))
-            print("Sociability = " + str(self.sociability))
-            print("Speed = " + str(self.speed))
-            print("Intelligence = " + str(self.intelligence))
-            print("Experience = " + str(self.experience))
-            print("Abilities = " + str(self.abilities))
-            print("Inventory = " + str(self.inventory) + '\n')
-            print(self.location.exits)
-            print('availabledirs = ' + str(self.availabledirs))
+            print('Type: \n \t "all stats" for all stats; \n \t "inventory" for abilities and inventory)
             
     def attack(self, creature):
         while self.health > 0 and creature.health > 0:
