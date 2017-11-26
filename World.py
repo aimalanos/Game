@@ -1,6 +1,9 @@
 from Square import Square
 import random
 
+# def clear():
+#     os.system('cls' if os.name == 'nt' else 'clear')
+
 class World:
     def __init__(self):
         self.turn_count = 0
@@ -12,38 +15,22 @@ class World:
         self.speedPenalty = 0 # The penalties will be applied depending on the weather
         self.sociabilityPenalty = 0
     def makeMap(self,x,y):
-        for i in range(-x, x+1):
-            for j in range(-y, y+1):
-                Square(self, i, j)
-        for squ in self.squares:
-            if squ.exits['east'] == None:
-                if squ.coordinates[0] != x:
-                    for squ2 in self.squares:
-                        if squ2.coordinates[0] == squ.coordinates[0] + 1:
-                            if squ2.coordinates[1] == squ.coordinates[1]:
-                                squ.exits['east'] = squ2
-                                squ2.exits['west'] = squ
-            if squ.exits['west'] == None:
-                if squ.coordinates[0] != -x:
-                    for squ2 in self.squares:
-                        if squ2.coordinates[0] == squ.coordinates[0] - 1:
-                            if squ2.coordinates[1] == squ.coordinates[1]:
-                                squ.exits['west'] = squ2
-                                squ2.exits['east'] = squ
-            if squ.exits['north'] == None:
-                if squ.coordinates[1] != y:
-                    for squ2 in self.squares:
-                        if squ2.coordinates[1] == squ.coordinates[0] + 1:
-                            if squ2.coordinates[0] == squ.coordinates[0]:
-                                squ.exits['north'] = squ2
-                                squ2.exits['south'] = squ
-            if squ.exits['south'] == None:
-                if squ.coordinates[0] != -y:
-                    for squ2 in self.squares:
-                        if squ2.coordinates[1] == squ.coordinates[1] - 1:
-                            if squ2.coordinates[0] == squ.coordinates[0]:
-                                squ.exits['south'] = squ2
-                                squ2.exits['north'] = squ
+        for num in range(-x,x): #draw the grid
+            for nums in range(-y,y):
+                self.squares.append(Square(self,num,nums))
+            for squ in self.squares: #assign squares' exits
+                for nei in self.squares:
+                    if squ.coordinates[1] == nei.coordinates[1]: # To be east-west adjacent, they must have the same y-coordinate
+                        if squ.coordinates[0] == nei.coordinates[0] - 1:
+                            nei.exits['west'] = squ
+                        elif squ.coordinates[0] == nei.coordinates[0] + 1:
+                            nei.exits['west'] = squ
+                    elif squ.coordinates[0] == nei.coordinates[0]: # To be north-south adjacent, they must have the same x-coordinate
+                        if squ.coordinates[1] == nei.coordinates[1] - 1:
+                            nei.exits['south'] = squ
+                        elif squ.coordinates[1] == nei.coordinates[1] + 1:
+                            nei.exits['north'] = squ
+
     def add_player(self, player):
         self.player = player
     def reset(self):
