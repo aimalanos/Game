@@ -29,30 +29,17 @@ class Player:
         if self.health <= 0:
             self.die()
         if self.hunger > 0:
-            if 'improved metabolism' in self.abilities:
-                self.hunger -= 3
-            else:
-                self.hunger -= self.world.hungerLoss
+            self.hunger -= self.world.hungerLoss
         elif self.hunger == 0:
             r = random.randint(0,3) #player will randomly take damage to health, strength, sociability, speed, or intelligence
-            if fFat reserves' in self.abilities:
-                if r == 0:
-                    self.health -= self.health//20
-                elif r == 1:
-                    self.strength -= self.strength//20
-                elif r == 2:
-                    self.sociability -= self.sociability//20
-                elif r == 3:
-                    self.speed -= self.speed//20
-            else:
-                if r == 0:
-                    self.health -= self.health//10
-                elif r == 1:
-                    self.strength -= self.strength//10
-                elif r == 2:
-                    self.sociability -= self.sociability//10
-                elif r == 3:
-                    self.speed -= self.speed//10
+            if r == 0:
+                self.health -= self.health/10
+            elif r == 1:
+                self.strength -= self.strength/10
+            elif r == 2:
+                self.sociability -= self.sociability/10
+            elif r == 3:
+                self.speed -= self.speed/10
         if self.hunger < 0:
             self.hunger = 0
         self.availabledirs = []
@@ -99,7 +86,6 @@ class Player:
             self.location.items[item] -= 1
         
         
-    #def drink(self): #did we decide to do this or nah? could be interesting when we implement aquatic skills and stuff
     
     def north(self):
         if self.location.exits['north'] != None:
@@ -126,7 +112,7 @@ class Player:
         print("Your location is " + str(self.location.coordinates))
         print("Hunger = " + str(self.hunger))
         print("Health = " + str(self.health))
-        print('Type: \n \t "all stats" for all stats; \n \t "inventory" for abilities and inventory')
+        print('Type: \n \t "all stats" for all stats; \n \t "inventory" for abilities and inventory; \n \t "location" for details on location')
             
     def attack(self, creature):
         while self.health > 0 and creature.health > 0:
