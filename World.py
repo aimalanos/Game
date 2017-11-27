@@ -1,4 +1,5 @@
 from Square import Square
+from Creature import Creature
 import random
 
 # def clear():
@@ -45,6 +46,7 @@ class World:
         self.player.update()
         self.turn_count += 1
         if self.turn_count % 5 == 0:
+            self.reset()
             self.weather = random.choice(["clear", "rainy", "hailing", "snowy", "drought"])
             if self.weather == "rainy":
                 self.speedPenalty = self.player.speed // 10
@@ -54,3 +56,18 @@ class World:
                 self.sociabilityPenalty = self.player.sociability // 10
             elif self.weather == "drought":
                 self.hungerLoss = 6
+            # New creatures will spawn
+            randomSquare = random.choice(self.squares)
+            if randomSquare.creature == None:
+                level = random.randint(1,3)
+                Creature(self, randomSquare, level)
+            # New items will appear
+            for i in range(3):
+                #not finished; making more food spawn
+            for i in range(2):
+                randomSquare = random.choice(self.squares)
+                newItem = random.choice(self.possibleItems):
+                    if newItem in randomSquare.items:
+                        randomSquare.items[newItem] += 1
+                    else:
+                        randomSquare.items[newItem] = 1
