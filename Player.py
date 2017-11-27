@@ -367,7 +367,7 @@ class Player:
                 self.defeated += 1
                 self.location.creature = False
                 self.location.items['meat'] = random.randint(1,3)
-            elif creature.inhostility <= 0 and self.health > 0:
+            elif creature.hostility <= 0 and self.health > 0:
                 self.experience += creature.experience
                 self.allies += 1
                 creature.allied = True
