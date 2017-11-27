@@ -53,9 +53,9 @@ def evolve():
         print('Fat reserves – reduced penalty when starving: 10 exp')
     if 'Semiaquatic' not in p.abilities:
         print('Semiaquatic – access watery terrain: 10 exp')
-    if p.intelligence >= 8 and 'Tool use' not in p.abilities:
+    if p.intelligence >= 8 and 'Item use' not in p.abilities:
         print('Tool use: 10 exp')
-    if p.intelligence >= 13 and 'Tool use' in p.abilities and 'Flexible responding' not in p.abilities:
+    if p.intelligence >= 13 and 'Item use' in p.abilities and 'Flexible responding' not in p.abilities:
         print('Flexible responding – more options when you engage with other creatures: 20 exp') # Idk, maybe players will be able to change whether they want to socialize or attack. Also, I just thought that if the player attacks a creature, then the creature's hostility should go up
     if p.intelligence >= 20 and 'Flexible responding' in p.abilities:
         print('Fire: 30 exp')
@@ -127,9 +127,9 @@ def evolve():
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
-        elif choice.lower() in 'tool use':
+        elif choice.lower() in 'item use':
             if p.experience >= 15:
-                p.abilities.append('Tool use') # Will implement this later
+                p.abilities.append('Item use') # Will implement this later
                 self.experience -= 15
                 transactionCompleted = True
             else:
