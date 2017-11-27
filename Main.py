@@ -181,24 +181,31 @@ w.makeMap(mapx,mapy)
 # for i in range(-mapx,mapx+1): # Isn't make map doing the same thing as these loops?
 #     for j in range(-mapy, mapy+1):
 #         Square(w, i, j)
-for i in range(0,40):
+for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
         r.creature = Creature(r, 1)
-for i in range(0,40):
+for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
         r.creature = Creature(r, 2)
-for i in range(0,40):
+for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
         r.creature = Creature(r, 3)
-for i in range(0,80):
+for i in range(0,60):
     r = random.choice(w.squares)
     if 'fruit' in r.items:
         r.items['fruit'] += 1
     else:
         r.items['fruit'] = 1
+for i in range(0,50):
+    r = random.choice(w.squares)
+    rItem = random.choice(w.possibleItems)
+    if 'rItem' in r.items:
+        r.items[rItem] += 1
+    else:
+        r.items[rItem] = 1
 
                       
 p = Player(w)       
