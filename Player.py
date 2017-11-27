@@ -26,6 +26,10 @@ class Player:
                 
     def update(self):
         self.health -= self.world.healthLoss
+        if self.location == self.home:
+            self.health += self.maxHealth // 10
+            if self.health > self.maxHealth:
+                self.health = self.maxHealth
         if self.health <= 0:
             self.die()
         if self.hunger > 0:
@@ -61,29 +65,42 @@ class Player:
             if 'fruit' in self.location.items and self.location.items['fruit'] > 0:
                 self.fillStats()
                 self.hunger += 25
-                self.location.fruit -= 1
+                self.location.items['fruit'] -= 1
+                if self.location.items['fruit'] <= 0:
+                    del self.location.items['fruit']
             elif 'fruit' in self.inventory:
                 self.fillStats()
                 self.hunger += 25
                 self.inventory['fruit'] -= 1
+                if self.inventory['fruit'] <= 0:
+                    del self.inventory['fruit']
         elif self.diet == 'carnivore' or self.diet == 'omnivore':
-            if 'meat' in self.location.items and self.location.items['meat'] > 0:
+            if 'meat' in self.location.items:
                 self.fillStats()
                 self.hunger += 25
                 self.location.items['meat'] -= 1
+                if self.location.items['meat'] <= 0:
+                    del self.location.items['meat']
             elif 'meat' in self.inventory:
                 self.fillStats()
                 self.hunger += 25
-                self.inventory['fruit'] -= 1
+                self.inventory['meat'] -= 1
+                if self.inventory['meat'] <= 0:
+                    del self.inventory['meat']
         
     def pickup(self, item):
-        if item in self.location.items and self.location.items[item] > 0:
+        if item in self.location.items:
             if item in self.inventory:
                 self.inventory[item] += 1
             else:
                 self.inventory[item] = 1
             self.location.items[item] -= 1
-        
+            if self.location.items[item] <= 0:
+                del self.location.items[item]
+      
+#     def inspect(self,item)
+#         if item in self.location.items or item
+# working on this
         
     
     def north(self):
