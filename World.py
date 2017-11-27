@@ -15,6 +15,7 @@ class World:
         self.hungerLoss = 3 # Determines how much the player's hunger increases when updating
         self.speedPenalty = 0 # The penalties will be applied depending on the weather
         self.sociabilityPenalty = 0
+        self.possibleItems = ['stinkfruit', 'sticky sap', 'poison berries', 'big leaf', 'healing salve']
     def makeMap(self,x,y):
         for num in range(-x,x): #draw the grid
             for nums in range(-y,y):
@@ -63,7 +64,11 @@ class World:
                 Creature(self, randomSquare, level)
             # New items will appear
             for i in range(3):
-                #not finished; making more food spawn
+                randomSquare = random.choice(self.squares)
+                if 'fruit' in randomSquare.items:
+                    randomSquare.items['fruit'] += 1
+                else:
+                    randomSquare.items['fruit'] = 1
             for i in range(2):
                 randomSquare = random.choice(self.squares)
                 newItem = random.choice(self.possibleItems):
