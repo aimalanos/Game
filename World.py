@@ -6,6 +6,7 @@ import random
 #     os.system('cls' if os.name == 'nt' else 'clear')
 
 class World:
+    possibleItems = ['stinkfruit', 'sticky sap', 'poison berries', 'big leaf', 'healing salve']
     def __init__(self):
         self.turn_count = 0
         self.weather = "clear"
@@ -15,7 +16,6 @@ class World:
         self.hungerLoss = 3 # Determines how much the player's hunger increases when updating
         self.speedPenalty = 0 # The penalties will be applied depending on the weather
         self.sociabilityPenalty = 0
-        self.possibleItems = ['stinkfruit', 'sticky sap', 'poison berries', 'big leaf', 'healing salve']
     def makeMap(self,x,y):
         for num in range(-x,x): #draw the grid
             for nums in range(-y,y):
