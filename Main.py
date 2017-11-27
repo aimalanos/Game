@@ -51,6 +51,17 @@ def victory(self):
     elif self.player.allies >= 30:
         print('You have enough allies to be protected wherever you go! That means you win! Congratulations!')
     # We should put some fireworks in here
+                      
+def gameOver(w):
+    playing = False
+    print('GAME OVER')
+    print()
+    if w.turn_count > 200:
+        print('You took too long! Another creature has become dominant!)
+    elif not w.player.alive:
+        print('Your creature has died!)
+    print()
+    print('Better luck next time!')
           
 def evolve():
     #clear()
@@ -215,6 +226,7 @@ while playing and p.alive:
                     commandSuccess = False
             else:
                 p.north()
+                timePasses = True
         elif 'south' in command:
             if p.location.exits['south'] == None:
                 print('You may not go south. Try again.')
@@ -225,6 +237,7 @@ while playing and p.alive:
                     commandSuccess = False
             else:
                 p.south()
+                timePasses = True
         elif 'west' in command:
             if p.location.exits['west'] == None:
                 print('You may not go west. Try again.')
@@ -235,6 +248,7 @@ while playing and p.alive:
                     commandSuccess = False
             else:
                 p.west()
+                timePasses = True
         elif 'east' in command:
             if p.location.exits['east'] == None:
                 print('You may not go east. Try again.')
@@ -245,6 +259,7 @@ while playing and p.alive:
                     commandSuccess = False
             else:
                 p.east()
+                timePasses = True
         elif 'pickup' in command:
             if len(commandWords) = 3:
                 item = commandWords[1] + ' ' + commandWords[2]
@@ -256,12 +271,14 @@ while playing and p.alive:
                 print('There is no such item. Try again.')
                 commandSuccess = False
         elif 'inventory' in command:
+            clear()
             inv = ''
             for elem in self.inventory:
                 inv += elem
             for elem in self.abilities:
                 abi += elem
             print('Inventory: ' + inv + '\n Abilities: ' + abi)
+            input('Press enter to continue.')
         else:
             input('Sorry, I don\'t understand. Type "options" for available options.')
             clear()
@@ -269,3 +286,7 @@ while playing and p.alive:
             commandSuccess = False
     if timePasses:
         w.update()
+        if w.turn_count > 200:
+            gameOver(w)
+if not p.alive:
+    gameOver(w)
