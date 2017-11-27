@@ -54,7 +54,6 @@ class Player:
         self.speed = self.maxSpeed
         
     def die(self):
-        self.world.gameOver()
         self.alive = False
         
     def eat(self):
