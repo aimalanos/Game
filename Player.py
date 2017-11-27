@@ -20,6 +20,8 @@ class Player:
         self.experience = 0
         self.abilities = []
         self.inventory = []
+        self.inventorySize = 0
+        self.inventoryCap = 10
         self.availabledirs = []
         self.defeated = 0 # to keep track of the number of enemies the player has defeated
         self.allies = 0
@@ -72,6 +74,7 @@ class Player:
                 self.fillStats()
                 self.hunger += 25
                 self.inventory['fruit'] -= 1
+                self.inventorySize -= 1
                 if self.inventory['fruit'] <= 0:
                     del self.inventory['fruit']
         elif self.diet == 'carnivore' or self.diet == 'omnivore':
@@ -85,22 +88,37 @@ class Player:
                 self.fillStats()
                 self.hunger += 25
                 self.inventory['meat'] -= 1
+                self.inventorySize -= 1
                 if self.inventory['meat'] <= 0:
                     del self.inventory['meat']
         
     def pickup(self, item):
-        if item in self.location.items:
-            if item in self.inventory:
-                self.inventory[item] += 1
-            else:
-                self.inventory[item] = 1
-            self.location.items[item] -= 1
-            if self.location.items[item] <= 0:
-                del self.location.items[item]
+        if inventorySize <= inventoryCap:
+            if item in self.location.items:
+                if item in self.inventory:
+                    self.inventory[item] += 1
+                else:
+                    self.inventory[item] = 1
+                self.location.items[item] -= 1
+                if self.location.items[item] <= 0:
+                    del self.location.items[item]
       
-#     def inspect(self,item)
-#         if item in self.location.items or item
-# working on this
+     def inspect(self, item)
+         if item in self.location.items or item in self.inventory:
+             if item == 'stinkfruit':
+                 print('A hard, smelly fruit. Use it during an encounter to make the other creature flee.')
+             elif item == 'sticky sap':
+                 print('Sticky sap from a tree. Use it during an encounter to decrease the other creature\'s speed.')
+             elif item == 'poison berries':
+                 print('Poisonous berries. Use them during an encounter to decrease the other creature\'s health.')
+             elif item == 'big leaf':
+                 print('A large, surprisingly sturdy leaf. It could protect you from the weather.')
+             elif item == 'healing salve':
+                 print('A healing salve from a plant. Use it to restore your stats.')
+             elif item == 'fruit':
+                 print('A fruit. If you are herbivore or omnivore, then eating this will reduce hunger and restore your stats.')
+             elif item == 'meat':
+                 print('A piece of meat. If you are carnivore or omnivore, then eating this will reduce hunger and restore your stats.')
         
     
     def north(self):
