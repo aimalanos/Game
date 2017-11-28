@@ -2,7 +2,7 @@ import random
 import math
 
 class Creature:
-    def __init__(self, square, level, name):
+    def __init__(self):
         self.location = square
         self.location.creature = True
         self.world = self.location.world
@@ -19,22 +19,21 @@ class Creature:
             Wolf(square,level,name)
 
 class Wolf(Creature):
-    def __init__(self):
-        if self.name == 'wolf':
-            #self.health = unchanged
-            self.strength += 3*self.level
-            self.hostility += 3*self.level
-            self.speed -= 2*self.level
-            self.fleeRate = self.fleeRate/2
-        elif self.name == 'tiger':
-            self.health += 4*self.level
-            self.strength += 5*self.level
-            self.hostility += 2*self.level
-            self.speed -= 2*self.level
-            self.fleeRate = self.fleeRate
-        elif self.name == 'monkey':
-            self.health -= math.floor(10/level)
-            self.strength += 5*self.level
-            self.hostility += 3*self.level
-            self.speed -= 2*self.level
-            self.fleeRate = self.fleeRate/2
+    def __init__(self,):
+        #self.health = unchanged
+        self.strength += 3*self.level
+        self.hostility += 3*self.level
+        self.speed -= 2*self.level
+        self.fleeRate = self.fleeRate/2
+class Tiger(Creature):
+        self.health += 4*self.level
+        self.strength += 5*self.level
+        self.hostility += 2*self.level
+        self.speed -= 2*self.level
+        self.fleeRate = self.fleeRate
+class Monkey(Creature):
+        self.health -= math.floor(10/level)
+        self.strength += 5*self.level
+        self.hostility += 3*self.level
+        self.speed -= 2*self.level
+        self.fleeRate = self.fleeRate/2
