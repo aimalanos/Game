@@ -2,7 +2,7 @@ import random
 import math
 
 class Creature:
-    def __init__(self):
+    def __init__(self,square,level):
         self.location = square
         self.location.creature = True
         self.world = self.location.world
@@ -13,11 +13,11 @@ class Creature:
         self.fleeRate = random.uniform(0, 0.2)
         self.allied = False
         self.experience = (self.health + self.strength + self.hostility + self.speed) // 4
-        self.name = name
         self.level = level
 
 class Wolf(Creature):
     def __init__(self,square,level):
+        Creature.__init__(square,level)
         #self.health = unchanged
         self.strength += 3*self.level
         self.hostility += 3*self.level
