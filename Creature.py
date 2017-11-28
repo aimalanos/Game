@@ -1,7 +1,7 @@
 import random
 
 class Creature:
-    def __init__(self, square, level):
+    def __init__(self, square, level, name):
         self.location = square
         self.location.creature = True
         self.world = self.location.world
@@ -12,3 +12,4 @@ class Creature:
         self.fleeRate = random.uniform(0, 0.2)
         self.allied = False
         self.experience = (self.health + self.strength + self.hostility + self.speed) // 4
+        self.name = name
