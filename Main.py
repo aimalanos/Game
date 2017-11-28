@@ -23,11 +23,29 @@ def asOrderedList(d):
     return ordered
     
 def printSituation():
+    wc = ''
+    if w.weather == 'rainy':
+        wc = 'You are slowed down.'
+    elif w.weather == 'hailing':
+        wc = 'You are taking damage.'
+    elif w.weather == 'snowy':
+        wc = 'Your sociability is reduced.'
+    elif w.weather == 'drought':
+        wc = 'You are getting hungry very quickly.'
+    tc = ''
+    if p.location.terrain == 'mountainous':
+        tc = 'You are slowed down.'
+    elif p.location.terrain == 'desert':
+        tc = 'You are getting hungry very quickly.'
+    elif p.location.terrain == 'tundra':
+        tc = 'You are taking damage.'
+    elif p.location.terrain == 'forest':
+        tc = 'It\'s very nice here.'
     print("Turn " + str(w.turn_count))
     print()
     print("Your coordinates are " + str(p.location.coordinates) + ".")
-    print("The weather is " + w.weather + ".")
-    print("The terrain is " + p.location.terrain + ".")
+    print("The weather is " + w.weather + ". " + wc)
+    print("The terrain is " + p.location.terrain + ". " + tc)
     if p.location.creature:
         print("There is a creature here.")
     else:
@@ -179,21 +197,18 @@ w = World()
 mapx = 4
 mapy = 4
 w.makeMap(mapx,mapy)
-# for i in range(-mapx,mapx+1): # Isn't make map doing the same thing as these loops?
-#     for j in range(-mapy, mapy+1):
-#         Square(w, i, j)
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        r.creature = Creature(r, 1)
+        r.creature = Creature(r, 1, random.choice(w.possibleCreatures))
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        r.creature = Creature(r, 2)
+        r.creature = Creature(r, 2, random.choice(w.possibleCreatures))
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        r.creature = Creature(r, 3)
+        r.creature = Creature(r, 3, random.choice(w.possibleCreatures))
 for i in range(0,60):
     r = random.choice(w.squares)
     if 'fruit' in r.items:
@@ -218,7 +233,7 @@ while playing and p.alive:
     commandSuccess = False
     timePasses = False
     while not commandSuccess:
-        commandSuccess = True
+        commandSuccess = True #what does this do?
         command = input('What will you do? ').lower()
         commandWords = command.split()
         if command == 'help':
@@ -296,20 +311,20 @@ while playing and p.alive:
             else:
                 print('You don\'t have any such item. Try again.')
                 commandSuccess = False
-        elif 'inventory' in command:
+        elif command == 'inventory':
             clear()
-            inv = ''
-            for elem in self.inventory:
-                inv += elem
-            for elem in self.abilities:
-                abi += elem
-            print('Inventory: ' + inv + '\n Abilities: ' + abi)
+            inv = []
+            abi = []
+            for elem in p.inventory:
+                for i in range(p.inventory[elem]):
+                    inv.append(elem)
+            for elem in p.abilities:
+                abi.append(elem)
+            print('Inventory: ' + str(inv) + '\n Abilities: ' + str(abi))
             input('Press enter to continue.')
         elif 'eat' in command:
             if len(commandWords) == 2:
                 food = commandWords[1]
-            #else:
-                #food = commandWords[1] + ' ' + commandWords[2]
             if food in p.location.items:
                 if not p.eat(food):
                     commandSuccess = False
@@ -324,9 +339,20 @@ while playing and p.alive:
             while j <= i:
                 w.update()
                 j += 1
+        elif 'inspect' in command:
+            if len(commandWords) == 3:
+                item = commandWords[1] + ' ' + commandWords[2]
+            else:
+                item = commandWords[1]
+            if item in p.location.items:
+                p.inspect(item)
+            else:
+                print('There is no such item here. Try again.')
+                commandSuccess = False
         else:
             print('Sorry, I don\'t understand. Type "options" for available options. ')
             command = input('What will you do? ')
+            clear()
             printSituation()
             commandSuccess = False
     if timePasses:
