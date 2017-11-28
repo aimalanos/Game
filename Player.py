@@ -16,26 +16,61 @@ class Player:
         self.maxStrength, self.strength = 5, 5
         self.maxSociability, self.sociability = 5, 5
         self.maxSpeed, self.speed = 5, 5
+        self.healthLoss = 2
+        self.hungerLoss = 20
+        self.speedPenalty = 1
+        self.socPenalty = 1
         self.intelligence = 0
         self.experience = 0
         self.abilities = []
-        self.inventory = []
+        self.inventory = {}
         self.inventorySize = 0
         self.inventoryCap = 10
+        self.invweight = 0
+        self.maxinvweight = 20
         self.availabledirs = []
+        self.dirstring = ''
         self.defeated = 0 # to keep track of the number of enemies the player has defeated
         self.allies = 0
+        self.m = 0
                 
     def update(self):
-        self.health -= self.world.healthLoss
+        self.dirstring = ''
+        for elem in self.availabledirs:
+            if self.dirstring == '':
+                self.dirstring = elem
+            else:
+                self.dirstring += ', ' + elem
+        self.healthLoss = 2
+        self.hungerLoss = 20
+        self.speedPenalty = 1
+        self.socPenalty = 1
+        if self.location.weather == "rainy":
+            self.speedPenalty *= 3
+        elif self.location.weather == "hailing":
+            self.healthLoss *= 2
+        elif self.location.weather == "snowy":
+            self.socPenalty *= 2
+        elif self.location.weather == "drought":
+            self.hungerLoss *= 2
+        if self.location.terrain == "desert":
+            self.healthLoss *= 2
+        elif self.location.terrain == "mountainous":
+            self.socPenalty *= 2
+        elif self.location.terrain == "tundra":
+            self.hungerLoss *= 2
         if self.location == self.home:
-            self.health += self.maxHealth // 10
+            self.health += self.maxHealth // 10 #i think this should only take one turn to recharge fully. player doesn't have all day
             if self.health > self.maxHealth:
                 self.health = self.maxHealth
+        else: #no health loss at home
+            self.health -= self.healthLoss
         if self.health <= 0:
             self.die()
         if self.hunger > 0:
-            self.hunger -= self.world.hungerLoss
+            self.hunger -= self.hungerLoss
+            if self.hunger < 0:
+                self.hunger = 0
         elif self.hunger == 0:
             r = random.randint(0,3) #player will randomly take damage to health, strength, sociability, speed, or intelligence
             if r == 0:
@@ -52,6 +87,14 @@ class Player:
         for exit in self.location.exits:
             if exit != None:
                 self.availabledirs.append(exit)
+        if 'meat' in self.inventory:
+            self.m += 1
+            if self.m == 4:
+                del self.inventory['fruit']
+                del self.inventory['meat']
+                print('Oh no! You carried meat in your bag for too long. All of your food has gone rotten. ')
+        else:
+            self.m = 0
             
     def fillStats(self):
         self.health = self.maxHealth
@@ -78,6 +121,9 @@ class Player:
                     self.inventorySize -= 1
                     if self.inventory['fruit'] <= 0:
                         del self.inventory['fruit']
+                return True
+            else:
+                return False
         elif food == 'meat':
             if self.diet == 'carnivore' or self.diet == 'omnivore':
                 if 'meat' in self.location.items:
@@ -93,19 +139,54 @@ class Player:
                     self.inventorySize -= 1
                     if self.inventory['meat'] <= 0:
                         del self.inventory['meat']
+                return True
+            else:
+                return False
         
     def pickup(self, item):
-        if inventorySize <= inventoryCap:
+        f = 0
+        if item == 'fruit':
+            f = 1
+        elif item == 'stinkfruit':
+            f = 2
+        elif item == 'sticky sap':
+            f = 5
+        elif item == 'poison berries':
+            f = 5
+        elif item == 'big leaf':
+            f = 3
+        elif item == 'healing salve':
+            f = 4
+        elif item == 'flowers':
+            f = 1
+        elif item == 'meat':
+            f = 1
+        if self.inventorySize < self.inventoryCap and self.invweight <= self.maxinvweight + f:
             if item in self.location.items:
                 if item in self.inventory:
                     self.inventory[item] += 1
+                    self.invweight += f
                 else:
                     self.inventory[item] = 1
+                    self.invweight += f
                 self.location.items[item] -= 1
                 if self.location.items[item] <= 0:
                     del self.location.items[item]
-      
-    def inspect(self, item)
+                    self.invweight += f
+            return True
+        else:
+            return f
+    def drop(self,item):
+        if item in self.inventory:
+            if item in self.location.items:
+                self.location.items[item] += 1
+            else:
+                self.location.items[item] = 1
+            if self.inventory[item] <= 1:
+                del self.inventory[item]
+            else:
+                self.inventory[item] -= 1
+    def inspect(self, item):
         if item in self.location.items or item in self.inventory:
             if item == 'stinkfruit':
                 print('A hard, smelly fruit. Use it during an encounter to make the other creature flee.')
@@ -140,7 +221,7 @@ class Player:
     def useBattleItem(self, item, target):
         if item in self.inventory:
             if item == 'stinkfruit':
-                break # I have no idea if this will work
+               # break # I have no idea if this will work #what were you trying to do?
                 self.inventory['stinkfruit'] -= 1
                 inventorySize -= 1
                 if self.inventory['stinkfruit'] <= 0:
@@ -194,10 +275,38 @@ class Player:
             print('You may not move South. Try again.')
         
     def stats(self):
+        if self.diet == 'herbivore':
+            print("You are an herbivore.")
+        elif self.diet == 'carnivore':
+            print("You are a carnivore.")
         print("Your location is " + str(self.location.coordinates))
         print("Hunger = " + str(self.hunger))
         print("Health = " + str(self.health))
         print('Type: \n \t "all stats" for all stats; \n \t "inventory" for abilities and inventory; \n \t "location" for details on location')
+    def allstats(self):
+        if self.diet == 'herbivore':
+            print("You are an herbivore.")
+        elif self.diet == 'carnivore':
+            print("You are a carnivore.")
+        #print("Location: " + str(self.location.coordinates))
+        print("You may travel " + self.dirstring +".")
+        print("You may travel " + str(self.inventorySize))
+        print("Hunger = " + str(self.hunger))
+        print("Health = " + str(self.health))
+        print("Sociability = " + str(self.sociability))
+        print("Speed = " + str(self.speed))
+        print("Intelligence = " + str(self.intelligence))
+        print("Sociability = " + str(self.sociability))
+        print("Abilities = " + str(self.abilities))
+        print("Inventory = " + str(self.inventory))
+        print("Sociability = " + str(self.sociability))
+        print("Inventory size = " + str(self.inventorySize))
+        print("Inventory cap = " + str(self.inventoryCap))
+        print("Inventory weight = " + str(self.invweight))
+        print("Inventory max weight = " + str(self.maxinvweight))
+        print("Allies: " + str(self.allies))
+        print("Defeated: " + str(self.defeated))
+        
             
     def attack(self, creature):
         while self.health > 0 and creature.health > 0:
