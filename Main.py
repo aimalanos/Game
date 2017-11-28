@@ -82,14 +82,16 @@ def gameOver(w):
     print()
     print('Better luck next time!')
           
-def evolve():
-    #clear()
+def evolve(p):
+    clear()
     print('Health increase: 5 exp')
     print('Stomach size increase: 5 exp')
     print('Strength increase: 5 exp')
     print('Sociability increase: 5 exp')
     print('Speed increase: 5 exp')
     print('Intelligence increase: 5 exp')
+    print('Pouches – can carry more items: 5 exp')
+    print('Stronger back – can carry heaver items: 5 exp')
     if 'Metabolism increase' not in p.abilities:
         print('Metabolism increase – hunger increase more slowly: 10 exp')
     if 'Fat reserves' not in p.abilities:
@@ -145,6 +147,20 @@ def evolve():
         elif choice.lower() in 'intelligence increase':
             if p.experience >= 5:
                 p.intelligence += 4
+                self.experience -= 5
+                transactionCompleted = True
+            else:
+                ('Not enough experience. Try again.')
+        elif choice.lower() in 'pouches':
+            if p.experience >= 5:
+                p.self.inventoryCap += 3
+                self.experience -= 5
+                transactionCompleted = True
+            else:
+                ('Not enough experience. Try again.')
+        elif choice.lower() in 'stronger back':
+            if p.experience >= 5:
+                p.self.maxinvweight += 3
                 self.experience -= 5
                 transactionCompleted = True
             else:
