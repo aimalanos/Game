@@ -47,3 +47,11 @@ class Dog(Creature):
         self.hostility += random.randint(1,4)*self.level
         self.speed += self.level
         #self.fleeRate = unchanged
+class Sheep(Creature):
+    def __init__(self,square,level):
+        Creature.__init__(square,level)
+        self.health *= 
+        self.strength -= 15
+        self.hostility -= 15
+        self.speed = 5
+        self.fleeRate = 0.8
