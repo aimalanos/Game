@@ -368,6 +368,13 @@ while playing and p.alive:
             else:
                 print('There is no such item here. Try again.')
                 commandSuccess = False
+        elif command.split[0] == 'abbreviate':
+            if 'as' in command:
+                if command.split[2] == 'as':
+                    comm = command.split[1]
+                    abbrev = command.split[3]
+                    if comm in w.possibleCommands: #make this list
+                        w.possibleCommands[comm] += abbrev
         else:
             print('Sorry, I don\'t understand. Type "help" for available options. ')
             command = input('What will you do? ')
