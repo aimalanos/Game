@@ -12,15 +12,17 @@ class World:
         self.weather = "clear"
         self.player = None
         self.squares = []
-        self.healthLoss = 0 # Determines how much health is lost when updating
-        self.hungerLoss = 3 # Determines how much the player's hunger increases when updating
-        self.speedPenalty = 0 # The penalties will be applied depending on the weather
-        self.sociabilityPenalty = 0
+        self.terrains = ['grassy','grassy','desert','desert','mountainous','mountainous','tundra','forest']
+        self.weathers = ["clear", "rainy", "hailing", "snowy", "drought"]
     def makeMap(self,x,y):
         for num in range(-x,x): #draw the grid
             for nums in range(-y,y):
                 self.squares.append(Square(self,num,nums))
             for squ in self.squares: #assign squares' exits
+                t = random.randint(0,7)
+                squ.terrain = self.terrains[t]
+                w = random.randint(0,4)
+                squ.weather = self.weathers[w]
                 for nei in self.squares:
                     if squ.coordinates[1] == nei.coordinates[1]: # To be east-west adjacent, they must have the same y-coordinate
                         if squ.coordinates[0] == nei.coordinates[0] - 1:
@@ -35,11 +37,11 @@ class World:
 
     def add_player(self, player):
         self.player = player
-    def reset(self):
-        self.healthLoss = 0
-        self.hungerLoss = 3
-        self.speedPenalty = 0
-        self.sociabilityPenalty = 0
+    #def reset(self): #remove this function?
+#        self.healthLoss = 0
+#        self.hungerLoss = 3
+#        self.speedPenalty = 0
+#        self.sociabilityPenalty = 0
     def gameOver(self):
         print("Your creature has died! Game over!")
         self.player = None
@@ -48,15 +50,7 @@ class World:
         self.turn_count += 1
         if self.turn_count % 5 == 0:
             self.reset()
-            self.weather = random.choice(["clear", "rainy", "hailing", "snowy", "drought"])
-            if self.weather == "rainy":
-                self.speedPenalty = self.player.speed // 10
-            elif self.weather == "hailing":
-                self.healthLoss = self.player.health // 15
-            elif self.weather == "snowy":
-                self.sociabilityPenalty = self.player.sociability // 10
-            elif self.weather == "drought":
-                self.hungerLoss = 6
+            self.weather = random.choice(["clear", "rainy", "hailing", "snowy", "drought"]) #remove
             # New creatures will spawn
             randomSquare = random.choice(self.squares)
             if randomSquare.creature == None:
@@ -71,8 +65,8 @@ class World:
                     randomSquare.items['fruit'] = 1
             for i in range(2):
                 randomSquare = random.choice(self.squares)
-                newItem = random.choice(self.possibleItems):
-                    if newItem in randomSquare.items:
-                        randomSquare.items[newItem] += 1
-                    else:
-                        randomSquare.items[newItem] = 1
+                newItem = random.choice(self.possibleItems)
+                if newItem in randomSquare.items:
+                    randomSquare.items[newItem] += 1
+                else:
+                    randomSquare.items[newItem] = 1
