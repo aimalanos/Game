@@ -29,7 +29,7 @@ class Tiger(Creature):
         self.health += 4*self.level
         self.strength += 5*self.level
         self.hostility += 2*self.level
-        self.speed -= 2*self.level
+        self.speed += self.level
         self.fleeRate = self.fleeRate
 class Monkey(Creature):
     def __init__(self,square,level):
@@ -55,3 +55,11 @@ class Sheep(Creature):
         self.hostility -= 15
         self.speed = 5
         self.fleeRate = 0.8
+class Snake(Creature):
+    def __init__(self,square,level):
+        Creature.__init__(square,level)
+        self.health = math.ceil(0.3*self.health)
+        self.strength += 5*self.level
+        self.hostility += 4*self.level
+        self.speed *= 5
+        self.fleeRate = self.fleeRate/2
