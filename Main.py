@@ -6,11 +6,9 @@ import os
 import random
 
 def me():
-    clear()
     p.stats()
 
 def help():
-    clear()
     print("Type 'me' for player stats.")
     print("You may travel" + str(p.availabledirs) + "\n")
     
@@ -20,12 +18,11 @@ def clear():
 def asOrderedList(d):
     ordered = []
     for key in d:
-    ordered.append([key, d[key]])
-    ordered.sort()
+        ordered.append([key, d[key]])
+        ordered.sort()
     return ordered
     
 def printSituation():
-    clear()
     print("Turn " + str(w.turn_count))
     print()
     print("Your coordinates are " + str(p.location.coordinates) + ".")
@@ -33,12 +30,16 @@ def printSituation():
     print("The terrain is " + p.location.terrain + ".")
     if p.location.creature:
         print("There is a creature here.")
+    else:
+        print("You are alone here.")
     if len(p.location.items) > 0:
         print('There are the following items:')
         orderedInventory = asOrderedList(p.location.items)
         for kvp in orderedInventory: # For the key-value pairs in the ordered inventory...
-            if orderedInventory[kvp][1] > 0: # if there are actually items...
-                print('\t' + kvp[0] + ': ' + str(kvp[1])
+            if kvp[1] > 0: # if there are actually items...
+                print('\t' + kvp[0] + ': ' + str(kvp[1]))
+    else:
+        print("There is nothing of use to you here.")
     print()
     print("Health: " + str(p.health))
     
@@ -57,9 +58,9 @@ def gameOver(w):
     print('GAME OVER')
     print()
     if w.turn_count > 200:
-        print('You took too long! Another creature has become dominant!)
+        print('You took too long! Another creature has become dominant!')
     elif not w.player.alive:
-        print('Your creature has died!)
+        print('Your creature has died!')
     print()
     print('Better luck next time!')
           
@@ -209,9 +210,10 @@ for i in range(0,50):
 
                       
 p = Player(w)       
+clear()
 
-                      
 while playing and p.alive:
+    #clear()
     printSituation()
     commandSuccess = False
     timePasses = False
@@ -219,10 +221,15 @@ while playing and p.alive:
         commandSuccess = True
         command = input('What will you do? ').lower()
         commandWords = command.split()
-        if command in 'help':
+        if command == 'help':
+            clear()
             help()
         elif command == 'me':
+            clear()
             me()
+        elif command == 'all stats':
+            clear()
+            p.allstats()
         elif 'north' in command:
             if p.location.exits['north'] == None:
                 print('You may not go north. Try again.')
@@ -268,14 +275,26 @@ while playing and p.alive:
                 p.east()
                 timePasses = True
         elif 'pickup' in command:
-            if len(commandWords) = 3:
+            if len(commandWords) == 3:
                 item = commandWords[1] + ' ' + commandWords[2]
             else:
                 item = commandWords[1]
             if item in p.location.items:
-                p.pickup(item)
+                s = p.pickup(item)
             else:
                 print('There is no such item. Try again.')
+                commandSuccess = False
+            if not s:
+                print("This item is too heavy for you to pick up! Leave it behind or free up " + str(s) + " kg in your inventory. ")
+        elif 'drop' in command:
+            if len(commandWords) == 3:
+                item = commandWords[1] + ' ' + commandWords[2]
+            else:
+                item = commandWords[1]
+            if item in p.inventory:
+                p.drop(item)
+            else:
+                print('You don\'t have any such item. Try again.')
                 commandSuccess = False
         elif 'inventory' in command:
             clear()
@@ -286,9 +305,28 @@ while playing and p.alive:
                 abi += elem
             print('Inventory: ' + inv + '\n Abilities: ' + abi)
             input('Press enter to continue.')
+        elif 'eat' in command:
+            if len(commandWords) == 2:
+                food = commandWords[1]
+            #else:
+                #food = commandWords[1] + ' ' + commandWords[2]
+            if food in p.location.items:
+                if not p.eat(food):
+                    commandSuccess = False
+                    print('You can\'t eat that! Bleh!')
+        elif 'wait' in command:
+            if len(commandWords) == 3:
+                if commandWords[0] == 'wait' and commandWords[2] == 'turns' or commandWords[2] == 'turn':
+                    i = int(commandWords[1])
+            elif len(commandWords) == 1:
+                i = 1
+            j = 1
+            while j <= i:
+                w.update()
+                j += 1
         else:
-            input('Sorry, I don\'t understand. Type "options" for available options.')
-            clear()
+            print('Sorry, I don\'t understand. Type "options" for available options. ')
+            command = input('What will you do? ')
             printSituation()
             commandSuccess = False
     if timePasses:
