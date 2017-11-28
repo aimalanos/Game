@@ -216,15 +216,18 @@ w.makeMap(mapx,mapy)
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        r.creature = Creature(r, 1, random.choice(w.possibleCreatures))
+        type = random.choice(w.possibleCreatures)
+        r.creature = type(r, 1)
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        r.creature = Creature(r, 2, random.choice(w.possibleCreatures))
+        type = random.choice(w.possibleCreatures)
+        r.creature = type(r, 1)
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        r.creature = Creature(r, 3, random.choice(w.possibleCreatures))
+        type = random.choice(w.possibleCreatures)
+        r.creature = type(r, 1)
 for i in range(0,60):
     r = random.choice(w.squares)
     if 'fruit' in r.items:
