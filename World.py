@@ -14,7 +14,7 @@ class World:
         self.terrains = ['grassy','grassy','desert','desert','mountainous','mountainous','tundra','forest']
         self.weathers = ["clear", "rainy", "hailing", "snowy", "drought"]
         self.possibleItems = ['stinkfruit', 'sticky sap', 'poison berries', 'big leaf', 'healing salve', 'flowers']
-        self.possibleCreatures = [Creature.Wolf,Creature.Tiger,Creature.Monkey,Creature.Dog,Creature.Sheep',Creature.Snake]
+        self.possibleCreatures = [Creature.Wolf,Creature.Tiger,Creature.Monkey,Creature.Dog,Creature.Sheep,Creature.Snake]
     def makeMap(self,x,y):
         for num in range(-x,x): #draw the grid
             for nums in range(-y,y):
