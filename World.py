@@ -6,7 +6,6 @@ import random
 #     os.system('cls' if os.name == 'nt' else 'clear')
 
 class World:
-    possibleItems = ['stinkfruit', 'sticky sap', 'poison berries', 'big leaf', 'healing salve', 'flowers']
     def __init__(self):
         self.turn_count = 0
         self.weather = "clear"
@@ -14,6 +13,8 @@ class World:
         self.squares = []
         self.terrains = ['grassy','grassy','desert','desert','mountainous','mountainous','tundra','forest']
         self.weathers = ["clear", "rainy", "hailing", "snowy", "drought"]
+        self.possibleItems = ['stinkfruit', 'sticky sap', 'poison berries', 'big leaf', 'healing salve', 'flowers']
+        self.possibleCreatures = ['wolf','tiger','monkey','dog','sheep','snake']
     def makeMap(self,x,y):
         for num in range(-x,x): #draw the grid
             for nums in range(-y,y):
