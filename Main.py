@@ -8,9 +8,14 @@ import random
 def me():
     p.stats()
 
-def help():
+def help(p):
     print("Type 'me' for player stats.")
-    print("You may travel" + str(p.availabledirs) + "\n")
+    print('Use the "go" command to move. Don\'t forget to say which direction!')
+    print('Use the "pickup" command to pick up an item.')
+    print('Use the "drop" command to drop an item.')
+    print('Use the "inventory" command to see your inventory.')
+    # Not finished
+    
     
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -21,6 +26,12 @@ def asOrderedList(d):
         ordered.append([key, d[key]])
         ordered.sort()
     return ordered
+
+def showInventory(p):
+    print('Your inventory contains the following items:')
+    orderedInventory = asOrderedList(p.inventory)
+    for kvp in orderedInventory:
+        print('\t' + kvp[0] + ' x' + str(kvp[1]))
     
 def printSituation():
     wc = ''
@@ -54,8 +65,7 @@ def printSituation():
         print('There are the following items:')
         orderedInventory = asOrderedList(p.location.items)
         for kvp in orderedInventory: # For the key-value pairs in the ordered inventory...
-            if kvp[1] > 0: # if there are actually items...
-                print('\t' + kvp[0] + ': ' + str(kvp[1]))
+            print('\t' + kvp[0] + ' x' + str(kvp[1]))
     else:
         print("There is nothing of use to you here.")
     print()
@@ -216,18 +226,15 @@ w.makeMap(mapx,mapy)
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        type = random.choice(w.possibleCreatures)
-        r.creature = type(r, 1)
+        r.creature = Creature(r, 1, random.choice(w.possibleCreatures))
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        type = random.choice(w.possibleCreatures)
-        r.creature = type(r, 1)
+        r.creature = Creature(r, 2, random.choice(w.possibleCreatures))
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        type = random.choice(w.possibleCreatures)
-        r.creature = type(r, 1)
+        r.creature = Creature(r, 3, random.choice(w.possibleCreatures))
 for i in range(0,60):
     r = random.choice(w.squares)
     if 'fruit' in r.items:
@@ -332,14 +339,7 @@ while playing and p.alive:
                 commandSuccess = False
         elif command == 'inventory':
             clear()
-            inv = []
-            abi = []
-            for elem in p.inventory:
-                for i in range(p.inventory[elem]):
-                    inv.append(elem)
-            for elem in p.abilities:
-                abi.append(elem)
-            print('Inventory: ' + str(inv) + '\n Abilities: ' + str(abi))
+            showInventory(p)
             input('Press enter to continue.')
         elif 'eat' in command:
             if len(commandWords) == 2:
@@ -369,7 +369,7 @@ while playing and p.alive:
                 print('There is no such item here. Try again.')
                 commandSuccess = False
         else:
-            print('Sorry, I don\'t understand. Type "options" for available options. ')
+            print('Sorry, I don\'t understand. Type "help" for available options. ')
             command = input('What will you do? ')
             clear()
             printSituation()
