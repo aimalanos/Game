@@ -62,35 +62,37 @@ class Player:
     def die(self):
         self.alive = False
         
-    def eat(self):
-        if self.diet == 'herbivore' or self.diet == 'omnivore':
-            if 'fruit' in self.location.items and self.location.items['fruit'] > 0:
-                self.fillStats()
-                self.hunger += 25
-                self.location.items['fruit'] -= 1
-                if self.location.items['fruit'] <= 0:
-                    del self.location.items['fruit']
-            elif 'fruit' in self.inventory:
-                self.fillStats()
-                self.hunger += 25
-                self.inventory['fruit'] -= 1
-                self.inventorySize -= 1
-                if self.inventory['fruit'] <= 0:
-                    del self.inventory['fruit']
-        elif self.diet == 'carnivore' or self.diet == 'omnivore':
-            if 'meat' in self.location.items:
-                self.fillStats()
-                self.hunger += 25
-                self.location.items['meat'] -= 1
-                if self.location.items['meat'] <= 0:
-                    del self.location.items['meat']
-            elif 'meat' in self.inventory:
-                self.fillStats()
-                self.hunger += 25
-                self.inventory['meat'] -= 1
-                self.inventorySize -= 1
-                if self.inventory['meat'] <= 0:
-                    del self.inventory['meat']
+    def eat(self, food):
+        if food == 'fruit':
+            if self.diet == 'herbivore' or self.diet == 'omnivore':
+                if 'fruit' in self.location.items:
+                    self.fillStats()
+                    self.hunger += 25
+                    self.location.items['fruit'] -= 1
+                    if self.location.items['fruit'] <= 0:
+                        del self.location.items['fruit']
+                elif 'fruit' in self.inventory:
+                    self.fillStats()
+                    self.hunger += 25
+                    self.inventory['fruit'] -= 1
+                    self.inventorySize -= 1
+                    if self.inventory['fruit'] <= 0:
+                        del self.inventory['fruit']
+        elif food == 'meat':
+            if self.diet == 'carnivore' or self.diet == 'omnivore':
+                if 'meat' in self.location.items:
+                    self.fillStats()
+                    self.hunger += 25
+                    self.location.items['meat'] -= 1
+                    if self.location.items['meat'] <= 0:
+                        del self.location.items['meat']
+                elif 'meat' in self.inventory:
+                    self.fillStats()
+                    self.hunger += 25
+                    self.inventory['meat'] -= 1
+                    self.inventorySize -= 1
+                    if self.inventory['meat'] <= 0:
+                        del self.inventory['meat']
         
     def pickup(self, item):
         if inventorySize <= inventoryCap:
@@ -103,23 +105,72 @@ class Player:
                 if self.location.items[item] <= 0:
                     del self.location.items[item]
       
-     def inspect(self, item)
-         if item in self.location.items or item in self.inventory:
-             if item == 'stinkfruit':
-                 print('A hard, smelly fruit. Use it during an encounter to make the other creature flee.')
-             elif item == 'sticky sap':
-                 print('Sticky sap from a tree. Use it during an encounter to decrease the other creature\'s speed.')
-             elif item == 'poison berries':
-                 print('Poisonous berries. Use them during an encounter to decrease the other creature\'s health.')
-             elif item == 'big leaf':
-                 print('A large, surprisingly sturdy leaf. It could protect you from the weather.')
-             elif item == 'healing salve':
-                 print('A healing salve from a plant. Use it to restore your stats.')
-             elif item == 'fruit':
-                 print('A fruit. If you are herbivore or omnivore, then eating this will reduce hunger and restore your stats.')
-             elif item == 'meat':
-                 print('A piece of meat. If you are carnivore or omnivore, then eating this will reduce hunger and restore your stats.')
-        
+    def inspect(self, item)
+        if item in self.location.items or item in self.inventory:
+            if item == 'stinkfruit':
+                print('A hard, smelly fruit. Use it during an encounter to make the other creature flee.')
+            elif item == 'sticky sap':
+                print("Sticky sap from a tree. Use it during an encounter to decrease the other creature's speed.")
+            elif item == 'poison berries':
+                print("Poisonous berries. Use them during an encounter to decrease the other creature's health and strength.")
+            elif item == 'big leaf':
+                print('A large, surprisingly sturdy leaf. It could protect you from the weather.')
+            elif item == 'healing salve':
+                print('A healing salve from a plant. Use it to restore your stats.')
+            elif item == 'flowers':
+                print("Pretty flowers. Use them during an encounter to decrease the other creature's hostility.")
+            elif item == 'fruit':
+                print('A fruit. If you are herbivore or omnivore, then eating this will reduce hunger and restore your stats.')
+            elif item == 'meat':
+                print('A piece of meat. If you are carnivore or omnivore, then eating this will reduce hunger and restore your stats.')
+                    
+    def useItem(self, item):
+        if item in self.inventory:
+            if item == 'fruit':
+                if self.diet == 'herbivore' or self.diet == 'omnivore':
+                    self.eat(item)
+            elif item == 'meat':
+                if self.diet == 'herbivore' or self.diet == 'omnivore':
+                    self.eat(item)
+            elif item == 'healing salve':
+                self.fillStats()
+            elif item == 'big leaf':
+                self.world.reset() # This resets the weather effects
+                    
+    def useBattleItem(self, item, target):
+        if item in self.inventory:
+            if item == 'stinkfruit':
+                break # I have no idea if this will work
+                self.inventory['stinkfruit'] -= 1
+                inventorySize -= 1
+                if self.inventory['stinkfruit'] <= 0:
+                    del self.inventory['stinkfruit']
+            elif item == 'sticky sap':
+                target.speed -= target.speed // 4
+                self.inventory['sticky sap'] -= 1
+                inventorySize -= 1
+                if self.inventory['sticky sap'] <= 0:
+                    del self.inventory['sticky sap']
+            elif item == 'poison berries':
+                target.health -= target.health // 5
+                target.strength -= target.strength // 5
+                self.inventory['poison berries'] -= 1
+                inventorySize -= 1
+                if self.inventory['poison berries'] <= 0:
+                    del self.inventory['poison berries']
+            elif item == 'healing salve':
+                self.fillStats()
+                self.inventory['healing salve'] -= 1
+                inventorySize -= 1
+                if self.inventory['healing salve'] <=0:
+                    del self.inventory['healing salve']
+            elif item == 'flowers':
+                target.hostility -= target.hostility // 4
+                self.inventory['flowers'] -= 1
+                inventorySize -= 1
+                if self.inventory['flowers'] <=0:
+                    del self.inventory['flowers']
+                    
     
     def north(self):
         if self.location.exits['north'] != None:
@@ -156,10 +207,12 @@ class Player:
             print()
             print('You may:')
             print('\t attack')
+            print('\t use an item')
             print('\t flee')
             choice = input('What will you do? ')
-            while choice.lower() != 'attack' and choice.lower() != 'flee':
-                print('Invalid command. Choose "attack" or "flee."')
+            choice = choice.lower()
+            while choice != 'attack' and choice != 'flee' and choice != 'use item':
+                print('Invalid command. Choose "attack", "use item" or "flee."')
                 choice = input('What will you do? ')
             if self.speed >= creature.speed:
                 # If the player is faster, the player goes first
