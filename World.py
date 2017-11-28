@@ -6,7 +6,7 @@ import random
 #     os.system('cls' if os.name == 'nt' else 'clear')
 
 class World:
-    possibleItems = ['stinkfruit', 'sticky sap', 'poison berries', 'big leaf', 'healing salve', 'pretty flowers']
+    possibleItems = ['stinkfruit', 'sticky sap', 'poison berries', 'big leaf', 'healing salve', 'flowers']
     def __init__(self):
         self.turn_count = 0
         self.weather = "clear"
