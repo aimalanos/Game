@@ -54,11 +54,16 @@ class Player:
         elif self.location.weather == "drought":
             self.hungerLoss *= 2
         if self.location.terrain == "desert":
-            self.healthLoss *= 2
-        elif self.location.terrain == "mountainous":
-            self.socPenalty *= 2
-        elif self.location.terrain == "tundra":
             self.hungerLoss *= 2
+        elif self.location.terrain == "mountainous":
+            self.speedPenalty *= 2
+        elif self.location.terrain == "tundra":
+            self.healthLoss *= 2
+        elif self.location.terrain == 'forest':
+            self.healthLoss = 1
+            self.hungerLoss = 10
+            self.speedPenalty = 0
+            self.socPenalty = 0
         if self.location == self.home:
             self.health += self.maxHealth // 10 #i think this should only take one turn to recharge fully. player doesn't have all day
             if self.health > self.maxHealth:
