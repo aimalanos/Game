@@ -8,12 +8,14 @@ import random
 def me():
     p.stats()
 
-def help(p):
-    print("Type 'me' for player stats.")
-    print('Use the "go" command to move. Don\'t forget to say which direction!')
-    print('Use the "pickup" command to pick up an item.')
-    print('Use the "drop" command to drop an item.')
-    print('Use the "inventory" command to see your inventory.')
+def help():
+    print('Type "me" for player stats.')
+    print('Use "go" to move. Don\'t forget to say which direction!')
+    print('Use "pickup" command to pick up an item.')
+    print('Use "drop" command to drop an item.')
+    print('Use "inventory" to see your inventory.')
+    print('Use "inspect ___" to learn more about you environment.')
+    print('Use "abbreviate ___ as ___" to make shortcuts for commands.')
     # Not finished
     
     
@@ -264,6 +266,7 @@ while playing and p.alive:
     while not commandSuccess:
         commandSuccess = True #what does this do?
         command = input('What will you do? ').lower()
+        clear()
         commandWords = command.split()
         elem = commandWords[0]
         for key in w.possibleCommands:
@@ -369,9 +372,13 @@ while playing and p.alive:
         elif 'inspect' in commandWords and 'abbreviate' not in commandWords:
             if len(commandWords) == 3:
                 item = commandWords[1] + ' ' + commandWords[2]
-            else:
+            elif len(commandWords) == 2:
                 item = commandWords[1]
-            if item in p.location.items or item == 'creature':
+            else:
+                print("Sorry, didn't catch that. What would you like to inspect?")
+                commandSuccess = False
+                break
+            if item in p.location.items or item in p.inventory or item == 'creature':
                 p.inspect(item)
             else:
                 print('There is no such item here. Try again.')
@@ -390,6 +397,9 @@ while playing and p.alive:
                         w.possibleCommands[comm].append(abbrev)
         elif command == 'quit':
             playing = False
+            break
+        elif command == 'location':
+            p.locationDets()
         else:
             print('Sorry, I don\'t understand. Type "help" for available options. ')
             command = input('What will you do? ')
