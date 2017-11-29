@@ -204,7 +204,7 @@ class Player:
                 del self.inventory[item]
             else:
                 self.inventory[item] -= 1
-    def inspect(self, item): #why can't the player inspect items in their inventory?
+    def inspect(self, item):
         if item in self.location.items or item in self.inventory:
             if item == 'stinkfruit':
                 print('A hard, smelly fruit. Use it during an encounter to make the other creature flee.')
