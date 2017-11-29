@@ -400,6 +400,16 @@ while playing and p.alive:
             break
         elif command == 'location':
             p.locationDets()
+        elif 'attack' in commandWords and 'abbreviate' not in commandWords:
+            if len(commandWords) == 2:
+                target = commandWords[1]
+            elif len(commandWords) == 3:
+                target = commandWords[1] + ' ' + commandWords[2]
+            if target == p.location.creature.name:
+                p.attack(creature)
+            else:
+                print('There is no such creature here.')
+                commandSuccess = False
         else:
             print('Sorry, I don\'t understand. Type "help" for available options. ')
             command = input('What will you do? ')
