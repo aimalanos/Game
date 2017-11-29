@@ -209,6 +209,10 @@ class Player:
                 print('A fruit. If you are herbivore or omnivore, then eating this will reduce hunger and restore your stats.')
             elif item == 'meat':
                 print('A piece of meat. If you are carnivore or omnivore, then eating this will reduce hunger and restore your stats.')
+        elif item == 'creature':
+            creat = self.location.creature
+            print("The creature is a " + creat.name + '!')
+            print("It has " + str(creat.health) + " health, " + str(creat.speed) + " speed, " + str(creat.strength) + " strength, and " + str(creat.hostility) + " hostility.")
                     
     def useItem(self, item):
         if item in self.inventory:
