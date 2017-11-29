@@ -406,7 +406,7 @@ while playing and p.alive:
             elif len(commandWords) == 3:
                 target = commandWords[1] + ' ' + commandWords[2]
             if target == p.location.creature.name:
-                p.attack(creature)
+                p.attack('creature')
             else:
                 print('There is no such creature here.')
                 commandSuccess = False
