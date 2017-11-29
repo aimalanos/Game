@@ -38,7 +38,7 @@ class Player:
 
     def startInv(self): #function to give the player a few starting items
         l = []
-        for i in range 3:
+        for i in range(3):
             l.append(random.choice(self.startItems))
         for elem in l:
             if elem in self.inventory:
