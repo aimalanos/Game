@@ -12,7 +12,7 @@ class Player:
         self.home = self.location # The player's home base will be their starting location.
         self.alive = True
         self.hunger = 100 # If self.hunger reaches 0, the player's health will decrease at each update.
-        self.maxHealth, self.health = 15, 15
+        self.maxHealth, self.health = 50, 50
         self.maxStrength, self.strength = 5, 5
         self.maxSociability, self.sociability = 5, 5
         self.maxSpeed, self.speed = 5, 5
@@ -23,7 +23,9 @@ class Player:
         self.intelligence = 0
         self.experience = 0
         self.abilities = []
+        self.startItems = ['matches','flashlight']
         self.inventory = {}
+        self.startInv()
         self.inventorySize = 0
         self.inventoryCap = 10
         self.invweight = 0
@@ -33,7 +35,18 @@ class Player:
         self.defeated = 0 # to keep track of the number of enemies the player has defeated
         self.allies = 0
         self.m = 0
-                
+
+    def startInv(self): #function to give the player a few starting items
+        l = []
+        for i in range 3:
+            l.append(random.choice(self.startItems))
+        for elem in l:
+            if elem in self.inventory:
+                self.inventory[elem] += 1
+            else:
+                self.inventory[elem] = 1
+        if 'matches' in self.inventory:
+            self.inventory['matches'] = 4
     def update(self):
         self.dirstring = ''
         for elem in self.availabledirs:
@@ -191,7 +204,7 @@ class Player:
                 del self.inventory[item]
             else:
                 self.inventory[item] -= 1
-    def inspect(self, item):
+    def inspect(self, item): #why can't the player inspect items in their inventory?
         if item in self.location.items or item in self.inventory:
             if item == 'stinkfruit':
                 print('A hard, smelly fruit. Use it during an encounter to make the other creature flee.')
@@ -544,3 +557,9 @@ class Player:
                 creature.allied = True
             elif self.health <= 0:
                 self.die()
+    def locationDets(self):
+        print('Location coordinates: ' + str(self.location.coordinates))
+        print('Terrain: ' + self.location.terrain)
+        print('Weather: ' + self.location.weather)
+        print('You may travel: ' + self.location.listdirs())
+        
