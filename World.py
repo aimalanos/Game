@@ -15,7 +15,7 @@ class World:
         self.weathers = ["clear", "rainy", "hailing", "snowy", "drought"]
         self.possibleItems = ['stinkfruit', 'sticky sap', 'poison berries', 'big leaf', 'healing salve', 'flowers']
         self.possibleCreatures = [Creature.Wolf,Creature.Tiger,Creature.Monkey,Creature.Dog,Creature.Sheep,Creature.Snake]
-        self.possibleCommands = {'me':['me'],'help':['help'],'all stats':['all stats'],'pickup':['pickup']}
+        self.possibleCommands = {'me':['me'],'help':['help'],'all stats':['all stats'],'pickup':['pickup'],'go':['go'],'inspect':['inspect']}
     def makeMap(self,x,y):
         for num in range(-x,x): #draw the grid
             for nums in range(-y,y):
@@ -39,11 +39,6 @@ class World:
 
     def add_player(self, player):
         self.player = player
-    #def reset(self): #remove this function?
-#        self.healthLoss = 0
-#        self.hungerLoss = 3
-#        self.speedPenalty = 0
-#        self.sociabilityPenalty = 0
     def gameOver(self):
         print("Your creature has died! Game over!")
         self.player = None
