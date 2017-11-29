@@ -226,15 +226,18 @@ w.makeMap(mapx,mapy)
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        r.creature = Creature(r, 1, random.choice(w.possibleCreatures))
+        type = random.choice(w.possibleCreatures)
+        r.creature = type(r, 1)
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        r.creature = Creature(r, 2, random.choice(w.possibleCreatures))
+        type = random.choice(w.possibleCreatures)
+        r.creature = type(r, 2)
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        r.creature = Creature(r, 3, random.choice(w.possibleCreatures))
+        type = random.choice(w.possibleCreatures)
+        r.creature = type(r, 3)
 for i in range(0,60):
     r = random.choice(w.squares)
     if 'fruit' in r.items:
@@ -262,6 +265,11 @@ while playing and p.alive:
         commandSuccess = True #what does this do?
         command = input('What will you do? ').lower()
         commandWords = command.split()
+        elem = commandWords[0]
+        for key in w.possibleCommands:
+            if elem in w.possibleCommands[key]:
+                commandWords[0] = key
+                break
         if command == 'help':
             clear()
             help()
@@ -271,7 +279,7 @@ while playing and p.alive:
         elif command == 'all stats':
             clear()
             p.allstats()
-        elif 'north' in command:
+        elif 'north' in commandWords:
             if p.location.exits['north'] == None:
                 print('You may not go north. Try again.')
                 commandSuccess = False
@@ -282,7 +290,7 @@ while playing and p.alive:
             else:
                 p.north()
                 timePasses = True
-        elif 'south' in command:
+        elif 'south' in commandWords:
             if p.location.exits['south'] == None:
                 print('You may not go south. Try again.')
                 commandSuccess = False
@@ -293,7 +301,7 @@ while playing and p.alive:
             else:
                 p.south()
                 timePasses = True
-        elif 'west' in command:
+        elif 'west' in commandWords:
             if p.location.exits['west'] == None:
                 print('You may not go west. Try again.')
                 commandSuccess = False
@@ -304,7 +312,7 @@ while playing and p.alive:
             else:
                 p.west()
                 timePasses = True
-        elif 'east' in command:
+        elif 'east' in commandWords:
             if p.location.exits['east'] == None:
                 print('You may not go east. Try again.')
                 commandSuccess = False
@@ -341,7 +349,7 @@ while playing and p.alive:
             clear()
             showInventory(p)
             input('Press enter to continue.')
-        elif 'eat' in command:
+        elif 'eat' in commandWords:
             if len(commandWords) == 2:
                 food = commandWords[1]
             if food in p.location.items:
@@ -358,23 +366,30 @@ while playing and p.alive:
             while j <= i:
                 w.update()
                 j += 1
-        elif 'inspect' in command:
+        elif 'inspect' in commandWords and 'abbreviate' not in commandWords:
             if len(commandWords) == 3:
                 item = commandWords[1] + ' ' + commandWords[2]
             else:
                 item = commandWords[1]
-            if item in p.location.items:
+            if item in p.location.items or item == 'creature':
                 p.inspect(item)
             else:
                 print('There is no such item here. Try again.')
                 commandSuccess = False
-        elif command.split[0] == 'abbreviate':
-            if 'as' in command:
-                if command.split[2] == 'as':
-                    comm = command.split[1]
-                    abbrev = command.split[3]
-                    if comm in w.possibleCommands: #make this list
-                        w.possibleCommands[comm] += abbrev
+        elif commandWords[0] == 'abbreviate':
+            if 'as' in commandWords:
+                if commandWords[2] == 'as':
+                    comm = commandWords[1]
+                    abbrev = commandWords[3]
+                    if comm in w.possibleCommands: #make this dict
+                        w.possibleCommands[comm].append(abbrev)
+                elif commandWords[3] == 'as':
+                    comm = commandWords[1] + ' ' + commandWords[2]
+                    abbrev = commandWords[4]
+                    if comm in w.possibleCommands: #make this dict
+                        w.possibleCommands[comm].append(abbrev)
+        elif command == 'quit':
+            playing = False
         else:
             print('Sorry, I don\'t understand. Type "help" for available options. ')
             command = input('What will you do? ')
