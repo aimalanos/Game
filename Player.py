@@ -1,3 +1,4 @@
+from main import asOrderedList
 import random
 
 class Player:
@@ -338,26 +339,45 @@ class Player:
             print()
             print('You may:')
             print('\t attack')
-            print('\t use an item')
+            if 'item use' in self.abilities:
+                print('\t use item')
             print('\t flee')
             choice = input('What will you do? ')
             choice = choice.lower()
-            while choice != 'attack' and choice != 'flee' and choice != 'use item':
-                print('Invalid command. Choose "attack", "use item" or "flee."')
+            while choice not in 'attack' and choice not in 'flee' and 'item' not in choice:
+                if 'item use' in self.abilities:
+                    print('Invalid command. Choose "attack," "item" or "flee."')
+                else:
+                    print('Invalid command. Choose "attack" or "flee."')
                 choice = input('What will you do? ')
+            if 'item' in choice.lower and len(self.inventory) == 0:
+                print('Your inventory is empty!')
+                choice = input('What will you do? ')
+            if 'item' in choice.lower() and 'item use' not in self.abilities == 0:
+                print('You can\'t do that!')
+                choice = input('What will you do? ')
+                
             if self.speed >= creature.speed:
                 # If the player is faster, the player goes first
-                if choice.lower() == 'attack':
+                if choice.lower() in 'attack':
                     attackStrength = random.randint(self.strength // 2, self.strength)
                     print("You attack!")
                     print("The creature takes " + str(attackStrength) + " damage!")
                     print("The creature's hostility increases!")
                     creature.health -= self.strength
                     creature.hostility += 3
-                elif choice.lower() == 'flee':
+                elif 'item' in choice.lower():
+                    print("Items: ")
+                    orderedInventory = asOrderedList(self.inventory)
+                    for kvp in orderedInventory:
+                        print('\t' + kvp[0] + ' x' + str(kvp[1]))
+                    itemChoice = input('Pick an item. ')
+                    self.useBattleItem('item')
+                elif choice.lower() in 'flee':
                     print("You flee!")
                     break
-                creatureAttackChance = creature.hostility * .01
+
+                creatureAttackChance = creature.hostility * .1
                 creatureChoice = random.random()
                 if creatureChoice < creature.fleeRate:
                     print("The creature flees!")
@@ -369,9 +389,10 @@ class Player:
                     self.health -= creatureAttackStrength
                 else:
                     print(random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...']))
+           
             else:
                 # If the creature is faster, the creature goes first
-                creatureAttackChance = creature.hostility * .01
+                creatureAttackChance = creature.hostility * .1
                 creatureChoice = random.random()
                 if creatureChoice < creature.fleeRate:
                     print("The creature flees!")
@@ -383,26 +404,44 @@ class Player:
                     self.health -= creatureAttackStrength
                 else:
                     creatureChoice = random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...'])
-                if choice.lower() == 'attack':
+
+                if choice.lower() in 'attack':
                     attackStrength = random.randint(self.strength // 2, self.strength)
                     print("You attack!")
                     print("The creature takes " + str(attackStrength) + " damage!")
                     print("The creature's hostility increases!")
                     creature.health -= self.strength
                     creature.hostility += 3
-                elif choice.lower() == 'flee':
+                elif 'item' in choice.lower():
+                    print("Items: ")
+                    orderedInventory = asOrderedList(self.inventory)
+                    for kvp in orderedInventory:
+                        print('\t' + kvp[0] + ' x' + str(kvp[1]))
+                    itemChoice = input('Pick an item. ')
+                    self.useBattleItem('item')
+                elif choice.lower() in 'flee':
                     print("You flee!")
                     break
                 if type(creatureChoice) == str:
                     # If the creature does nothing, we say so at the end of the turn.
                     print(creatureChoice)
+
             if creature.health <= 0 and self.health > 0:
                 self.experience += creature.experience
                 self.defeated += 1
                 self.location.creature = False
                 self.location.items['meat'] = random.randint(1,3)
+                if random.random() < .15:
+                    itemDrop = random.choice(self.world.possibleItems)
+                    print('The creature dropped an item!')
+                    if itemDrop in self.location.items:
+                        self.location.items[itemDrop] += 1
+                    else:
+                        self.location.items[itemDrop] = 1
             elif self.health <= 0:
                 self.die()
+
+
 
     def ally(self, creature):
         while self.health > 0 and creature.hostility > 0:
@@ -412,22 +451,42 @@ class Player:
             print()
             print('You may:')
             print('\t befriend')
+            if 'item use' in self.abilities:
+                print('\t use item')
             print('\t flee')
             choice = input('What will you do? ')
-            while choice.lower() != 'befriend' and choice.lower() != 'flee':
-                print('Invalid command. Choose "befriend" or "flee."')
+            while choice.lower() not in 'befriend' and choice.lower() not in 'flee' and 'item' not in choice.lower():
+                if 'item use' in self.abilities:
+                    print('Invalid command. Choose "befriend," "item" or "flee."')
+                else:
+                    print('Invalid command. Choose "befriend" or "flee."')
                 choice = input('What will you do? ')
+            if 'item' in choice.lower() and len(self.inventory) == 0:
+                print('Your inventory is empty!')
+                choice = input('What will you do? ')
+                        if 'item' in choice.lower() and 'item use' not in self.abilities == 0:
+                print('You can\'t do that!')
+                choice = input('What will you do? ')
+
             if self.speed >= creature.speed:
                 # If the player is faster, the player goes first
-                if choice.lower() == 'befriend':
+                if choice.lower() in 'befriend' and choice.lower() != 'f':
                     befriendSuccess = random.randint(self.sociability // 2, self.sociability)
                     print("You try to befriend the creature!")
                     print("The creature's hostility decreases!")
                     creature.hostility -= befriendSuccess
-                elif choice.lower() == 'flee':
+                elif 'item' in choice.lower():
+                    print("Items: ")
+                    orderedInventory = asOrderedList(self.inventory)
+                    for kvp in orderedInventory:
+                        print('\t' + kvp[0] + ' x' + str(kvp[1]))
+                    itemChoice = input('Pick an item. ')
+                    self.useBattleItem('item')
+                elif choice.lower() in 'flee':
                     print("You flee!")
                     break
-                creatureAttackChance = creature.hostility * .01
+
+                creatureAttackChance = creature.hostility * .1
                 creatureChoice = random.random()
                 if creatureChoice < creature.fleeRate:
                     print("The creature flees!")
@@ -439,9 +498,10 @@ class Player:
                     self.health -= creatureAttackStrength
                 else:
                     print(random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...']))
+
             else:
                 # If the creature is faster, the creature goes first
-                creatureAttackChance = creature.hostility * .01
+                creatureAttackChance = creature.hostility * .1
                 creatureChoice = random.random()
                 if creatureChoice < creature.fleeRate:
                     print("The creature flees!")
@@ -453,23 +513,41 @@ class Player:
                     self.health -= creatureAttackStrength
                 else:
                     creatureChoice = random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...'])
-                if choice.lower() == 'befriend':
+
+                if choice.lower() in 'befriend' and choice.lower() != 'f':
                     befriendSuccess = random.randint(self.sociability // 2, self.sociability)
                     print("You try to befriend the creature!")
                     print("The creature's hostility decreases!")
                     creature.hostility -= befriendSuccess
-                elif choice.lower() == 'flee':
+                elif 'item' in choice.lower():
+                    print("Items: ")
+                    orderedInventory = asOrderedList(self.inventory)
+                    for kvp in orderedInventory:
+                        print('\t' + kvp[0] + ' x' + str(kvp[1]))
+                    itemChoice = input('Pick an item. ')
+                    self.useBattleItem('item')
+                elif choice.lower() in 'flee':
                     print("You flee!")
                     break
                 if type(creatureChoice) == str:
                     # If the creature does nothing, we say so at the end of the turn.
                     print(creatureChoice)
+
             if creature.hostility <= 0 and self.health > 0:
                 self.experience += creature.experience
                 self.allies += 1
                 creature.allied = True
+                if random.random() < .15:
+                    itemDrop = random.choice(self.world.possibleItems)
+                    print('The creature dropped an item!')
+                    if itemDrop in self.location.items:
+                        self.location.items[itemDrop] += 1
+                    else:
+                        self.location.items[itemDrop] = 1
             elif self.health <= 0:
                 self.die()
+
+
 
     def flexibleResponse(self, creature):
         while self.health > 0 and (creature.hostility > 0 or creature.health > 0):
@@ -480,29 +558,49 @@ class Player:
             print('You may:')
             print('\t attack')
             print('\t befriend')
+            if 'item use' in self.abilities:
+                print('\t use item')
             print('\t flee')
             choice = input('What will you do? ')
-            while choice.lower() != 'befriend' and choice.lower() != 'flee':
-                print('Invalid command. Choose "attack," "befriend" or "flee."')
+            while choice.lower() not in 'attack' and choice.lower() not in 'befriend' and choice.lower() not in 'flee' and 'item' not in choice.lower():
+                if 'item use' in self.abilities:
+                    print('Invalid command. Choose "attack," "befriend," "item" or "flee."')
+                else:
+                    print('Invalid command. Choose "attack," "befriend," or "flee."')
                 choice = input('What will you do? ')
+            if 'item' in choice.lower() and len(self.inventory) == 0:
+                print('Your inventory is empty!')
+                choice = input('What will you do? ')
+            if 'item' in choice.lower() and 'item use' not in self.abilities == 0:
+                print('You can\'t do that!')
+                choice = input('What will you do? ')
+
             if self.speed >= creature.speed:
                 # If the player is faster, the player goes first
-                if choice.lower() == 'attack':
+                if choice.lower() in 'attack':
                     attackStrength = random.randint(self.strength // 2, self.strength)
                     print("You attack!")
                     print("The creature takes " + str(attackStrength) + " damage!")
                     print("The creature's hostility increases!")
                     creature.health -= self.strength
                     creature.hostility += 3
-                elif choice.lower() == 'befriend':
+                elif choice.lower() in 'befriend' and choice.lower() != 'f':
                     befriendSuccess = random.randint(self.sociability // 2, self.sociability)
                     print("You try to befriend the creature!")
                     print("The creature's hostility decreases!")
                     creature.hostility -= befriendSuccess
-                elif choice.lower() == 'flee':
+                elif 'item' in choice.lower():
+                    print("Items: ")
+                    orderedInventory = asOrderedList(self.inventory)
+                    for kvp in orderedInventory:
+                        print('\t' + kvp[0] + ' x' + str(kvp[1]))
+                    itemChoice = input('Pick an item. ')
+                    self.useBattleItem('item')
+                elif choice.lower() in 'flee':
                     print("You flee!")
                     break
-                creatureAttackChance = creature.hostility * .01
+
+                creatureAttackChance = creature.hostility * .1
                 creatureChoice = random.random()
                 if creatureChoice < creature.fleeRate:
                     print("The creature flees!")
@@ -514,9 +612,10 @@ class Player:
                     self.health -= creatureAttackStrength
                 else:
                     print(random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...']))
+
             else:
                 # If the creature is faster, the creature goes first
-                creatureAttackChance = creature.hostility * .01
+                creatureAttackChance = creature.hostility * .1
                 creatureChoice = random.random()
                 if creatureChoice < creature.fleeRate:
                     print("The creature flees!")
@@ -528,35 +627,61 @@ class Player:
                     self.health -= creatureAttackStrength
                 else:
                     creatureChoice = random.choice(['The creature does nothing!', 'The creature awaits your next move.', 'The creature is watching you closely...'])
-                if choice.lower() == 'attack':
+
+                if choice.lower() in 'attack':
                     attackStrength = random.randint(self.strength // 2, self.strength)
                     print("You attack!")
                     print("The creature takes " + str(attackStrength) + " damage!")
                     print("The creature's hostility increases!")
                     creature.health -= self.strength
                     creature.hostility += 3
-                elif choice.lower() == 'befriend':
+                elif choice.lower() in 'befriend' and choice.lower() != 'f':
                     befriendSuccess = random.randint(self.sociability // 2, self.sociability)
                     print("You try to befriend the creature!")
                     print("The creature's hostility decreases!")
                     creature.hostility -= befriendSuccess
-                elif choice.lower() == 'flee':
+                elif 'item' in choice.lower():
+                    print("Items: ")
+                    orderedInventory = asOrderedList(self.inventory)
+                    for kvp in orderedInventory:
+                        print('\t' + kvp[0] + ' x' + str(kvp[1]))
+                    itemChoice = input('Pick an item. ')
+                    self.useBattleItem('item')
+                elif choice.lower() in 'flee':
                     print("You flee!")
                     break
                 if type(creatureChoice) == str:
                     # If the creature does nothing, we say so at the end of the turn.
                     print(creatureChoice)
+
             if creature.health <= 0 and self.health > 0:
                 self.experience += creature.experience
                 self.defeated += 1
                 self.location.creature = False
                 self.location.items['meat'] = random.randint(1,3)
+                if random.random() < .15:
+                    itemDrop = random.choice(self.world.possibleItems)
+                    print('The creature dropped an item!')
+                    if itemDrop in self.location.items:
+                        self.location.items[itemDrop] += 1
+                    else:
+                        self.location.items[itemDrop] = 1
             elif creature.hostility <= 0 and self.health > 0:
                 self.experience += creature.experience
                 self.allies += 1
                 creature.allied = True
+                if random.random() < .15:
+                    itemDrop = random.choice(self.world.possibleItems)
+                    print('The creature dropped an item!')
+                    if itemDrop in self.location.items:
+                        self.location.items[itemDrop] += 1
+                    else:
+                        self.location.items[itemDrop] = 1
             elif self.health <= 0:
                 self.die()
+
+                
+                
     def locationDets(self):
         print('Location coordinates: ' + str(self.location.coordinates))
         print('Terrain: ' + self.location.terrain)
