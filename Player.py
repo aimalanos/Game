@@ -35,6 +35,7 @@ class Player:
         self.dirstring = ''
         self.defeated = 0 # to keep track of the number of enemies the player has defeated
         self.allies = 0
+        self.ally = None
         self.m = 0
 
     def startInv(self): #function to give the player a few starting items
@@ -458,6 +459,7 @@ class Player:
                     print(creatureChoice)
 
             if creature.health <= 0 and self.health > 0:
+                print("You gain " + str(creature.experience) + " experience!")
                 self.experience += creature.experience
                 self.defeated += 1
                 self.location.creature = False
@@ -473,7 +475,7 @@ class Player:
                 self.die()
 
 
-    def ally(self, creature):
+    def befriend(self, creature):
         while self.health > 0 and creature.hostility > 0:
             print('Creature health = ' + str(creature.health))
             print('Creature strength = ' + str(creature.strength))
@@ -564,6 +566,7 @@ class Player:
                     print(creatureChoice)
 
             if creature.hostility <= 0 and self.health > 0:
+                print("You gain " + str(creature.experience) + " experience!")
                 self.experience += creature.experience
                 self.allies += 1
                 creature.allied = True
@@ -685,6 +688,7 @@ class Player:
                     print(creatureChoice)
 
             if creature.health <= 0 and self.health > 0:
+                print("You gain " + str(creature.experience) + " experience!")
                 self.experience += creature.experience
                 self.defeated += 1
                 self.location.creature = False
@@ -697,6 +701,7 @@ class Player:
                     else:
                         self.location.items[itemDrop] = 1
             elif creature.hostility <= 0 and self.health > 0:
+                print("You gain " + str(creature.experience) + " experience!")
                 self.experience += creature.experience
                 self.allies += 1
                 creature.allied = True
