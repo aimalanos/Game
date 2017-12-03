@@ -34,7 +34,7 @@ class Player:
         self.availabledirs = []
         self.dirstring = ''
         self.defeated = 0 # to keep track of the number of enemies the player has defeated
-        self.allies = 0
+        self.allies = []
         self.ally = None
         self.m = 0
 
@@ -457,22 +457,32 @@ class Player:
                 if type(creatureChoice) == str:
                     # If the creature does nothing, we say so at the end of the turn.
                     print(creatureChoice)
+                    
+                if self.ally != None:
+                    if random.choice([True, False]):
+                        if choice.lower() in 'attack':
+                            attackStrength = random.randint(self.ally.strength // 2, self.ally.strength)
+                            print("Your ally attacks!")
+                            print("The creature takes " + str(attackStrength) + " damage!")
+                            print("The creature's hostility increases!")
+                            creature.health -= attackStrength
+                            creature.hostility += 3
 
-            if creature.health <= 0 and self.health > 0:
-                print("You gain " + str(creature.experience) + " experience!")
-                self.experience += creature.experience
-                self.defeated += 1
-                self.location.creature = False
-                self.location.items['meat'] = random.randint(1,3)
-                if random.random() < .15:
-                    itemDrop = random.choice(self.world.possibleItems)
-                    print('The creature dropped an item!')
-                    if itemDrop in self.location.items:
-                        self.location.items[itemDrop] += 1
-                    else:
-                        self.location.items[itemDrop] = 1
-            elif self.health <= 0:
-                self.die()
+        if creature.health <= 0 and self.health > 0:
+            print("You gain " + str(creature.experience) + " experience!")
+            self.experience += creature.experience
+            self.defeated += 1
+            self.location.creature = False
+            self.location.items['meat'] = random.randint(1,3)
+            if random.random() < .15:
+                itemDrop = random.choice(self.world.possibleItems)
+                print('The creature dropped an item!')
+                if itemDrop in self.location.items:
+                    self.location.items[itemDrop] += 1
+                else:
+                    self.location.items[itemDrop] = 1
+        elif self.health <= 0:
+            self.die()
 
 
     def befriend(self, creature):
@@ -564,21 +574,32 @@ class Player:
                 if type(creatureChoice) == str:
                     # If the creature does nothing, we say so at the end of the turn.
                     print(creatureChoice)
+                    
+                if self.ally != None:
+                    if random.choice([True, False]):
+                        if choice.lower() in 'befriend':
+                            allySociability = 100 // self.ally.hostility
+                            if allySociability < 0:
+                                allySociability = 0
+                            befriendSuccess = random.randint(allySociability // 2, allySociability)
+                            print("You try to befriend the creature!")
+                            print("The creature's hostility decreases!")
+                            creature.hostility -= befriendSuccess
 
-            if creature.hostility <= 0 and self.health > 0:
-                print("You gain " + str(creature.experience) + " experience!")
-                self.experience += creature.experience
-                self.allies += 1
-                creature.allied = True
-                if random.random() < .15:
-                    itemDrop = random.choice(self.world.possibleItems)
-                    print('The creature dropped an item!')
-                    if itemDrop in self.location.items:
-                        self.location.items[itemDrop] += 1
-                    else:
-                        self.location.items[itemDrop] = 1
-            elif self.health <= 0:
-                self.die()
+        if creature.hostility <= 0 and self.health > 0:
+            print("You gain " + str(creature.experience) + " experience!")
+            self.experience += creature.experience
+            self.allies.append(creature)
+            creature.befriended = True
+            if random.random() < .15:
+                itemDrop = random.choice(self.world.possibleItems)
+                print('The creature dropped an item!')
+                if itemDrop in self.location.items:
+                    self.location.items[itemDrop] += 1
+                else:
+                    self.location.items[itemDrop] = 1
+        elif self.health <= 0:
+            self.die()
 
 
 
@@ -615,7 +636,7 @@ class Player:
                     print("You attack!")
                     print("The creature takes " + str(attackStrength) + " damage!")
                     print("The creature's hostility increases!")
-                    creature.health -= self.strength
+                    creature.health -= attackStrength
                     creature.hostility += 3
                 elif choice.lower() in 'befriend' and choice.lower() != 'f':
                     befriendSuccess = random.randint(self.sociability // 2, self.sociability)
@@ -666,7 +687,7 @@ class Player:
                     print("You attack!")
                     print("The creature takes " + str(attackStrength) + " damage!")
                     print("The creature's hostility increases!")
-                    creature.health -= self.strength
+                    creature.health -= attackStrength
                     creature.hostility += 3
                 elif choice.lower() in 'befriend' and choice.lower() != 'f':
                     befriendSuccess = random.randint(self.sociability // 2, self.sociability)
@@ -686,35 +707,60 @@ class Player:
                 if type(creatureChoice) == str:
                     # If the creature does nothing, we say so at the end of the turn.
                     print(creatureChoice)
+                
+                if self.ally != None:
+                    if random.choice([True, False]):
+                        if choice.lower() in 'attack':
+                            attackStrength = random.randint(self.ally.strength // 2, self.ally.strength)
+                            print("Your ally attacks!")
+                            print("The creature takes " + str(attackStrength) + " damage!")
+                            print("The creature's hostility increases!")
+                            creature.health -= attackStrength
+                            creature.hostility += 3
+                        elif choice.lower() in 'befriend':
+                            allySociability = 100 // self.ally.hostility
+                            if allySociability < 0:
+                                allySociability = 0
+                            befriendSuccess = random.randint(allySociability // 2, allySociability)
+                            print("You try to befriend the creature!")
+                            print("The creature's hostility decreases!")
+                            creature.hostility -= befriendSuccess
+                
 
-            if creature.health <= 0 and self.health > 0:
-                print("You gain " + str(creature.experience) + " experience!")
-                self.experience += creature.experience
-                self.defeated += 1
-                self.location.creature = False
-                self.location.items['meat'] = random.randint(1,3)
-                if random.random() < .15:
-                    itemDrop = random.choice(self.world.possibleItems)
-                    print('The creature dropped an item!')
-                    if itemDrop in self.location.items:
-                        self.location.items[itemDrop] += 1
-                    else:
-                        self.location.items[itemDrop] = 1
-            elif creature.hostility <= 0 and self.health > 0:
-                print("You gain " + str(creature.experience) + " experience!")
-                self.experience += creature.experience
-                self.allies += 1
-                creature.allied = True
-                if random.random() < .15:
-                    itemDrop = random.choice(self.world.possibleItems)
-                    print('The creature dropped an item!')
-                    if itemDrop in self.location.items:
-                        self.location.items[itemDrop] += 1
-                    else:
-                        self.location.items[itemDrop] = 1
-            elif self.health <= 0:
-                self.die()
+        if creature.health <= 0 and self.health > 0:
+            print("You gain " + str(creature.experience) + " experience!")
+            self.experience += creature.experience
+            self.defeated += 1
+            self.location.creature = False
+            self.location.items['meat'] = random.randint(1,3)
+            if random.random() < .15:
+                itemDrop = random.choice(self.world.possibleItems)
+                print('The creature dropped an item!')
+                if itemDrop in self.location.items:
+                    self.location.items[itemDrop] += 1
+                else:
+                    self.location.items[itemDrop] = 1
+        elif creature.hostility <= 0 and self.health > 0:
+            print("You gain " + str(creature.experience) + " experience!")
+            self.experience += creature.experience
+            self.allies.append(creature)
+            creature.befriended = True
+            if random.random() < .15:
+                itemDrop = random.choice(self.world.possibleItems)
+                print('The creature dropped an item!')
+                if itemDrop in self.location.items:
+                    self.location.items[itemDrop] += 1
+                else:
+                    self.location.items[itemDrop] = 1
+        elif self.health <= 0:
+            self.die()
 
+    def ally(self, creature):
+        if creature in self.allied:
+            self.ally = creature
+            return True
+        else:
+            return False
                 
                 
     def locationDets(self):
