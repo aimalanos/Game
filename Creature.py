@@ -5,6 +5,7 @@ class Creature:
     def __init__(self,square,level):
         self.location = square
         self.location.creature = self
+        self.originalLocation = self.location
         self.level = level
         self.world = self.location.world
         self.health = random.randint(self.level*(10-3), self.level*(10+3))
