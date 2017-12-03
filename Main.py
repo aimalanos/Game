@@ -60,7 +60,8 @@ def printSituation():
     print("The weather is " + w.weather + ". " + wc)
     print("The terrain is " + p.location.terrain + ". " + tc)
     if p.location.creature != None:
-        print("There is a creature here. It is a " + str(p.location.creature.name))
+        (if p.ally != None and p.ally.location == p.location) or p.ally == None:
+            print("There is a creature here. It is a " + str(p.location.creature.name))
     else:
         print("You are alone here.")
     if len(p.location.items) > 0:
@@ -427,6 +428,7 @@ while playing and p.alive:
                     p.flexibleResponse(p.location.creature)
                 else:
                     p.attack(p.location.creature)
+                timePasses = True
             else:
                 print('There is no creature here.')
                 commandSuccess = False
@@ -436,7 +438,8 @@ while playing and p.alive:
                 if 'Flexible responding' in p.abilities:
                     p.flexibleResponse(p.location.creature)
                 else:
-                    p.ally(p.location.creature)
+                    p.befriend(p.location.creature)
+                timePasses = True
             else:
                 print('There is no creature here.')
                 commandSuccess = False
@@ -448,6 +451,14 @@ while playing and p.alive:
             elif not p.ally(p.location.creature):
                 print('You need to befriend a creature before it will be your ally!')
                 commandSuccess = False
+                
+        elif 'dismiss' in commandWords and 'abbreviate' not in commandWords:
+            if self.ally == None:
+                print('You have no ally to dismiss!')
+                commandSuccess = False
+            else:
+                self.ally = None
+                
           
         elif command = 'evolve':
             evolve(p)
