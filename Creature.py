@@ -12,7 +12,7 @@ class Creature:
         self.hostility = random.randint(self.level*(5-2), self.level*(5+2))
         self.speed = random.randint(self.level*(5-2), self.level*(5+2))
         self.fleeRate = random.uniform(0, 0.2)
-        self.allied = False
+        self.befriended = False
         self.experience = (self.health + self.strength + self.hostility + self.speed) // 4
 
 class Wolf(Creature):
