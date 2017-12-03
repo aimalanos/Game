@@ -39,9 +39,9 @@ class World:
 
     def add_player(self, player):
         self.player = player
-    def gameOver(self):
-        print("Your creature has died! Game over!")
-        self.player = None
+        
+# gameOver is in Main
+
     def update(self):
         self.player.update()
         self.turn_count += 1
@@ -52,7 +52,8 @@ class World:
             randomSquare = random.choice(self.squares)
             if randomSquare.creature == None:
                 level = random.randint(1,3)
-                Creature(self, randomSquare, level)
+                creatureType = random.choice(self.possibleCreatures)
+                creatureType(self, randomSquare, level)
             # New items will appear
             for i in range(3):
                 randomSquare = random.choice(self.squares)
