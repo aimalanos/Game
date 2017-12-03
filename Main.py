@@ -74,13 +74,13 @@ def printSituation():
     print()
     print("Health: " + str(p.health))
     
-def victory(self):
+def victory(p):
     clear()
-    if 'fire' in self.player.inventory:
+    if 'fire' in p.inventory:
         print('You have discovered fire! You have successfully set yourself on the path to civilization! Congratulations!')
-    elif self.player.defeated >= 30:
+    elif p.defeated >= 30:
         print('You have defeated enough enemies that you are now at the top of the food chain! Congratulations!')
-    elif self.player.allies >= 30:
+    elif len(p.allies) >= 30:
         print('You have enough allies to be protected wherever you go! That means you win! Congratulations!')
     # We should put some fireworks in here
                       
@@ -428,6 +428,9 @@ while playing and p.alive:
                     p.flexibleResponse(p.location.creature)
                 else:
                     p.attack(p.location.creature)
+                if p.defeated >= 30:
+                    victory(p)
+                    break
                 timePasses = True
             else:
                 print('There is no creature here.')
@@ -439,6 +442,9 @@ while playing and p.alive:
                     p.flexibleResponse(p.location.creature)
                 else:
                     p.befriend(p.location.creature)
+                if len(p.allies) >= 30:
+                    victory(p)
+                    break
                 timePasses = True
             else:
                 print('There is no creature here.')
