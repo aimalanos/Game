@@ -259,40 +259,50 @@ class Player:
                     self.eat(item)
             elif item == 'healing salve':
                 self.fillStats()
+                self.inventory['healing salve'] -= 1
+                self.inventorySize -= 1
+                self.invweight -= 4
+                if self.inventory['healing salve'] <= 0:
+                    del self.inventory['healing salve']
             elif item == 'big leaf':
-                self.world.reset() # This resets the weather effects
+                self.location.weather = 'clear'
+                self.inventory['big leaf'] -= 1
+                self.inventorySize -= 1
+                self.invweight -= 3
+                if self.inventory['big leaf'] <= 0:
+                    del self.inventory['big leaf']
                     
     def useBattleItem(self, item, target):
         if item in self.inventory:
             if item == 'stinkfruit':
                # break # I have no idea if this will work #what were you trying to do?
                 self.inventory['stinkfruit'] -= 1
-                inventorySize -= 1
+                self.inventorySize -= 1
                 if self.inventory['stinkfruit'] <= 0:
                     del self.inventory['stinkfruit']
             elif item == 'sticky sap':
                 target.speed -= target.speed // 4
                 self.inventory['sticky sap'] -= 1
-                inventorySize -= 1
+                self.inventorySize -= 1
                 if self.inventory['sticky sap'] <= 0:
                     del self.inventory['sticky sap']
             elif item == 'poison berries':
                 target.health -= target.health // 5
                 target.strength -= target.strength // 5
                 self.inventory['poison berries'] -= 1
-                inventorySize -= 1
+                self.inventorySize -= 1
                 if self.inventory['poison berries'] <= 0:
                     del self.inventory['poison berries']
             elif item == 'healing salve':
                 self.fillStats()
                 self.inventory['healing salve'] -= 1
-                inventorySize -= 1
+                self.inventorySize -= 1
                 if self.inventory['healing salve'] <=0:
                     del self.inventory['healing salve']
             elif item == 'flowers':
                 target.hostility -= target.hostility // 4
                 self.inventory['flowers'] -= 1
-                inventorySize -= 1
+                self.inventorySize -= 1
                 if self.inventory['flowers'] <=0:
                     del self.inventory['flowers']
                     
