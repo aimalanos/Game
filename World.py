@@ -6,15 +6,15 @@ import random
 #     os.system('cls' if os.name == 'nt' else 'clear')
 
 class World:
+        terrains = ['grassy','grassy','desert','desert','mountainous','mountainous','tundra','forest']
+        weathers = ["clear", "rainy", "hailing", "snowy", "drought"]
+        possibleItems = ['stinkfruit', 'sticky sap', 'poison berries', 'big leaf', 'healing salve', 'flowers']
+        possibleCreatures = [Creature.Wolf,Creature.Tiger,Creature.Monkey,Creature.Dog,Creature.Sheep,Creature.Snake]
     def __init__(self):
         self.turn_count = 0
         self.weather = "clear"
         self.player = None
         self.squares = []
-        self.terrains = ['grassy','grassy','desert','desert','mountainous','mountainous','tundra','forest']
-        self.weathers = ["clear", "rainy", "hailing", "snowy", "drought"]
-        self.possibleItems = ['stinkfruit', 'sticky sap', 'poison berries', 'big leaf', 'healing salve', 'flowers']
-        self.possibleCreatures = [Creature.Wolf,Creature.Tiger,Creature.Monkey,Creature.Dog,Creature.Sheep,Creature.Snake]
         self.possibleCommands = {'me':['me'],'help':['help'],'all stats':['all stats'],'pickup':['pickup'],'go':['go'],'inspect':['inspect']}
     def makeMap(self,x,y):
         for num in range(-x,x): #draw the grid
