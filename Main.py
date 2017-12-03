@@ -14,7 +14,7 @@ def help():
     print('Use "pickup" command to pick up an item.')
     print('Use "drop" command to drop an item.')
     print('Use "inventory" to see your inventory.')
-    print('Use "inspect ___" to learn more about you environment.')
+    print('Use "inspect ___" to learn more about your environment.')
     print('Use "abbreviate ___ as ___" to make shortcuts for commands.')
     # Not finished
     
@@ -38,20 +38,20 @@ def showInventory(p):
 def printSituation():
     wc = ''
     if w.weather == 'rainy':
-        wc = 'You are slowed down.'
+        wc = 'It slows you down.'
     elif w.weather == 'hailing':
-        wc = 'You are taking damage.'
+        wc = 'You are being buffeted by hail.'
     elif w.weather == 'snowy':
-        wc = 'Your sociability is reduced.'
+        wc = 'The poor weather reduces your sociability.'
     elif w.weather == 'drought':
         wc = 'You are getting hungry very quickly.'
     tc = ''
     if p.location.terrain == 'mountainous':
-        tc = 'You are slowed down.'
+        tc = 'The difficult terrain slows you down.'
     elif p.location.terrain == 'desert':
         tc = 'You are getting hungry very quickly.'
     elif p.location.terrain == 'tundra':
-        tc = 'You are taking damage.'
+        tc = 'The harsh conditions damage your health!'
     elif p.location.terrain == 'forest':
         tc = 'It\'s very nice here.'
     print("Turn " + str(w.turn_count))
@@ -59,8 +59,8 @@ def printSituation():
     print("Your coordinates are " + str(p.location.coordinates) + ".")
     print("The weather is " + w.weather + ". " + wc)
     print("The terrain is " + p.location.terrain + ". " + tc)
-    if p.location.creature:
-        print("There is a creature here.")
+    if p.location.creature != None:
+        print("There is a creature here. It is a " + str(p.location.creature.name))
     else:
         print("You are alone here.")
     if len(p.location.items) > 0:
@@ -228,18 +228,18 @@ w.makeMap(mapx,mapy)
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        type = random.choice(w.possibleCreatures)
-        r.creature = type(r, 1)
+        creatureType = random.choice(w.possibleCreatures)
+        creatureType(r, 1)
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        type = random.choice(w.possibleCreatures)
-        r.creature = type(r, 2)
+        creatureType = random.choice(w.possibleCreatures)
+        creatureType(r, 2)
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        type = random.choice(w.possibleCreatures)
-        r.creature = type(r, 3)
+        creatureType = random.choice(w.possibleCreatures)
+        creatureType(r, 3)
 for i in range(0,60):
     r = random.choice(w.squares)
     if 'fruit' in r.items:
@@ -264,7 +264,7 @@ while playing and p.alive:
     commandSuccess = False
     timePasses = False
     while not commandSuccess:
-        commandSuccess = True #what does this do?
+        commandSuccess = True
         command = input('What will you do? ').lower()
         clear()
         commandWords = command.split()
@@ -273,15 +273,19 @@ while playing and p.alive:
             if elem in w.possibleCommands[key]:
                 commandWords[0] = key
                 break
+                
         if command == 'help':
             clear()
             help()
+            
         elif command == 'me':
             clear()
             me()
+            
         elif command == 'all stats':
             clear()
             p.allstats()
+            
         elif 'north' in commandWords:
             if p.location.exits['north'] == None:
                 print('You may not go north. Try again.')
@@ -293,6 +297,7 @@ while playing and p.alive:
             else:
                 p.north()
                 timePasses = True
+                
         elif 'south' in commandWords:
             if p.location.exits['south'] == None:
                 print('You may not go south. Try again.')
@@ -304,6 +309,7 @@ while playing and p.alive:
             else:
                 p.south()
                 timePasses = True
+                
         elif 'west' in commandWords:
             if p.location.exits['west'] == None:
                 print('You may not go west. Try again.')
@@ -315,6 +321,7 @@ while playing and p.alive:
             else:
                 p.west()
                 timePasses = True
+                
         elif 'east' in commandWords:
             if p.location.exits['east'] == None:
                 print('You may not go east. Try again.')
@@ -326,6 +333,7 @@ while playing and p.alive:
             else:
                 p.east()
                 timePasses = True
+                
         elif 'pickup' in command:
             if len(commandWords) == 3:
                 item = commandWords[1] + ' ' + commandWords[2]
@@ -338,6 +346,7 @@ while playing and p.alive:
                 commandSuccess = False
             if not s:
                 print("This item is too heavy for you to pick up! Leave it behind or free up " + str(s) + " kg in your inventory. ")
+                
         elif 'drop' in command:
             if len(commandWords) == 3:
                 item = commandWords[1] + ' ' + commandWords[2]
@@ -348,17 +357,22 @@ while playing and p.alive:
             else:
                 print('You don\'t have any such item. Try again.')
                 commandSuccess = False
+                
         elif command == 'inventory':
             clear()
             showInventory(p)
             input('Press enter to continue.')
+            
         elif 'eat' in commandWords:
             if len(commandWords) == 2:
                 food = commandWords[1]
-            if food in p.location.items:
+            if food in p.location.items or food in p.inventory:
                 if not p.eat(food):
                     commandSuccess = False
                     print('You can\'t eat that! Bleh!')
+                else:
+                    timePasses = True
+                    
         elif 'wait' in command:
             if len(commandWords) == 3:
                 if commandWords[0] == 'wait' and commandWords[2] == 'turns' or commandWords[2] == 'turn':
@@ -368,21 +382,25 @@ while playing and p.alive:
             j = 1
             while j <= i:
                 w.update()
+                if w.turn_count > 200:
+                    game_over()
                 j += 1
+                
         elif 'inspect' in commandWords and 'abbreviate' not in commandWords:
             if len(commandWords) == 3:
                 item = commandWords[1] + ' ' + commandWords[2]
             elif len(commandWords) == 2:
                 item = commandWords[1]
             else:
-                print("Sorry, didn't catch that. What would you like to inspect?")
+                print("Sorry, I didn't catch that. What would you like to inspect?")
                 commandSuccess = False
                 break
             if item in p.location.items or item in p.inventory or item == 'creature':
                 p.inspect(item)
             else:
-                print('There is no such item here. Try again.')
+                print('There is nothing by that name here. Try again.')
                 commandSuccess = False
+                
         elif commandWords[0] == 'abbreviate':
             if 'as' in commandWords:
                 if commandWords[2] == 'as':
@@ -395,24 +413,47 @@ while playing and p.alive:
                     abbrev = commandWords[4]
                     if comm in w.possibleCommands: #make this dict
                         w.possibleCommands[comm].append(abbrev)
+                        
         elif command == 'quit':
             playing = False
             break
+            
         elif command == 'location':
             p.locationDets()
+            
         elif 'attack' in commandWords and 'abbreviate' not in commandWords:
-            if len(commandWords) == 2:
-                target = commandWords[1]
-            elif len(commandWords) == 3:
-                target = commandWords[1] + ' ' + commandWords[2]
-            if target == p.location.creature.name:
-                p.attack(target)
+            if p.location.creature != None:
+                if 'Flexible responding' in p.abilities:
+                    p.flexibleResponse(p.location.creature)
+                else:
+                    p.attack(p.location.creature)
             else:
-                print('There is no such creature here.')
+                print('There is no creature here.')
                 commandSuccess = False
+              
+        elif 'befriend' in commandWords and 'abbreviate' not in commandWords:
+            if p.location.creature != None:
+                if 'Flexible responding' in p.abilities:
+                    p.flexibleResponse(p.location.creature)
+                else:
+                    p.ally(p.location.creature)
+            else:
+                print('There is no creature here.')
+                commandSuccess = False
+        
+        elif 'ally' in commandWords and 'abbreviate' not in commandWords:
+            if p.location.creature == None:
+                print('There is no creature here.')
+                commandSuccess = False
+            elif not p.ally(p.location.creature):
+                print('You need to befriend a creature before it will be your ally!')
+                commandSuccess = False
+          
+        elif command = 'evolve':
+            evolve(p)
+                
         else:
             print('Sorry, I don\'t understand. Type "help" for available options. ')
-            command = input('What will you do? ')
             clear()
             printSituation()
             commandSuccess = False
