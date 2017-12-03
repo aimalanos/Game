@@ -46,8 +46,6 @@ class World:
         self.player.update()
         self.turn_count += 1
         if self.turn_count % 5 == 0:
-            #self.reset()
-            self.weather = random.choice(["clear", "rainy", "hailing", "snowy", "drought"]) #remove
             # New creatures will spawn
             randomSquare = random.choice(self.squares)
             if randomSquare.creature == None:
