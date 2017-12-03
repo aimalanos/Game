@@ -138,6 +138,7 @@ class Player:
                     self.hunger += 25
                     self.inventory['fruit'] -= 1
                     self.inventorySize -= 1
+                    self.invweight -= 1
                     if self.inventory['fruit'] <= 0:
                         del self.inventory['fruit']
                 return True
@@ -156,6 +157,7 @@ class Player:
                     self.hunger += 25
                     self.inventory['meat'] -= 1
                     self.inventorySize -= 1
+                    self.invweight -= 1
                     if self.inventory['meat'] <= 0:
                         del self.inventory['meat']
                 return True
@@ -195,16 +197,35 @@ class Player:
             return True
         else:
             return f
+        
     def drop(self,item):
+        f = 0
+        if item == 'fruit':
+            f = 1
+        elif item == 'stinkfruit':
+            f = 2
+        elif item == 'sticky sap':
+            f = 5
+        elif item == 'poison berries':
+            f = 5
+        elif item == 'big leaf':
+            f = 3
+        elif item == 'healing salve':
+            f = 4
+        elif item == 'flowers':
+            f = 1
+        elif item == 'meat':
+            f = 1
         if item in self.inventory:
             if item in self.location.items:
                 self.location.items[item] += 1
             else:
                 self.location.items[item] = 1
-            if self.inventory[item] <= 1:
+            self.inventory[item] -= 1
+            self.invweight -= f
+            if self.inventory[item] <= 0:
                 del self.inventory[item]
-            else:
-                self.inventory[item] -= 1
+                
     def inspect(self, item):
         if item in self.location.items or item in self.inventory:
             if item == 'stinkfruit':
@@ -232,7 +253,7 @@ class Player:
         if item in self.inventory:
             if item == 'fruit':
                 if self.diet == 'herbivore' or self.diet == 'omnivore':
-                    self.eat(item)
+                    a = self.eat(item)
             elif item == 'meat':
                 if self.diet == 'herbivore' or self.diet == 'omnivore':
                     self.eat(item)
@@ -440,7 +461,6 @@ class Player:
                         self.location.items[itemDrop] = 1
             elif self.health <= 0:
                 self.die()
-
 
 
     def ally(self, creature):
