@@ -267,14 +267,13 @@ p = Player(w)
 clear()
 
 while playing and p.alive:
-    #clear()
     commandSuccess = False
     timePasses = False
     while not commandSuccess:
+        clear()
         printSituation(w,p)
         commandSuccess = True
         command = input('What will you do? ').lower()
-        clear()
         commandWords = command.split()
         elem = commandWords[0]
         for key in w.possibleCommands:
