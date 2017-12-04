@@ -296,7 +296,12 @@ class Player:
                 self.invweight -= 3
                 if self.inventory['big leaf'] <= 0:
                     del self.inventory['big leaf']
-            input()
+            else:
+                print("Now's not the time to use that!")
+                return False
+            return True
+        print("There's no item by that name in your inventory."
+        return False
                     
     def useBattleItem(self, item, target):
         if item in self.inventory:
