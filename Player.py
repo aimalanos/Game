@@ -401,6 +401,8 @@ class Player:
             if 'item' in choice.lower() and 'item use' not in self.abilities == 0:
                 print('You can\'t do that!')
                 choice = input('What will you do? ')
+            
+            print()
                 
             if self.speed >= creature.speed:
                 # If the player is faster, the player goes first
@@ -529,6 +531,8 @@ class Player:
             if 'item' in choice.lower() and 'item use' not in self.abilities == 0:
                 print('You can\'t do that!')
                 choice = input('What will you do? ')
+                
+            print()
 
             if self.speed >= creature.speed:
                 # If the player is faster, the player goes first
@@ -656,6 +660,8 @@ class Player:
             if 'item' in choice.lower() and 'item use' not in self.abilities == 0:
                 print('You can\'t do that!')
                 choice = input('What will you do? ')
+                
+            print()
 
             if self.speed >= creature.speed:
                 # If the player is faster, the player goes first
