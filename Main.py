@@ -73,6 +73,7 @@ def printSituation(w, p):
     print()
     print("Health: " + str(p.health))
     print("Food meter: " + str(p.hunger))
+    print()
     
 def victory(p):
     clear()
