@@ -40,7 +40,7 @@ class Player:
         self.abilities = []
 #         self.startItems = ['matches','flashlight']
         self.inventory = {}
-        self.startInv()
+#         self.startInv()
         self.inventorySize = 0
         self.inventoryCap = 10
         self.invweight = 0
