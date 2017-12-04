@@ -15,7 +15,7 @@ class World:
         self.weather = "clear"
         self.player = None
         self.squares = []
-        self.possibleCommands = {'me':['me'],'help':['help'],'all stats':['all stats'],'pickup':['pickup'],'go':['go'],'inspect':['inspect'], 'attack': ['attack'], 'befriend': ['befriend'], 'ally': ['ally'], 'dismiss':['dismiss'], 'evolve': ['evolve'], 'use': ['use']}
+        self.possibleCommands = {'me':['me'],'help':['help'],'all stats':['all stats'],'pickup':['pickup'],'go':['go'],'inspect':['inspect'], 'attack': ['attack'], 'befriend': ['befriend'], 'ally': ['ally'], 'dismiss':['dismiss'], 'evolve': ['evolve'], 'use': ['use'], 'inventory': ['inventory'], 'use': ['use'], 'drop': ['drop']}
     def makeMap(self,x,y):
         for num in range(-x,x): #draw the grid
             for nums in range(-y,y):
