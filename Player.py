@@ -390,7 +390,7 @@ class Player:
                 else:
                     print('Invalid command. Choose "attack" or "flee."')
                 choice = input('What will you do? ')
-            if 'item' in choice.lower and len(self.inventory) == 0:
+            if 'item' in choice.lower() and len(self.inventory) == 0:
                 print('Your inventory is empty!')
                 choice = input('What will you do? ')
             if 'item' in choice.lower() and 'item use' not in self.abilities == 0:
