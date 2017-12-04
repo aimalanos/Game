@@ -421,8 +421,10 @@ while playing and p.alive:
         elif 'attack' in commandWords and 'abbreviate' not in commandWords:
             if p.location.creature != None:
                 if 'Flexible responding' in p.abilities:
+                    clear()
                     p.flexibleResponse(p.location.creature)
                 else:
+                    clear()
                     p.attack(p.location.creature)
                 if p.defeated >= 30:
                     victory(p)
@@ -435,8 +437,10 @@ while playing and p.alive:
         elif 'befriend' in commandWords and 'abbreviate' not in commandWords:
             if p.location.creature != None:
                 if 'Flexible responding' in p.abilities:
+                    clear()
                     p.flexibleResponse(p.location.creature)
                 else:
+                    clear()
                     p.befriend(p.location.creature)
                 if len(p.allies) >= 30:
                     victory(p)
