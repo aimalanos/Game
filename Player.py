@@ -215,7 +215,6 @@ class Player:
                     del self.location.items[item]
                     self.invweight += f
                 print('You pick up the ' + item + '.')
-                input()
             return True
         else:
             return f
@@ -518,6 +517,7 @@ class Player:
                     self.location.items[itemDrop] += 1
                 else:
                     self.location.items[itemDrop] = 1
+            input()
         elif self.health <= 0:
             self.die()
 
@@ -629,7 +629,6 @@ class Player:
                             print("Your ally helps befriend the creature!")
                             print("The creature's hostility decreases!")
                             creature.hostility -= befriendSuccess
-
                 input()
 
         if creature.hostility <= 0 and self.health > 0:
@@ -644,6 +643,7 @@ class Player:
                     self.location.items[itemDrop] += 1
                 else:
                     self.location.items[itemDrop] = 1
+            input()
         elif self.health <= 0:
             self.die()
 
@@ -780,7 +780,6 @@ class Player:
                             print("The creature's hostility decreases!")
                             creature.hostility -= befriendSuccess
                 input()
-                
 
         if creature.health <= 0 and self.health > 0:
             print("You gain " + str(creature.experience) + " experience!")
@@ -795,6 +794,7 @@ class Player:
                     self.location.items[itemDrop] += 1
                 else:
                     self.location.items[itemDrop] = 1
+            input()
         elif creature.hostility <= 0 and self.health > 0:
             print("You gain " + str(creature.experience) + " experience!")
             self.experience += creature.experience
@@ -807,6 +807,7 @@ class Player:
                     self.location.items[itemDrop] += 1
                 else:
                     self.location.items[itemDrop] = 1
+            input()
         elif self.health <= 0:
             self.die()
 
