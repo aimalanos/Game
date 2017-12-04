@@ -30,7 +30,7 @@ class Player:
         self.intelligence = 0
         self.experience = 0
         self.abilities = []
-        self.startItems = ['matches','flashlight']
+#         self.startItems = ['matches','flashlight']
         self.inventory = {}
         self.startInv()
         self.inventorySize = 0
@@ -39,7 +39,7 @@ class Player:
         self.maxinvweight = 20
         self.availabledirs = []
         self.dirstring = ''
-        self.defeated = 0 # to keep track of the number of enemies the player has defeated
+        self.defeated = 0
         self.allies = []
         self.ally = None
         self.m = 0
@@ -80,13 +80,13 @@ class Player:
             self.speedPenalty *= 2
         elif self.location.terrain == "tundra":
             self.healthLoss *= 2
-        elif self.location.terrain == 'forest':
+        elif self.location.terrain == "forest":
             self.healthLoss = 1
             self.hungerLoss = 10
             self.speedPenalty = 0
             self.socPenalty = 0
         if self.location == self.home:
-            self.health += self.maxHealth // 10 #i think this should only take one turn to recharge fully. player doesn't have all day
+            self.health += self.maxHealth // 2
             if self.health > self.maxHealth:
                 self.health = self.maxHealth
         else: #no health loss at home
