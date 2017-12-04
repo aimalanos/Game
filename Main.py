@@ -1,6 +1,7 @@
 from World import World
 from Square import Square
 from Player import Player
+from player import asOrderedList
 from Creature import Creature
 import os
 import random
@@ -21,13 +22,6 @@ def help():
     
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
-    
-def asOrderedList(d):
-    ordered = []
-    for key in d:
-        ordered.append([key, d[key]])
-        ordered.sort()
-    return ordered
 
 def showInventory(p):
     print('Your inventory contains the following items:')
