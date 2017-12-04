@@ -7,9 +7,11 @@ import os
 import random
 
 def me():
+    clear()
     p.stats()
 
 def help():
+    clear()
     print('Type "me" for player stats.')
     print('Use "go" to move. Don\'t forget to say which direction!')
     print('Use "pickup" command to pick up an item.')
@@ -26,6 +28,7 @@ def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def showInventory(p):
+    clear()
     print('Your inventory contains the following items:')
     orderedInventory = asOrderedList(p.inventory)
     for kvp in orderedInventory:
@@ -113,8 +116,10 @@ def evolve(p):
         print('Flexible responding – more options when you engage with other creatures: 20 exp') # Idk, maybe players will be able to change whether they want to socialize or attack. Also, I just thought that if the player attacks a creature, then the creature's hostility should go up
     if p.intelligence >= 20 and 'Flexible responding' in p.abilities:
         print('Fire: 30 exp')
+    print()
     print('Go back.')
     print()
+    print('You have ' + str(p.experience) + ' experience points.')
     transactionCompleted = False
     while not transactionCompleted:
         choice = input('What would you like to improve? ')
@@ -197,14 +202,14 @@ def evolve(p):
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'item use':
             if p.experience >= 15:
-                p.abilities.append('Item use') # Will implement this later
+                p.abilities.append('Item use')
                 self.experience -= 15
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'flexible responding':
             if p.experience >= 30:
-                p.abilities.append('Fat reserves') # Will implement this later
+                p.abilities.append('Fat reserves')
                 self.experience -= 30
                 transactionCompleted = True
             else:
@@ -214,6 +219,11 @@ def evolve(p):
                 victory()
             else:
                 ('Not enough experience. Try again.')
+        elif choice.lower() in 'go back':
+            transactionCompleted = True
+    print()
+    input('Press enter to continue.')
+        
 
 clear()
 
@@ -257,10 +267,10 @@ clear()
 
 while playing and p.alive:
     #clear()
-    printSituation()
     commandSuccess = False
     timePasses = False
     while not commandSuccess:
+        printSituation()
         commandSuccess = True
         command = input('What will you do? ').lower()
         clear()
@@ -272,11 +282,9 @@ while playing and p.alive:
                 break
                 
         if command == 'help':
-            clear()
             help()
             
         elif command == 'me':
-            clear()
             me()
             
         elif command == 'all stats':
@@ -292,8 +300,11 @@ while playing and p.alive:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     commandSuccess = False
             else:
+                print('You go north.')
                 p.north()
                 timePasses = True
+            print()
+            input('Press enter to continue.')
                 
         elif 'south' in commandWords:
             if p.location.exits['south'] == None:
@@ -304,8 +315,11 @@ while playing and p.alive:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     commandSuccess = False
             else:
+                print('You go south.')
                 p.south()
                 timePasses = True
+            print()
+            input('Press enter to continue.')
                 
         elif 'west' in commandWords:
             if p.location.exits['west'] == None:
@@ -316,8 +330,11 @@ while playing and p.alive:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     commandSuccess = False
             else:
+                print('You go west.')
                 p.west()
                 timePasses = True
+            print()
+            input('Press enter to continue.')
                 
         elif 'east' in commandWords:
             if p.location.exits['east'] == None:
@@ -328,8 +345,11 @@ while playing and p.alive:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     commandSuccess = False
             else:
+                print('You go east.')
                 p.east()
                 timePasses = True
+            print()
+            input('Press enter to continue.')
                 
         elif 'pickup' in command:
             if len(commandWords) == 3:
@@ -343,6 +363,8 @@ while playing and p.alive:
                 commandSuccess = False
             if not s:
                 print("This item is too heavy for you to pick up! Leave it behind or free up " + str(s) + " kg in your inventory. ")
+            print()
+            input('Press enter to continue.')
                 
         elif 'drop' in command:
             if len(commandWords) == 3:
@@ -354,21 +376,36 @@ while playing and p.alive:
             else:
                 print('You don\'t have any such item. Try again.')
                 commandSuccess = False
+            print()
+            input('Press enter to continue.')
                 
         elif command == 'inventory':
-            clear()
             showInventory(p)
+            print()
             input('Press enter to continue.')
             
         elif 'eat' in commandWords:
-            if len(commandWords) == 2:
-                food = commandWords[1]
-            if food in p.location.items or food in p.inventory:
-                if not p.eat(food):
-                    commandSuccess = False
-                    print('You can\'t eat that! Bleh!')
+            if 'meat' not in p.location.items and 'meat' not in p.inventory and 'fruit' not in p.location.items and 'fruit' not in p.inventory:
+                commandSuccess = False
+                print('There is no food for you to eat!')
+            else:
+                if len(commandWords) == 2:
+                    if commandWords[1] == 'meat' or commandWords[1] == 'fruit':
+                        food = commandWords[1]
+                    else:
+                        commandSuccess = False
+                        input("Sorry, I didn't catch that. What did you want to eat?")
+                        break
                 else:
-                    timePasses = True
+                    food = input("What would you like to eat?")
+                if food in p.location.items or food in p.inventory:
+                    if not p.eat(food):
+                        commandSuccess = False
+                        print('You can\'t eat that! Bleh!')
+                    else:
+                        timePasses = True
+            print()
+            input('Press enter to continue.')
                     
         elif 'wait' in command:
             if len(commandWords) == 3:
@@ -382,6 +419,9 @@ while playing and p.alive:
                 if w.turn_count > 200:
                     game_over()
                 j += 1
+            print('You wait ' + str(i) + ' turns.')
+            print()
+            print('Press enter to continue.')
                 
         elif 'inspect' in commandWords and 'abbreviate' not in commandWords:
             if len(commandWords) == 3:
@@ -397,6 +437,8 @@ while playing and p.alive:
             else:
                 print('There is nothing by that name here. Try again.')
                 commandSuccess = False
+            print()
+            input('Press enter to continue.')
                 
         elif commandWords[0] == 'abbreviate':
             if 'as' in commandWords:
@@ -416,7 +458,10 @@ while playing and p.alive:
             break
             
         elif command == 'location':
+            clear()
             p.locationDets()
+            print()
+            input('Press enter to continue.')
             
         elif 'attack' in commandWords and 'abbreviate' not in commandWords:
             if p.location.creature != None:
@@ -433,6 +478,8 @@ while playing and p.alive:
             else:
                 print('There is no creature here.')
                 commandSuccess = False
+            print()
+            input('Press enter to continue.')
               
         elif 'befriend' in commandWords and 'abbreviate' not in commandWords:
             if p.location.creature != None:
@@ -449,6 +496,8 @@ while playing and p.alive:
             else:
                 print('There is no creature here.')
                 commandSuccess = False
+            print()
+            input('Press enter to continue.')
         
         elif 'ally' in commandWords and 'abbreviate' not in commandWords:
             if p.location.creature == None:
@@ -457,6 +506,8 @@ while playing and p.alive:
             elif not p.ally(p.location.creature):
                 print('You need to befriend a creature before it will be your ally!')
                 commandSuccess = False
+            print()
+            input('Press enter to continue.')
                 
         elif 'dismiss' in commandWords and 'abbreviate' not in commandWords:
             if self.ally == None:
@@ -464,14 +515,17 @@ while playing and p.alive:
                 commandSuccess = False
             else:
                 self.ally = None
+            print()
+            input('Press enter to continue.')
                 
         elif command == 'evolve':
             evolve(p)
                 
         else:
+            print()
             print('Sorry, I don\'t understand. Type "help" for available options. ')
-            clear()
-            printSituation()
+            print()
+            input('Press enter to continue.'))
             commandSuccess = False
     if timePasses:
         w.update()
