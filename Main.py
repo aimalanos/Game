@@ -432,6 +432,8 @@ while playing and p.alive:
             else:
                 print("Sorry, I didn't catch that. What would you like to inspect?")
                 commandSuccess = False
+                print()
+                input('Press enter to continue.')
                 break
             if item in p.location.items or item in p.inventory or item == 'creature':
                 p.inspect(item)
