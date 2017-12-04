@@ -1,5 +1,11 @@
-from main import asOrderedList
 import random
+
+def asOrderedList(d):
+    ordered = []
+    for key in d:
+        ordered.append([key, d[key]])
+        ordered.sort()
+    return ordered
 
 class Player:
     def __init__(self, w):
