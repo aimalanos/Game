@@ -15,8 +15,12 @@ class Player:
     def __init__(self, w):
         self.name = input("What is your creature's name? ")
         self.diet = input("Is your creature a carnivore or an herbivore? ").lower() # lower() puts it in lowercase, which eliminates the problem of whether the player types with capital or lowercase letters
-        while self.diet != 'carnivore' and self.diet != 'herbivore':
+        while self.diet not in 'carnivore' and self.diet not in 'herbivore':
             self.diet = input('Invalid response. Choose "carnivore" or "herbivore." ')
+        if self.diet in 'carnivore':
+            self.diet = 'carnivore'
+        elif self.diet in 'herbivore':
+            self.diet = 'herbivore'
         w.add_player(self)
         self.world = w
         self.location = random.choice(self.world.squares)
@@ -59,6 +63,7 @@ class Player:
                 self.inventory[elem] = 1
         if 'matches' in self.inventory:
             self.inventory['matches'] = 4
+            
     def update(self):
         self.dirstring = ''
         for elem in self.availabledirs:
@@ -152,6 +157,8 @@ class Player:
                     self.invweight -= 1
                     if self.inventory['fruit'] <= 0:
                         del self.inventory['fruit']
+                print('You eat the fruit.')
+                input()
                 return True
             else:
                 return False
@@ -171,6 +178,8 @@ class Player:
                     self.invweight -= 1
                     if self.inventory['meat'] <= 0:
                         del self.inventory['meat']
+                print('You eat the meat.')
+                input()
                 return True
             else:
                 return False
@@ -205,6 +214,8 @@ class Player:
                 if self.location.items[item] <= 0:
                     del self.location.items[item]
                     self.invweight += f
+                print('You pick up the ' + item + '.')
+                input()
             return True
         else:
             return f
@@ -236,6 +247,8 @@ class Player:
             self.invweight -= f
             if self.inventory[item] <= 0:
                 del self.inventory[item]
+            print('You drop the ' + item + '.')
+            input()
                 
     def inspect(self, item):
         if item in self.location.items or item in self.inventory:
@@ -259,9 +272,11 @@ class Player:
             creat = self.location.creature
             print("The creature is a " + creat.name + '!')
             print("It has " + str(creat.health) + " health, " + str(creat.speed) + " speed, " + str(creat.strength) + " strength, and " + str(creat.hostility) + " hostility.")
+        input()
                     
     def useItem(self, item):
         if item in self.inventory:
+            print('You use the ' + item + '.')
             if item == 'fruit':
                 if self.diet == 'herbivore' or self.diet == 'omnivore':
                     a = self.eat(item)
@@ -269,6 +284,7 @@ class Player:
                 if self.diet == 'herbivore' or self.diet == 'omnivore':
                     self.eat(item)
             elif item == 'healing salve':
+                print('All your stats have been restored!')
                 self.fillStats()
                 self.inventory['healing salve'] -= 1
                 self.inventorySize -= 1
@@ -276,12 +292,14 @@ class Player:
                 if self.inventory['healing salve'] <= 0:
                     del self.inventory['healing salve']
             elif item == 'big leaf':
+                print('You are now protected from the weather!')
                 self.location.weather = 'clear'
                 self.inventory['big leaf'] -= 1
                 self.inventorySize -= 1
                 self.invweight -= 3
                 if self.inventory['big leaf'] <= 0:
                     del self.inventory['big leaf']
+            input()
                     
     def useBattleItem(self, item, target):
         if item in self.inventory:
