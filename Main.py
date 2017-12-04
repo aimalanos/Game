@@ -34,7 +34,7 @@ def showInventory(p):
     for kvp in orderedInventory:
         print('\t' + kvp[0] + ' x' + str(kvp[1]))
     
-def printSituation():
+def printSituation(w, p):
     wc = ''
     if w.weather == 'rainy':
         wc = 'It slows you down.'
@@ -72,6 +72,7 @@ def printSituation():
         print("There is nothing of use to you here.")
     print()
     print("Health: " + str(p.health))
+    print("Food meter: " + str(p.hunger))
     
 def victory(p):
     clear()
@@ -270,7 +271,7 @@ while playing and p.alive:
     commandSuccess = False
     timePasses = False
     while not commandSuccess:
-        printSituation()
+        printSituation(w,p)
         commandSuccess = True
         command = input('What will you do? ').lower()
         clear()
