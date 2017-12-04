@@ -465,8 +465,7 @@ while playing and p.alive:
             else:
                 self.ally = None
                 
-          
-        elif command = 'evolve':
+        elif command == 'evolve':
             evolve(p)
                 
         else:
