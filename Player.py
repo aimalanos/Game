@@ -1,4 +1,5 @@
 import random
+import os
 
 def asOrderedList(d):
     ordered = []
@@ -6,6 +7,9 @@ def asOrderedList(d):
         ordered.append([key, d[key]])
         ordered.sort()
     return ordered
+
+def clear():
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 class Player:
     def __init__(self, w):
@@ -371,6 +375,7 @@ class Player:
             
     def attack(self, creature):
         while self.health > 0 and creature.health > 0:
+            clear()
             print('Creature health: ' + str(creature.health))
             print('Creature strength: ' + str(creature.strength))
             print('Creature hostility: ' + str(creature.hostility))
@@ -465,6 +470,8 @@ class Player:
                 if type(creatureChoice) == str:
                     # If the creature does nothing, we say so at the end of the turn.
                     print(creatureChoice)
+
+                print()
                     
                 if self.ally != None:
                     if random.choice([True, False]):
@@ -475,6 +482,8 @@ class Player:
                             print("The creature's hostility increases!")
                             creature.health -= attackStrength
                             creature.hostility += 3
+
+                input()
 
         if creature.health <= 0 and self.health > 0:
             print("You gain " + str(creature.experience) + " experience!")
@@ -495,6 +504,7 @@ class Player:
 
     def befriend(self, creature):
         while self.health > 0 and creature.hostility > 0:
+            clear()
             print('Creature health: ' + str(creature.health))
             print('Creature strength: ' + str(creature.strength))
             print('Creature hostility: ' + str(creature.hostility))
@@ -584,6 +594,8 @@ class Player:
                 if type(creatureChoice) == str:
                     # If the creature does nothing, we say so at the end of the turn.
                     print(creatureChoice)
+
+                print()
                     
                 if self.ally != None:
                     if random.choice([True, False]):
@@ -592,9 +604,11 @@ class Player:
                             if allySociability < 0:
                                 allySociability = 0
                             befriendSuccess = random.randint(allySociability // 2, allySociability)
-                            print("You try to befriend the creature!")
+                            print("Your ally helps befriend the creature!")
                             print("The creature's hostility decreases!")
                             creature.hostility -= befriendSuccess
+
+                input()
 
         if creature.hostility <= 0 and self.health > 0:
             print("You gain " + str(creature.experience) + " experience!")
@@ -615,6 +629,7 @@ class Player:
 
     def flexibleResponse(self, creature):
         while self.health > 0 and (creature.hostility > 0 or creature.health > 0):
+            clear()
             print('Creature health: ' + str(creature.health))
             print('Creature strength: ' + str(creature.strength))
             print('Creature hostility: ' + str(creature.hostility))
@@ -720,6 +735,8 @@ class Player:
                 if type(creatureChoice) == str:
                     # If the creature does nothing, we say so at the end of the turn.
                     print(creatureChoice)
+
+                print()
                 
                 if self.ally != None:
                     if random.choice([True, False]):
@@ -735,9 +752,10 @@ class Player:
                             if allySociability < 0:
                                 allySociability = 0
                             befriendSuccess = random.randint(allySociability // 2, allySociability)
-                            print("You try to befriend the creature!")
+                            print("Your ally helps befriend the creature!")
                             print("The creature's hostility decreases!")
                             creature.hostility -= befriendSuccess
+                input()
                 
 
         if creature.health <= 0 and self.health > 0:
