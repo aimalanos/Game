@@ -247,7 +247,6 @@ class Player:
             if self.inventory[item] <= 0:
                 del self.inventory[item]
             print('You drop the ' + item + '.')
-            input()
                 
     def inspect(self, item):
         if item in self.location.items or item in self.inventory:
@@ -271,7 +270,6 @@ class Player:
             creat = self.location.creature
             print("The creature is a " + creat.name + '!')
             print("It has " + str(creat.health) + " health, " + str(creat.speed) + " speed, " + str(creat.strength) + " strength, and " + str(creat.hostility) + " hostility.")
-        input()
                     
     def useItem(self, item):
         if item in self.inventory:
@@ -386,7 +384,7 @@ class Player:
         print("Inventory cap = " + str(self.inventoryCap))
         print("Inventory weight = " + str(self.invweight))
         print("Inventory max weight = " + str(self.maxinvweight))
-        print("Allies: " + str(self.allies))
+        print("Allies: " + str(len(self.allies)))
         print("Defeated: " + str(self.defeated))
         
             
