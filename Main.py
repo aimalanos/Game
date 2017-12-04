@@ -17,6 +17,8 @@ def help():
     print('Use "inventory" to see your inventory.')
     print('Use "inspect ___" to learn more about your environment.')
     print('Use "abbreviate ___ as ___" to make shortcuts for commands.')
+    print('Press any key to return to the game.')
+    input()
     # Not finished
     
     
