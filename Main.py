@@ -1,7 +1,7 @@
 from World import World
 from Square import Square
 from Player import Player
-from player import asOrderedList
+from Player import asOrderedList
 from Creature import Creature
 import os
 import random
@@ -525,7 +525,7 @@ while playing and p.alive:
             print()
             print('Sorry, I don\'t understand. Type "help" for available options. ')
             print()
-            input('Press enter to continue.'))
+            input('Press enter to continue.')
             commandSuccess = False
     if timePasses:
         w.update()
