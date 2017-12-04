@@ -371,10 +371,12 @@ class Player:
             
     def attack(self, creature):
         while self.health > 0 and creature.health > 0:
-            print('Creature health = ' + str(creature.health))
-            print('Creature strength = ' + str(creature.strength))
-            print('Creature hostility = ' + str(creature.hostility))
+            print('Creature health: ' + str(creature.health))
+            print('Creature strength: ' + str(creature.strength))
+            print('Creature hostility: ' + str(creature.hostility))
             print()
+            print('Health: ' + str(self.health))
+            print('Strength: ' + str(self.strength))
             print('You may:')
             print('\t attack')
             if 'item use' in self.abilities:
@@ -493,10 +495,12 @@ class Player:
 
     def befriend(self, creature):
         while self.health > 0 and creature.hostility > 0:
-            print('Creature health = ' + str(creature.health))
-            print('Creature strength = ' + str(creature.strength))
-            print('Creature hostility = ' + str(creature.hostility))
+            print('Creature health: ' + str(creature.health))
+            print('Creature strength: ' + str(creature.strength))
+            print('Creature hostility: ' + str(creature.hostility))
             print()
+            print('Health: ' + str(self.health))
+            print('Sociability: ' + str(self.sociability))
             print('You may:')
             print('\t befriend')
             if 'item use' in self.abilities:
@@ -611,10 +615,13 @@ class Player:
 
     def flexibleResponse(self, creature):
         while self.health > 0 and (creature.hostility > 0 or creature.health > 0):
-            print('Creature health = ' + str(creature.health))
-            print('Creature strength = ' + str(creature.strength))
-            print('Creature hostility = ' + str(creature.hostility))
+            print('Creature health: ' + str(creature.health))
+            print('Creature strength: ' + str(creature.strength))
+            print('Creature hostility: ' + str(creature.hostility))
             print()
+            print('Health: ' + str(self.health))
+            print('Strength: ' + str(self.strength))
+            print('Sociability: ' + str(self.sociability))
             print('You may:')
             print('\t attack')
             print('\t befriend')
