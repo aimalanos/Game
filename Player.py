@@ -265,6 +265,8 @@ class Player:
             if self.inventory[item] <= 0:
                 del self.inventory[item]
             print('You drop the ' + item + '.')
+        else:
+            print('There is no such item in your inventory. Try again.')
                 
     def inspect(self, item):
         if item in self.location.items or item in self.inventory:
@@ -318,7 +320,7 @@ class Player:
                 print("Now's not the time to use that!")
                 return False
             return True
-        print("There's no item by that name in your inventory."
+        print("There's no item by that name in your inventory.")
         return False
                     
     def useBattleItem(self, item, target):
