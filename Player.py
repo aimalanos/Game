@@ -28,9 +28,9 @@ class Player:
         self.alive = True
         self.hunger = 100 # If self.hunger reaches 0, the player's health will decrease at each update.
         self.maxHealth, self.health = 50, 50
-        self.maxStrength, self.strength = 5, 5
-        self.maxSociability, self.sociability = 5, 5
-        self.maxSpeed, self.speed = 5, 5
+        self.maxStrength, self.strength = 10, 10
+        self.maxSociability, self.sociability = 10, 10
+        self.maxSpeed, self.speed = 10, 10
         self.healthLoss = 2
         self.hungerLoss = 20
         self.speedPenalty = 1
