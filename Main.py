@@ -93,8 +93,8 @@ def gameOver(w):
     playing = False
     print('GAME OVER')
     print()
-    if w.turn_count > 200:
-        print('You took too long! Another creature has become dominant!')
+    if w.turn_count >= 200:
+        print('You took too long! Another creature has become dominant.')
     elif not w.player.alive:
         print('Your creature has died!')
     print()
@@ -276,9 +276,16 @@ while playing and p.alive:
     timePasses = False
     while not commandSuccess:
         clear()
+        if w.turn_count >= 200:
+            gameOver(w)
+            playing = False
+            break
         printSituation(w,p)
         commandSuccess = True
         command = input('What will you do? ').lower()
+        if command == '':
+            print('Oops! Looks like you forgot to give a command.')
+            command = 'skip'
         commandWords = command.split()
         elem = commandWords[0]
         for key in w.possibleCommands:
@@ -286,14 +293,14 @@ while playing and p.alive:
                 commandWords[0] = key
                 break
                 
-        if command == 'help':
+        if command == 'help' and 'abbreviate' not in commandWords:
             help(p)
             
-        elif command == 'me':
+        elif command == 'me' and 'abbreviate' not in commandWords:
             clear()
             p.stats()
             
-        elif command == 'all stats':
+        elif command == 'all stats' and 'abbreviate' not in commandWords:
             clear()
             p.allstats()
         
@@ -302,72 +309,16 @@ while playing and p.alive:
 #             print()
 #             input('Press enter to continue.')
           
-        elif commandWords[0] == 'go':
+        elif commandWords[0] == 'go' and 'abbreviate' not in commandWords:
+            turn = True
             direction = commandWords[1]
             if not p.go(direction):
                 commandSuccess = 0
-            
-#         elif 'north' in commandWords and 'abbreviate' not in commandWords:
-#             if p.location.exits['north'] == None:
-#                 print('You may not go north. Try again.')
-#                 commandSuccess = False
-#             elif p.location.exits['north'].terrain == 'water':
-#                 if 'semiaquatic' not in player.abilities:
-#                     print('There is water in that direction, and you cannot swim. Try again.')
-#                     commandSuccess = False
-#             else:
-#                 print('You go north.')
-#                 p.north()
-#                 timePasses = True
-# #             print()
-# #             input('Press enter to continue.')
+                turn = False
+            if turn:
+                w.turn_count += 1
                 
-#         elif 'south' in commandWords and 'abbreviate' not in commandWords:
-#             if p.location.exits['south'] == None:
-#                 print('You may not go south. Try again.')
-#                 commandSuccess = False
-#             elif p.location.exits['south'].terrain == 'water':
-#                 if 'semiaquatic' not in player.abilities:
-#                     print('There is water in that direction, and you cannot swim. Try again.')
-#                     commandSuccess = False
-#             else:
-#                 print('You go south.')
-#                 p.south()
-#                 timePasses = True
-# #             print()
-# #             input('Press enter to continue.')
-                
-#         elif 'west' in commandWords and 'abbreviate' not in commandWords:
-#             if p.location.exits['west'] == None:
-#                 print('You may not go west. Try again.')
-#                 commandSuccess = False
-#             elif p.location.exits['west'].terrain == 'water':
-#                 if 'semiaquatic' not in player.abilities:
-#                     print('There is water in that direction, and you cannot swim. Try again.')
-#                     commandSuccess = False
-#             else:
-#                 print('You go west.')
-#                 p.west()
-#                 timePasses = True
-# #             print()
-# #             input('Press enter to continue.')
-                
-#         elif 'east' in commandWords and 'abbreviate' not in commandWords:
-#             if p.location.exits['east'] == None:
-#                 print('You may not go east. Try again.')
-#                 commandSuccess = False
-#             elif p.location.exits['east'].terrain == 'water':
-#                 if 'semiaquatic' not in player.abilities:
-#                     print('There is water in that direction, and you cannot swim. Try again.')
-#                     commandSuccess = False
-#             else:
-#                 print('You go east.')
-#                 p.east()
-#                 timePasses = True
-# #             print()
-# #             input('Press enter to continue.')
-                
-        elif commandWords[0] == 'pickup':
+        elif commandWords[0] == 'pickup' and 'abbreviate' not in commandWords:
             if len(commandWords) == 3:
                 item = commandWords[1] + ' ' + commandWords[2]
             else:
@@ -382,7 +333,7 @@ while playing and p.alive:
 #             print()
 #             input('Press enter to continue.')
                 
-        elif commandWords[0] == 'drop':
+        elif commandWords[0] == 'drop' and 'abbreviate' not in commandWords:
             if len(commandWords) == 3:
                 item = commandWords[1] + ' ' + commandWords[2]
             else:
@@ -395,7 +346,7 @@ while playing and p.alive:
 #             print()
 #             input('Press enter to continue.')
             
-        elif commandWords[0] == 'use':
+        elif commandWords[0] == 'use' and 'abbreviate' not in commandWords:
             if len(commandWords) == 3:
                 item = commandWords[1] + ' ' + commandWords[2]
             elif len(commandWords) == 2:
@@ -405,7 +356,7 @@ while playing and p.alive:
             if not p.useItem():
                 commandSuccess = False
             
-        elif commandWords[0] == 'eat':
+        elif commandWords[0] == 'eat' and 'abbreviate' not in commandWords:
             if len(commandWords) == 2:
                 if commandWords[1] == 'meat' or commandWords[1] == 'fruit':
                     food = commandWords[1]
@@ -428,7 +379,7 @@ while playing and p.alive:
 #             print()
 #             input('Press enter to continue.')
                     
-        elif 'wait' in command:
+        elif 'wait' in command and 'abbreviate' not in commandWords:
             if len(commandWords) == 3:
                 if commandWords[0] == 'wait' and commandWords[2] == 'turns' or commandWords[2] == 'turn':
                     i = int(commandWords[1])
@@ -438,7 +389,7 @@ while playing and p.alive:
             while j <= i:
                 w.update()
                 if w.turn_count > 200:
-                    game_over()
+                    gameOver()
                 j += 1
             print('You wait ' + str(i) + ' turns.')
 #             print()
@@ -478,11 +429,11 @@ while playing and p.alive:
                     if comm in w.possibleCommands: #make this dict
                         w.possibleCommands[comm].append(abbrev)
                         
-        elif command == 'quit':
+        elif command == 'quit'  and 'abbreviate' not in commandWords:
             playing = False
             break
             
-        elif command == 'location':
+        elif command == 'location' and 'abbreviate' not in commandWords:
             clear()
             p.locationDets()
 #             print()
@@ -528,7 +479,7 @@ while playing and p.alive:
             if p.location.creature == None:
                 print('There is no creature here.')
                 commandSuccess = False
-            elif not p.makeAlly(p.location.creature):
+            elif not p.ally(p.location.creature):
                 print('You need to befriend a creature before it will be your ally!')
                 commandSuccess = False
 #             print()
@@ -543,8 +494,14 @@ while playing and p.alive:
 #             print()
 #             input('Press enter to continue.')
                 
-        elif command == 'evolve':
+        elif command == 'evolve' and 'abbreviate' not in commandWords:
             evolve(p)
+
+        elif command == 'test':
+            w.turn_count = 199
+
+        elif command == 'skip':
+            x=3
                 
         else:
             print()
