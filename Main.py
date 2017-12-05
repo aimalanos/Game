@@ -278,279 +278,254 @@ p = Player(w)
 clear()
 
 while playing and p.alive:
-    commandSuccess = False
     timePasses = False
-    while not commandSuccess:
-        clear()
-        if w.turn_count >= 200:
-            gameOver(w)
-            playing = False
+    clear()
+    if w.turn_count >= 200:
+        gameOver(w)
+        playing = False
+        break
+    printSituation(w,p)
+    commandSuccess = True
+    command = input('What will you do? ').lower()
+    if command == '':
+        print('Oops! Looks like you forgot to give a command.')
+        command = 'skip'
+    commandWords = command.split()
+    elem = commandWords[0]
+    for key in w.possibleCommands:
+        if elem in w.possibleCommands[key]:
+            commandWords[0] = key
             break
-        printSituation(w,p)
-        commandSuccess = True
-        command = input('What will you do? ').lower()
-        if command == '':
-            print('Oops! Looks like you forgot to give a command.')
-            command = 'skip'
-        commandWords = command.split()
-        elem = commandWords[0]
-        for key in w.possibleCommands:
-            if elem in w.possibleCommands[key]:
-                commandWords[0] = key
-                break
-                
-        if commandWords[0] == 'help':
-            help(p)
             
-        elif commandWords[0] == 'me':
-            clear()
-            p.stats()
-            
-        elif commandWords[0] == 'allstats':
-            clear()
-            p.allstats()
+    if commandWords[0] == 'help':
+        help(p)
         
-        elif 'inventory' in commandWords[0]:
-            showInventory(p)
+    elif commandWords[0] == 'me':
+        clear()
+        p.stats()
+        
+    elif commandWords[0] == 'allstats':
+        clear()
+        p.allstats()
+    
+    elif 'inventory' in commandWords[0]:
+        showInventory(p)
 
-        elif commandWords[0] == 'cheat':
-            stat = commandWords[1]
-            if stat == 'health':
-                p.health = p.maxHealth
-            elif stat == 'strength':
-                p.strength = 100
-            elif stat == 'befriend':
-                p.friends.append(p.location.creature)
-            elif stat == 'map':
-                count = 0
-                print('squares:')
-                for elem in w.squares:
-                    print('\t' + str(elem.coordinates),elem.terrain,elem)
-                    count += 1
-                print('total = ' + str(count))
-          
-        elif commandWords[0] == 'go':
+    elif commandWords[0] == 'cheat':
+        stat = commandWords[1]
+        if stat == 'health':
+            p.health = p.maxHealth
+        elif stat == 'strength':
+            p.strength = 100
+        elif stat == 'befriend':
+            p.friends.append(p.location.creature)
+        elif stat == 'map':
+            count = 0
+            print('squares:')
+            for elem in w.squares:
+                print('\t' + str(elem.coordinates),elem.terrain,elem)
+                count += 1
+            print('total = ' + str(count))
+      
+    elif commandWords[0] == 'go':
+        direction = commandWords[1]
+        if p.go(direction):
             timePasses = True
-            direction = commandWords[1]
-            if not p.go(direction):
-                commandSuccess = False
-                timePasses = False
-                
-        elif commandWords[0] == 'pickup':
-            if len(commandWords) == 3:
-                item = commandWords[1] + ' ' + commandWords[2]
-            elif len(commandWords) == 2:
-                item = commandWords[1]
-            else:
-                item = input('What do you want to pick up? ')
-            if item in p.location.items:
-                s = p.pickup(item)
-            else:
-                print('There is no such item. Try again.')
-                commandSuccess = False
-            if not s:
-                print("This item is too heavy for you to pick up! Leave it behind or free up " + str(s) + " kg in your inventory. ")
-                
-        elif commandWords[0] == 'drop':
-            if len(commandWords) == 3:
-                item = commandWords[1] + ' ' + commandWords[2]
-            elif len(commandWords) == 2:
-                item = commandWords[1]
-            else:
-                item = input('What do you want to drop? ')
-            if item in p.inventory:
-                p.drop(item)
-            else:
-                print('You don\'t have any such item. Try again.')
-                commandSuccess = False
             
-        elif commandWords[0] == 'use':
-            if len(commandWords) == 3:
-                item = commandWords[1] + ' ' + commandWords[2]
-            elif len(commandWords) == 2:
-                item = commandWords[1]
-            else:
-                item = input('What do you want to use?')
-            if not p.useItem():
-                commandSuccess = False
+    elif commandWords[0] == 'pickup':
+        if len(commandWords) == 3:
+            item = commandWords[1] + ' ' + commandWords[2]
+        else:
+            item = commandWords[1]
+        if item in p.location.items:
+            s = p.pickup(item)
+        else:
+            print('There is no such item. Try again.')
+            commandSuccess = False
+        if not s:
+            print("This item is too heavy for you to pick up! Leave it behind or free up " + str(s) + " kg in your inventory. ")
             
-        elif commandWords[0] == 'eat':
-            if len(commandWords) == 2:
-                if commandWords[1] == 'meat' or commandWords[1] == 'fruit':
-                    food = commandWords[1]
-                else:
-                    commandSuccess = False
-                    print("Sorry, I didn't catch that. Please try again.")
-            elif len(commandWords) == 1:
-                food = input("What would you like to eat?")
-                if food != 'meat' and food != 'fruit':
-                    print("Sorry, I didn't catch that. Please try again.")
-            if food in p.location.items or food in p.inventory:
-                if not p.eat(food):
-                    commandSuccess = False
-                    print('You can\'t eat that! Bleh!')
-                else:
-                    timePasses = True
-            else:
-                print('There is no ' + food + ' for you to eat.')
-                commandSuccess = False
-
-                    
-        elif commandWords[0] == 'wait':
-            if len(commandWords) == 3:
-                if commandWords[0] == 'wait' and commandWords[2] == 'turns' or commandWords[2] == 'turn':
-                    i = int(commandWords[1])
-            elif len(commandWords) == 1:
-                i = 1
-            j = 1
-            while j <= i:
-                w.update()
-                if w.turn_count > 200:
-                    gameOver()
-                j += 1
-            print('You wait ' + str(i) + ' turns.')
-                
-        elif commandWords[0] == 'inspect':
-            if len(commandWords) == 3:
-                item = commandWords[1] + ' ' + commandWords[2]
-            elif len(commandWords) == 2:
-                item = commandWords[1]
+    elif commandWords[0] == 'drop':
+        if len(commandWords) == 3:
+            item = commandWords[1] + ' ' + commandWords[2]
+        else:
+            item = commandWords[1]
+        if item in p.inventory:
+            p.drop(item)
+        else:
+            print('You don\'t have any such item. Try again.')
+        
+    elif commandWords[0] == 'use':
+        if len(commandWords) == 3:
+            item = commandWords[1] + ' ' + commandWords[2]
+        elif len(commandWords) == 2:
+            item = commandWords[1]
+        else:
+            item = input('What do you want to use?')
+        if p.useItem():
+            timePasses = True
+        
+    elif commandWords[0] == 'eat':
+        if len(commandWords) == 2:
+            if commandWords[1] == 'meat' or commandWords[1] == 'fruit':
+                food = commandWords[1]
             else:
                 commandSuccess = False
                 print("Sorry, I didn't catch that. Please try again.")
-                item = None
-            if item:
-                if item in p.location.items or item in p.inventory or item == 'creature':
-                    p.inspect(item)
-                else:
-                    print('There is nothing by that name here. Try again.')
-                    commandSuccess = False
-                
-        elif commandWords[0] == 'abbreviate':
-            if 'as' in commandWords:
-                if commandWords[2] == 'as':
-                    comm = commandWords[1]
-                    abbrev = commandWords[3]
-                    if comm in w.possibleCommands: #make this dict
-                        w.possibleCommands[comm].append(abbrev)
-                elif commandWords[3] == 'as':
-                    comm = commandWords[1] + ' ' + commandWords[2]
-                    abbrev = commandWords[4]
-                    if comm in w.possibleCommands: #make this dict
-                        w.possibleCommands[comm].append(abbrev)
-                        
-        elif commandWords[0] == 'quit':
-            playing = False
-            break
-            
-        elif commandWords[0] == 'location':
-            clear()
-            p.locationDets()
-            
-        elif commandWords[0] == 'attack':
-            if p.location.creature != None:
-                if 'Flexible responding' in p.abilities:
-                    clear()
-                    p.flexibleResponse(p.location.creature)
-                else:
-                    clear()
-                    p.attack(p.location.creature)
-                if p.defeated >= 30:
-                    victory(p)
-                    break
+        elif len(commandWords) == 1:
+            food = input("What would you like to eat?")
+            if food != 'meat' and food != 'fruit':
+                print("Sorry, I didn't catch that. Please try again.")
+        if food in p.location.items or food in p.inventory:
+            if not p.eat(food):
+                commandSuccess = False
+                print('You can\'t eat that! Bleh!')
+            else:
                 timePasses = True
-            else:
-                print('There is no creature here.')
-                commandSuccess = False
-              
-        elif commandWords[0] == 'befriend':
-            if p.location.creature != None:
-                if 'Flexible responding' in p.abilities:
-                    clear()
-                    p.flexibleResponse(p.location.creature)
-                else:
-                    clear()
-                    p.befriend(p.location.creature)
-                if len(p.friends) >= 30:
-                    victory(p)
-                    break
-                timePasses = True
-            else:
-                print('There is no creature here.')
-                commandSuccess = False
-        
-        elif commandWords[0] == 'recruit':
-            print(p.friends)
-            if p.friends == []:
-                print("You don't have any friends who can become your ally.")
-                commandSuccess = False
-            elif commandWords[1] in p.friends:
-                for elem in p.friends:
-                    if elem.name == commandWords[1]:
-                        p.ally = elem
-                print('You have allied your friend the ' + commandWords[1] + '! Your ally will follow you around and fight with you.')
-                commandSuccess = False
-            else:
-                print('You do not have a ' + commandWords[1] + ' friend. Type \'friends\' to see a list of your friends.')
-                
-        elif commandWords[0] == 'dismiss':
-            if self.ally == None:
-                print('You have no ally to dismiss!')
-                commandSuccess = False
-            else:
-                self.ally = None
-
-                
-        elif commandWords[0] == 'evolve':
-            evolve(p)
-
-        elif command == 'test':
-            w.turn_count = 199
-
-        elif command == 'skip':
-            x=3
-
-        elif commandWords[0] == 'friends':
-            print('Your friends are:')
-            for elem in p.friends:
-                print('\t' + elem.name)
-
-        elif command == 'show map':
-            sWidth = 8 #square width
-            sHeight = 4
-            print('|' + ('-'*sWidth + '|')*mapx*2) #top border
-            row = mapy #start here to get proper north/south orientation
-            while row >= -mapy: #go from 4 to -4
-                curr = [] #keeps track of all square objects in current row
-                minirow = 0 #aka sub-row; tracks lines within the square
-                while minirow < sHeight:
-                    if minirow == 0: #top line of each square states terrain
-                        for elem in w.squares:
-                            if elem.coordinates[1] == row: #all squares with y-coord equal to current row are relevant
-                                curr.append(elem)          #add these squares to curr
-                        i = 1
-                        while i < len(curr): #compensate for the fact that each square was being added twice(??)
-                            del curr[i]
-                            i += 2
-                        print('| ' + curr[0].terrain + ' '*(sWidth-len(curr[0].terrain)-1) + '| ' + curr[1].terrain + ' '*(sWidth-len(curr[1].terrain)-1) + '| ' + curr[2].terrain + ' '*(sWidth-len(curr[2].terrain)-1) + '| ' + curr[3].terrain + ' '*(sWidth-len(curr[3].terrain)-1) + '| ' + curr[4].terrain + ' '*(sWidth-len(curr[4].terrain)-1) + '| ' + curr[5].terrain + ' '*(sWidth-len(curr[5].terrain)-1) + '| ' + curr[6].terrain + ' '*(sWidth-len(curr[6].terrain)-1) + '| ' + curr[7].terrain + ' '*(sWidth-len(curr[7].terrain)-1) + '|')
-                        minirow += 1
-                    elif minirow == 1 or minirow == 2: #minirows 1 and 2 are just spaces
-                        print('|' + (' '*sWidth + '|')*mapx*2)
-                        minirow += 1
-                    else: #minirow 3 is the bottom border of each square
-                        print('|' + ('-'*sWidth + '|')*mapx*2)
-                        minirow += 1
-                        if minirow == 4:
-                            row += 1
-                            break
-
         else:
-            print()
-            print('Sorry, I don\'t understand. Type "help" for available options. ')
-            commandSuccess = False
+            print('There is no ' + food + ' for you to eat.')
+
+                
+    elif commandWords[0] == 'wait':
+        if len(commandWords) == 3:
+            if commandWords[0] == 'wait' and commandWords[2] == 'turns' or commandWords[2] == 'turn':
+                i = int(commandWords[1])
+        elif len(commandWords) == 1:
+            i = 1
+        j = 1
+        while j <= i:
+            w.update()
+            if w.turn_count > 200:
+                gameOver()
+            j += 1
+        print('You wait ' + str(i) + ' turns.')
             
+    elif commandWords[0] == 'inspect':
+        if len(commandWords) == 3:
+            item = commandWords[1] + ' ' + commandWords[2]
+        elif len(commandWords) == 2:
+            item = commandWords[1]
+        else:
+            commandSuccess = False
+            print("Sorry, I didn't catch that. Please try again.")
+            item = None
+        if item:
+            if item in p.location.items or item in p.inventory or item == 'creature':
+                p.inspect(item)
+            else:
+                print('There is nothing by that name here. Try again.')
+            
+    elif commandWords[0] == 'abbreviate':
+        if 'as' in commandWords:
+            if commandWords[2] == 'as':
+                comm = commandWords[1]
+                abbrev = commandWords[3]
+                if comm in w.possibleCommands: #make this dict
+                    w.possibleCommands[comm].append(abbrev)
+            elif commandWords[3] == 'as':
+                comm = commandWords[1] + ' ' + commandWords[2]
+                abbrev = commandWords[4]
+                if comm in w.possibleCommands: #make this dict
+                    w.possibleCommands[comm].append(abbrev)
+                    
+    elif commandWords[0] == 'quit':
+        playing = False
+        break
+        
+    elif commandWords[0] == 'location':
+        clear()
+        p.locationDets()
+        
+    elif commandWords[0] == 'attack':
+        if p.location.creature != None:
+            if 'Flexible responding' in p.abilities:
+                clear()
+                p.flexibleResponse(p.location.creature)
+            else:
+                clear()
+                p.attack(p.location.creature)
+            if p.defeated >= 30:
+                victory(p)
+                break
+            timePasses = True
+        else:
+            print('There is no creature here.')
+          
+    elif commandWords[0] == 'befriend':
+        if p.location.creature != None:
+            if 'Flexible responding' in p.abilities:
+                clear()
+                p.flexibleResponse(p.location.creature)
+            else:
+                clear()
+                p.befriend(p.location.creature)
+            if len(p.friends) >= 30:
+                victory(p)
+                break
+            timePasses = True
+        else:
+            print('There is no creature here.')
+    
+    elif commandWords[0] == 'recruit':
+        if p.recruit():
+            timePasses = True
+            
+    elif commandWords[0] == 'dismiss':
+        if self.ally == None:
+            print('You have no ally to dismiss!')
+        else:
+            self.ally = None
+
+            
+    elif commandWords[0] == 'evolve':
+        evolve(p)
+
+    elif command == 'test':
+        w.turn_count = 199
+
+    elif command == 'skip':
+        x=3
+
+    elif commandWords[0] == 'friends':
+        print('Your friends are:')
+        for elem in p.friends:
+            print('\t' + elem.name)
+
+    elif command == 'show map':
+        sWidth = 8 #square width
+        sHeight = 4
+        print('|' + ('-'*sWidth + '|')*mapx*2) #top border
+        row = mapy #start here to get proper north/south orientation
+        while row >= -mapy: #go from 4 to -4
+            curr = [] #keeps track of all square objects in current row
+            minirow = 0 #aka sub-row; tracks lines within the square
+            while minirow < sHeight:
+                if minirow == 0: #top line of each square states terrain
+                    for elem in w.squares:
+                        if elem.coordinates[1] == row: #all squares with y-coord equal to current row are relevant
+                            curr.append(elem)          #add these squares to curr
+                    i = 1
+                    while i < len(curr): #compensate for the fact that each square was being added twice(??)
+                        del curr[i]
+                        i += 2
+                    print('| ' + curr[0].terrain + ' '*(sWidth-len(curr[0].terrain)-1) + '| ' + curr[1].terrain + ' '*(sWidth-len(curr[1].terrain)-1) + '| ' + curr[2].terrain + ' '*(sWidth-len(curr[2].terrain)-1) + '| ' + curr[3].terrain + ' '*(sWidth-len(curr[3].terrain)-1) + '| ' + curr[4].terrain + ' '*(sWidth-len(curr[4].terrain)-1) + '| ' + curr[5].terrain + ' '*(sWidth-len(curr[5].terrain)-1) + '| ' + curr[6].terrain + ' '*(sWidth-len(curr[6].terrain)-1) + '| ' + curr[7].terrain + ' '*(sWidth-len(curr[7].terrain)-1) + '|')
+                    minirow += 1
+                elif minirow == 1 or minirow == 2: #minirows 1 and 2 are just spaces
+                    print('|' + (' '*sWidth + '|')*mapx*2)
+                    minirow += 1
+                else: #minirow 3 is the bottom border of each square
+                    print('|' + ('-'*sWidth + '|')*mapx*2)
+                    minirow += 1
+                    if minirow == 4:
+                        row += 1
+                        break
+
+    else:
         print()
-        input('Press enter to continue.')
+        print('Sorry, I don\'t understand. Type "help" for available options. ')
+        
+    print()
+    input('Press enter to continue.')
     if timePasses:
         clear()
         w.update()
