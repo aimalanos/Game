@@ -893,5 +893,5 @@ class Player:
         print('Location coordinates: ' + str(self.location.coordinates))
         print('Terrain: ' + self.location.terrain)
         print('Weather: ' + self.location.weather)
-        print('You may travel: ' + self.location.listdirs())
+        self.location.availableDirs()
         
