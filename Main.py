@@ -327,16 +327,14 @@ while playing and p.alive:
                     count += 1
                 print('total = ' + str(count))
           
-        elif commandWords[0] == 'go' and 'abbreviate' not in commandWords:
-            turn = True
+        elif commandWords[0] == 'go':
+            timePasses = True
             direction = commandWords[1]
             if not p.go(direction):
-                commandSuccess = 0
-                turn = False
-            if turn:
-                w.turn_count += 1
+                commandSuccess = False
+                timePasses = False
                 
-        elif commandWords[0] == 'pickup' and 'abbreviate' not in commandWords:
+        elif commandWords[0] == 'pickup':
             if len(commandWords) == 3:
                 item = commandWords[1] + ' ' + commandWords[2]
             else:
@@ -351,7 +349,7 @@ while playing and p.alive:
 #             print()
 #             input('Press enter to continue.')
                 
-        elif commandWords[0] == 'drop' and 'abbreviate' not in commandWords:
+        elif commandWords[0] == 'drop':
             if len(commandWords) == 3:
                 item = commandWords[1] + ' ' + commandWords[2]
             else:
@@ -364,7 +362,7 @@ while playing and p.alive:
 #             print()
 #             input('Press enter to continue.')
             
-        elif commandWords[0] == 'use' and 'abbreviate' not in commandWords:
+        elif commandWords[0] == 'use':
             if len(commandWords) == 3:
                 item = commandWords[1] + ' ' + commandWords[2]
             elif len(commandWords) == 2:
