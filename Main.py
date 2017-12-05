@@ -410,7 +410,7 @@ while playing and p.alive:
                 elif len(commandWords) == 1:
                     food = input("What would you like to eat?")
                     if food != 'meat' and food != 'fruit':
-                        print("Sorry, I didn't catch that. Please try again."
+                        print("Sorry, I didn't catch that. Please try again.")
                 if food in p.location.items or food in p.inventory:
                     if not p.eat(food):
                         commandSuccess = False
