@@ -66,12 +66,39 @@ class Sheep(Creature):
 class Snake(Creature):
     def __init__(self,square,level):
         Creature.__init__(self,square,level)
-        self.location = square
-        self.location.creature = self
-        self.level = level
         self.health = math.ceil(0.3*self.health)
         self.strength += 5*self.level
         self.hostility += 4*self.level
         self.speed *= 5
         self.fleeRate = self.fleeRate/2
         self.name = 'snake'
+        
+class Fish(Creature):
+    def __init__(self,square,level):
+        Creature.__init__(self,square,level)
+        self.health = random.randint(self.level*(5), self.level*(15))
+        self.strength = random.randint(self.level*(2), self.level*(8))
+        self.hostility = random.randint(self.level*(2), self.level*(8))
+        self.speed = random.randint(self.level*(2), self.level*(8))
+        self.fleeRate = random.uniform(0, 0.5)
+        self.name = 'fish'
+        
+class Eel(Creature):
+    def __init__(self,square,level):
+        Creature.__init__(self,square,level)
+        self.health = random.randint(self.level*(5), self.level*(10))
+        self.strength = random.randint(self.level*(5), self.level*(8))
+        self.hostility = random.randint(self.level*(5), self.level*(8))
+        self.speed = random.randint(self.level*(5), self.level*(8))
+        self.name = 'eel'
+        
+class Leviathan(Creature):
+    def __init__(self,square,level):
+        Creature.__init__(self,square,level)
+        self.health = random.randint(self.level*(10), self.level*(20))
+        self.strength = random.randint(self.level*(5), self.level*(10))
+        self.hostility = random.randint(self.level*(2), self.level*(6))
+        self.speed = random.randint(self.level*(2), self.level*(6))
+        self.fleeRate = 0
+        self.name = 'leviathan'
+        
