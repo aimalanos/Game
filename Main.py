@@ -14,6 +14,7 @@ def help(p):
     print('Use the "location" command to see details on your location.')
     print('Use the "friends" command to see a list of creatures you have befriended.')
     print('Use the "go __" command to move. Don\'t forget to say which direction!')
+    print('Use the "eat __" command to eat.")
     print('Use the "pickup __" command to pick up an item.')
     print('Use the "drop __" command to drop an item.')
     if 'Item use' in p.abilities:
@@ -27,6 +28,7 @@ def help(p):
     print('Use the "evolve" command to purchase upgrades for your creature.')
     print('Use the "wait __ turn(s)" command to wait.')
     print('Use the "abbreviate __ as __" command to make shortcuts for commands.')
+    print('Use the "help" command to see this menu again.')
     print('Use the "quit" command to leave the game.')
     
 def clear():
@@ -273,9 +275,14 @@ for i in range(0,50):
     else:
         r.items[rItem] = 1
 
-                      
+            
+print('Welcome to Irtiqa! Your goal is to become the dominant creature in your environment, however you choose to do so.')
+print()
 p = Player(w)       
 clear()
+print('Before you get started, you should probably see the commands!')
+print()
+help(p)
 
 while playing and p.alive:
     timePasses = False
