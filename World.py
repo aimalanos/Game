@@ -7,7 +7,7 @@ import random
 
 class World:
     terrains = ['forest','forest','desert','desert','hills','hills','water','tundra','grassy']
-    possibleItems = ['stinkfruit', 'sticky sap', 'poison berries', 'big leaf', 'healing salve', 'flowers']
+    possibleItems = ['stinkfruit', 'sticky sap', '1 berries', 'big leaf', 'healing salve', 'flowers']
     possibleCreatures = [Creature.Wolf,Creature.Tiger,Creature.Monkey,Creature.Dog,Creature.Sheep,Creature.Snake]
     def __init__(self):
         self.turn_count = 0
@@ -34,7 +34,8 @@ class World:
                         if squ.coordinates[1] == nei.coordinates[1] - 1:
                             nei.exits['south'] = squ
                         elif squ.coordinates[1] == nei.coordinates[1] + 1:
-                            nei.exits['north'] = squ        
+                            nei.exits['north'] = squ
+        print(f)
 
     def add_player(self, player):
         self.player = player
