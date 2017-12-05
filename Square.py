@@ -15,7 +15,7 @@ class Square:
         for direction in dirs:
             if self.exits[direction] != None:
                 if self.exits[direction].terrain == 'lake':
-                    if 'semiaquatic' in self.abilities:
+                    if 'semiaquatic' in self.world.player.abilities:
                         availableDirs.append(direction)
                 else:
                     availableDirs.append(direction)
