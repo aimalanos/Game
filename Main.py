@@ -249,17 +249,26 @@ w.makeMap(mapx,mapy)
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        creatureType = random.choice(w.possibleCreatures)
+        if r.terrain == 'lake':
+            creatureType = random.choice(w.aquaticCreatures)
+        else:
+            creatureType = random.choice(w.possibleCreatures)
         creatureType(r, 1)
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        creatureType = random.choice(w.possibleCreatures)
+        if r.terrain == 'lake':
+            creatureType = random.choice(w.aquaticCreatures)
+        else:
+            creatureType = random.choice(w.possibleCreatures)
         creatureType(r, 2)
 for i in range(0,28):
     r = random.choice(w.squares)
     if not r.creature:
-        creatureType = random.choice(w.possibleCreatures)
+        if r.terrain == 'lake':
+            creatureType = random.choice(w.aquaticCreatures)
+        else:
+            creatureType = random.choice(w.possibleCreatures)
         creatureType(r, 3)
 for i in range(0,60):
     r = random.choice(w.squares)
