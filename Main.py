@@ -134,92 +134,97 @@ def evolve(p):
         choice = input('What would you like to improve? ')
         if choice.lower() in 'health increase':
             if p.experience >= 5:
-                p.maxHealth += 5
-                self.experience -= 5
+                p.maxHealth += 8
+                p.health = p.maxHealth
+                p.experience -= 5
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'stomach size increase':
             if p.experience >= 5:
                 p.maxHunger += 5
-                self.experience -= 5
+                p.hunger = p.maxHunger
+                p.experience -= 5
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'strength increase':
             if p.experience >= 5:
                 p.maxStrength += 3
-                self.experience -= 5
+                p.strength = p.maxStrength
+                p.experience -= 5
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'sociability increase':
             if p.experience >= 5:
                 p.maxSociability += 3
-                self.experience -= 5
+                p.sociability = p.maxSociability
+                p.experience -= 5
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'speed increase':
             if p.experience >= 5:
                 p.maxSpeed += 3
-                self.experience -= 5
+                p.speed = p.maxSpeed
+                p.experience -= 5
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'intelligence increase':
             if p.experience >= 5:
                 p.intelligence += 4
-                self.experience -= 5
+                p.experience -= 5
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'pouches':
             if p.experience >= 5:
                 p.self.inventoryCap += 3
-                self.experience -= 5
+                p.experience -= 5
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'stronger back':
             if p.experience >= 5:
                 p.self.maxinvweight += 3
-                self.experience -= 5
+                p.experience -= 5
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'metabolism increase':
             if p.experience >= 15:
                 p.abilities.append('Improved metabolism') # Will implement this later
-                self.experience -= 15
+                p.experience -= 15
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'fat reserves':
             if p.experience >= 15:
                 p.abilities.append('Fat reserves') # Will implement this later
-                self.experience -= 15
+                p.experience -= 15
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'semiaquatic':
             if p.experience >= 15:
                 p.abilities.append('Semiaquatic') # Will implement this later
-                self.experience -= 15
+                p.experience -= 15
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'item use':
             if p.experience >= 15:
                 p.abilities.append('Item use')
-                self.experience -= 15
+                p.experience -= 15
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'flexible responding':
             if p.experience >= 30:
                 p.abilities.append('Fat reserves')
-                self.experience -= 30
+                p.experience -= 30
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
