@@ -547,8 +547,11 @@ while playing and p.alive:
         print()
         input('Press enter to continue.')
     if timePasses:
+        clear()
         w.update()
         if w.turn_count > 200:
             gameOver(w)
+        print()
+        print('Press enter to continue.')
 if not p.alive:
     gameOver(w)
