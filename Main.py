@@ -73,6 +73,8 @@ def printSituation(w, p):
     else:
         print("There is nothing of use to you here.")
     print()
+    p.location.availableDirs()
+    print()
     print("Health: " + str(p.health))
     print("Food meter: " + str(p.hunger))
     print()
