@@ -895,7 +895,7 @@ class Player:
         elif self.health <= 0:
             self.die()
 
-    def ally(self, creature):
+    def makeAlly(self, creature):
         if creature in self.allied:
             self.ally = creature
             return True
