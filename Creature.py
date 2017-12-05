@@ -55,11 +55,11 @@ class Sheep(Creature):
         Creature.__init__(self,square,level)
         self.health = math.floor(self.health*0.5)
         self.strength -= 15
-        if self.strength < 0:
-            self.strength = 0
+        if self.strength < 1:
+            self.strength = 1
         self.hostility -= 15
-        if self.hostility < 0:
-            self.hostility = 0
+        if self.hostility < 1:
+            self.hostility = 1
         self.speed = 5
         self.fleeRate = 0.8
         self.name = 'sheep'
