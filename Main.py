@@ -493,7 +493,7 @@ while playing and p.alive:
 #             print()
 #             input('Press enter to continue.')
         
-        elif 'ally' in commandWords and 'abbreviate' not in commandWords:
+        elif commandWords[0] == 'recruit':
             print(p.friends)
             if p.friends == []:
                 print("You don't have any friends who can become your ally.")
