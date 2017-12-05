@@ -582,6 +582,7 @@ class Player:
                 input()
 
         if creature.health <= 0 and self.health > 0:
+            print("You've defeated the creature!")
             print("You gain " + str(creature.experience) + " experience!")
             self.experience += creature.experience
             self.defeated += 1
@@ -709,6 +710,7 @@ class Player:
                 input()
 
         if creature.hostility <= 0 and self.health > 0:
+            print("You've befriended the creature!")
             print("You gain " + str(creature.experience) + " experience!")
             self.experience += creature.experience
             self.allies.append(creature)
@@ -859,6 +861,7 @@ class Player:
                 input()
 
         if creature.health <= 0 and self.health > 0:
+            print("You've defeated the creature!")
             print("You gain " + str(creature.experience) + " experience!")
             self.experience += creature.experience
             self.defeated += 1
@@ -873,6 +876,7 @@ class Player:
                     self.location.items[itemDrop] = 1
             input()
         elif creature.hostility <= 0 and self.health > 0:
+            print("You've befriended the creature!")
             print("You gain " + str(creature.experience) + " experience!")
             self.experience += creature.experience
             self.allies.append(creature)
