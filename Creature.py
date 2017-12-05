@@ -22,24 +22,25 @@ class Wolf(Creature):
         self.strength += 3*self.level
         self.hostility += 3*self.level
         self.speed -= 2*self.level
+        if self.speed < 0:
+            self.speed = 0
         self.fleeRate = self.fleeRate/2
         self.name = 'wolf'
 class Tiger(Creature):
     def __init__(self,square,level):
         Creature.__init__(self,square,level)
         self.health += 4*self.level
-        self.strength += 5*self.level
+        self.strength += 3*self.level
         self.hostility += 2*self.level
         self.speed += self.level
-        self.fleeRate = self.fleeRate
         self.name = 'tiger'
 class Monkey(Creature):
     def __init__(self,square,level):
         Creature.__init__(self,square,level)
         self.health -= math.floor(10/level)
-        self.strength += 5*self.level
+        self.strength += 2*self.level
         self.hostility += 3*self.level
-        self.speed -= 2*self.level
+        self.speed += 2*self.level
         self.fleeRate = self.fleeRate/2
         self.name = 'monkey'
 class Dog(Creature):
@@ -54,7 +55,11 @@ class Sheep(Creature):
         Creature.__init__(self,square,level)
         self.health = math.floor(self.health*0.5)
         self.strength -= 15
+        if self.strength < 0:
+            self.strength = 0
         self.hostility -= 15
+        if self.hostility < 0:
+            self.hostility = 0
         self.speed = 5
         self.fleeRate = 0.8
         self.name = 'sheep'
