@@ -235,8 +235,6 @@ def evolve(p):
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'go back':
             transactionCompleted = True
-    print()
-    input('Press enter to continue.')
         
 
 clear()
