@@ -145,6 +145,8 @@ class Player:
         if 'meat' in self.inventory:
             self.m += 1
             if self.m == 4:
+                self.invWeight -= self.inventory['fruit'] * self.world.itemWeights['fruit']
+                self.invWeight -= self.inventory['meat'] * self.world.itemWeights['meat']
                 del self.inventory['fruit']
                 del self.inventory['meat']
                 self.m = 0
@@ -183,14 +185,11 @@ class Player:
                     self.hunger += 25
                     self.inventory['fruit'] -= 1
                     self.inventorySize -= 1
-                    self.invweight -= 1
+                    self.invweight -= self.world.itemWeights['fruit']
                     if self.inventory['fruit'] <= 0:
                         del self.inventory['fruit']
                 print('You eat the fruit.')
-                input()
                 return True
-            else:
-                return False
         elif food == 'meat':
             if self.diet == 'carnivore' or self.diet == 'omnivore':
                 if 'meat' in self.location.items:
@@ -204,75 +203,38 @@ class Player:
                     self.hunger += 25
                     self.inventory['meat'] -= 1
                     self.inventorySize -= 1
-                    self.invweight -= 1
+                    self.invweight -= self.world.itemWeights['meat']
                     if self.inventory['meat'] <= 0:
                         del self.inventory['meat']
                 print('You eat the meat.')
                 input()
                 return True
-            else:
-                return False
         
     def pickup(self, item):
-        f = 0
-        if item == 'fruit':
-            f = 1
-        elif item == 'stinkfruit':
-            f = 2
-        elif item == 'sticky sap':
-            f = 5
-        elif item == 'poison berries':
-            f = 5
-        elif item == 'big leaf':
-            f = 3
-        elif item == 'healing salve':
-            f = 4
-        elif item == 'flowers':
-            f = 1
-        elif item == 'meat':
-            f = 1
         if self.inventorySize < self.inventoryCap and self.invweight <= self.maxinvweight + f:
             if item in self.location.items:
                 if item in self.inventory:
                     self.inventory[item] += 1
-                    self.invweight += f
+                    self.invweight += self.world.itemWeights['item']
                 else:
                     self.inventory[item] = 1
-                    self.invweight += f
+                    self.invweight += self.world.itemWeights['item']
                 self.location.items[item] -= 1
                 if self.location.items[item] <= 0:
                     del self.location.items[item]
-                    self.invweight += f
                 print('You pick up the ' + item + '.')
             return True
         else:
-            return f
+            return self.world.itemWeights['item']
         
     def drop(self,item):
-        f = 0
-        if item == 'fruit':
-            f = 1
-        elif item == 'stinkfruit':
-            f = 2
-        elif item == 'sticky sap':
-            f = 5
-        elif item == 'poison berries':
-            f = 5
-        elif item == 'big leaf':
-            f = 3
-        elif item == 'healing salve':
-            f = 4
-        elif item == 'flowers':
-            f = 1
-        elif item == 'meat':
-            f = 1
         if item in self.inventory:
             if item in self.location.items:
                 self.location.items[item] += 1
             else:
                 self.location.items[item] = 1
             self.inventory[item] -= 1
-            self.invweight -= f
+            self.invweight -= self.world.itemWeights['item]
             if self.inventory[item] <= 0:
                 del self.inventory[item]
             print('You drop the ' + item + '.')
@@ -294,13 +256,15 @@ class Player:
             elif item == 'flowers':
                 print("Pretty flowers. Use them during an encounter to decrease the other creature's hostility.")
             elif item == 'fruit':
-                print('A fruit. If you are herbivore or omnivore, then eating this will reduce hunger and restore your stats.')
+                print('A fruit. If you are an herbivore or omnivore, then eating this will reduce hunger and restore your stats.')
             elif item == 'meat':
-                print('A piece of meat. If you are carnivore or omnivore, then eating this will reduce hunger and restore your stats.')
-        elif item == 'creature':
-            creat = self.location.creature
-            print("The creature is a " + creat.name + '!')
-            print("It has " + str(creat.health) + " health, " + str(creat.speed) + " speed, " + str(creat.strength) + " strength, and " + str(creat.hostility) + " hostility.")
+                print('A piece of meat. If you are a carnivore or omnivore, then eating this will reduce hunger and restore your stats.')
+        elif item == 'creature' or item == self.location.creature.name:
+            if self.location.creature == None:
+                print('There is no creature here.')
+            else:
+                print("The creature is a " + self.location.creature.name + '!')
+                print("It has " + str(self.location.creature.health) + " health, " + str(self.location.creature.speed) + " speed, " + str(self.location.creature.strength) + " strength, and " + str(self.location.creature.hostility) + " hostility.")
                     
     def useItem(self, item):
         if item in self.inventory:
@@ -316,7 +280,7 @@ class Player:
                 self.fillStats()
                 self.inventory['healing salve'] -= 1
                 self.inventorySize -= 1
-                self.invweight -= 4
+                self.invweight -= self.world.itemWeights['healing salve']
                 if self.inventory['healing salve'] <= 0:
                     del self.inventory['healing salve']
             elif item == 'big leaf':
@@ -324,9 +288,17 @@ class Player:
                 self.location.weather = 'clear'
                 self.inventory['big leaf'] -= 1
                 self.inventorySize -= 1
-                self.invweight -= 3
+                self.invweight -= self.world.itemWeights['big leaf']
                 if self.inventory['big leaf'] <= 0:
                     del self.inventory['big leaf']
+            elif item == 'nesting materials':
+                print('You have established a new home at the current location!')
+                self.home = self.location
+                self.inventory['nesting materials'] -= 1
+                self.inventorySize -= 1
+                self.invweight -= self.world.itemWeights['nesting materials']
+                if self.inventory['nesting materials'] <= 0:
+                    del self.inventory['nesting materials']
             else:
                 print("Now's not the time to use that!")
                 return False
@@ -337,34 +309,39 @@ class Player:
     def useBattleItem(self, item, target):
         if item in self.inventory:
             if item == 'stinkfruit':
-               # break # I have no idea if this will work #what were you trying to do?
                 self.inventory['stinkfruit'] -= 1
                 self.inventorySize -= 1
+                self.invWeight -= self.world.itemWeights['stinkfruit']
                 if self.inventory['stinkfruit'] <= 0:
                     del self.inventory['stinkfruit']
+                return True
             elif item == 'sticky sap':
-                target.speed -= target.speed // 4
+                target.speed -= target.speed // 2
                 self.inventory['sticky sap'] -= 1
                 self.inventorySize -= 1
+                self.invWeight -= self.world.itemWeights['sticky sap']
                 if self.inventory['sticky sap'] <= 0:
                     del self.inventory['sticky sap']
             elif item == 'poison berries':
-                target.health -= target.health // 5
-                target.strength -= target.strength // 5
+                target.health -= target.health // 4
+                target.strength -= target.strength // 4
                 self.inventory['poison berries'] -= 1
                 self.inventorySize -= 1
+                self.invWeight -= self.world.itemWeights['poison berries']
                 if self.inventory['poison berries'] <= 0:
                     del self.inventory['poison berries']
             elif item == 'healing salve':
                 self.fillStats()
                 self.inventory['healing salve'] -= 1
                 self.inventorySize -= 1
+                self.invWeight -= self.world.itemWeights['healing salve']
                 if self.inventory['healing salve'] <=0:
                     del self.inventory['healing salve']
             elif item == 'flowers':
                 target.hostility -= target.hostility // 3
                 self.inventory['flowers'] -= 1
                 self.inventorySize -= 1
+                self.invWeight -= self.world.itemWeights['flowers']
                 if self.inventory['flowers'] <=0:
                     del self.inventory['flowers']
                     
