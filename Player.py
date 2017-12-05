@@ -357,27 +357,79 @@ class Player:
                 if self.inventory['flowers'] <=0:
                     del self.inventory['flowers']
                     
+    def go(self, dir):
+        if dir.lower() in 'north':
+            if self.location.exits['north'] == None:
+                print('You may not go north. Try again.')
+                return False
+            elif p.location.exits['north'].terrain == 'water':
+                if 'semiaquatic' not in player.abilities:
+                    print('There is water in that direction, and you cannot swim. Try again.')
+                    return False
+            else:
+                print('You go north.')
+                self.location = self.location.exits['north']
+                return True
+        if dir.lower() in 'south':
+            if self.location.exits['south'] == None:
+                print('You may not go south. Try again.')
+                return False
+            elif p.location.exits['south'].terrain == 'water':
+                if 'semiaquatic' not in player.abilities:
+                    print('There is water in that direction, and you cannot swim. Try again.')
+                    return False
+            else:
+                print('You go south.')
+                self.location = self.location.exits['south']
+                return True
+        if dir.lower() in 'east':
+            if self.location.exits['east'] == None:
+                print('You may not go east. Try again.')
+                return False
+            elif p.location.exits['east'].terrain == 'water':
+                if 'semiaquatic' not in player.abilities:
+                    print('There is water in that direction, and you cannot swim. Try again.')
+                    return False
+            else:
+                print('You go east.')
+                self.location = self.location.exits['east']
+                return True
+        if dir.lower() in 'west':
+            if self.location.exits['west'] == None:
+                print('You may not go north. Try again.')
+                return False
+            elif p.location.exits['west'].terrain == 'water':
+                if 'semiaquatic' not in player.abilities:
+                    print('There is water in that direction, and you cannot swim. Try again.')
+                    return False
+            else:
+                print('You go west.')
+                self.location = self.location.exits['west']
+                return True
+        else:
+            print("Sorry, I don't understand. Choose north, south, east or west.")
+            return False
     
-    def north(self):
-        if self.location.exits['north'] != None:
-            self.location = self.location.exits['north']
-        else:
-            print('You may not move North. Try again.')
-    def east(self):
-        if self.location.exits['east'] != None:
-            self.location = self.location.exits['east']
-        else:
-            print('You may not move East. Try again.')
-    def west(self):
-        if self.location.exits['west'] != None:
-            self.location = self.location.exits['west']
-        else:
-            print('You may not move West. Try again.')
-    def south(self):
-        if self.location.exits['south'] != None:
-            self.location = self.location.exits['south']
-        else:
-            print('You may not move South. Try again.')
+#     def north(self):
+#         if self.location.exits['north'] != None:
+#             self.location = self.location.exits['north']
+#         else:
+#             print('You may not move North. Try again.')
+#     def east(self):
+#         if self.location.exits['east'] != None:
+#             self.location = self.location.exits['east']
+#         else:
+#             print('You may not move East. Try again.')
+#     def west(self):
+#         if self.location.exits['west'] != None:
+#             self.location = self.location.exits['west']
+#         else:
+#             print('You may not move West. Try again.')
+#     def south(self):
+#         if self.location.exits['south'] != None:
+#             self.location = self.location.exits['south']
+#         else:
+#             print('You may not move South. Try again.')
         
               
     def stats(self):
