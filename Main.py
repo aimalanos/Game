@@ -336,8 +336,10 @@ while playing and p.alive:
         elif commandWords[0] == 'pickup':
             if len(commandWords) == 3:
                 item = commandWords[1] + ' ' + commandWords[2]
-            else:
+            elif len(commandWords) == 2:
                 item = commandWords[1]
+            else:
+                item = input('What do you want to pick up? ')
             if item in p.location.items:
                 s = p.pickup(item)
             else:
@@ -349,8 +351,10 @@ while playing and p.alive:
         elif commandWords[0] == 'drop':
             if len(commandWords) == 3:
                 item = commandWords[1] + ' ' + commandWords[2]
-            else:
+            elif len(commandWords) == 2:
                 item = commandWords[1]
+            else:
+                item = input('What do you want to drop? ')
             if item in p.inventory:
                 p.drop(item)
             else:
