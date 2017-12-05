@@ -6,6 +6,7 @@ class World:
     terrains = ['forest','forest','desert','desert','hills','hills','lake','tundra','grassy']
     possibleItems = ['stinkfruit', 'sticky sap', 'poison berries', 'big leaf', 'healing salve', 'flowers']
     possibleCreatures = [Creature.Wolf,Creature.Tiger,Creature.Monkey,Creature.Dog,Creature.Sheep,Creature.Snake]
+    aquaticCreatures = [Creature.Fish,Creature.Eel,Creature.Leviathan]
     def __init__(self):
         self.turn_count = 0
         self.weather = "clear"
