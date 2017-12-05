@@ -75,42 +75,46 @@ class Player:
                 self.dirstring += ', ' + elem
                 
         self.healthLoss = 2
-        self.hungerLoss = 15
-        self.speedPenalty = 1
-        self.socPenalty = 1
+        self.hungerLoss = 10
+        self.speedPenalty = 0
+        self.socPenalty = 0
         
         if self.location.terrain == "desert":
-            self.hungerLoss *= 2
+            self.hungerLoss += 10
         elif self.location.terrain == "hills":
-            self.speedPenalty *= 2
+            self.speedPenalty += self.maxSpeed // 4
         elif self.location.terrain == "tundra":
             self.healthLoss *= 2
-        elif self.location.terrain == "grassy":
-            self.healthLoss = 1
-            self.hungerLoss = 10
-            self.speedPenalty = 0
-            self.socPenalty = 0
-        elif self.location.terrain == 'water':
-            self.speedPenalty = 3
-            self.socPenalty = 2
-            self.hungerLoss = 25
-            self.strength = 3
+#         elif self.location.terrain == "grassy":
+#             self.healthLoss = 1
+#             self.hungerLoss = 10
+#             self.speedPenalty = 0
+#             self.socPenalty = 0
+#         elif self.location.terrain == 'water':
+#             self.speedPenalty = 3
+#             self.socPenalty = 2
+#             self.hungerLoss = 25
+#             self.strength = 3
 
         if self.world.weather == "rainy":
-            self.speedPenalty *= 3
+            self.speedPenalty += self.maxSpeed // 4
         elif self.world.weather == "hailing":
             self.healthLoss *= 2
         elif self.world.weather == "snowy":
-            self.socPenalty *= 2
+            self.socPenalty += self.maxSociability // 4
         elif self.world.weather == "drought":
-            self.hungerLoss *= 2
+            self.hungerLoss += 10
 
         if self.location == self.home:
-            self.health += self.maxHealth // 2
+            healthGained = self.maxHealth // 2
+            self.health += healthGained
             if self.health > self.maxHealth:
                 self.health = self.maxHealth
+                healthGained -= self.health - self.maxHealth
+            print('You gain ' + str(healthGained) + ' health at your home base!')
         else: #no health loss at home
             self.health -= self.healthLoss
+            print('You lose ' + str(self.healthLoss) + ' health.')
         if self.health <= 0:
             self.die()
             
