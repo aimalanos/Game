@@ -362,8 +362,8 @@ class Player:
             if self.location.exits['north'] == None:
                 print('You may not go north. Try again.')
                 return False
-            elif p.location.exits['north'].terrain == 'water':
-                if 'semiaquatic' not in player.abilities:
+            elif self.location.exits['north'].terrain == 'water':
+                if 'semiaquatic' not in self.abilities:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
             else:
@@ -374,8 +374,8 @@ class Player:
             if self.location.exits['south'] == None:
                 print('You may not go south. Try again.')
                 return False
-            elif p.location.exits['south'].terrain == 'water':
-                if 'semiaquatic' not in player.abilities:
+            elif self.location.exits['south'].terrain == 'water':
+                if 'semiaquatic' not in self.abilities:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
             else:
@@ -386,8 +386,8 @@ class Player:
             if self.location.exits['east'] == None:
                 print('You may not go east. Try again.')
                 return False
-            elif p.location.exits['east'].terrain == 'water':
-                if 'semiaquatic' not in player.abilities:
+            elif self.location.exits['east'].terrain == 'water':
+                if 'semiaquatic' not in self.abilities:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
             else:
@@ -398,8 +398,8 @@ class Player:
             if self.location.exits['west'] == None:
                 print('You may not go north. Try again.')
                 return False
-            elif p.location.exits['west'].terrain == 'water':
-                if 'semiaquatic' not in player.abilities:
+            elif self.location.exits['west'].terrain == 'water':
+                if 'semiaquatic' not in self.abilities:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
             else:
