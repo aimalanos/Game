@@ -581,6 +581,7 @@ class Player:
 
                 input()
 
+        print()
         if creature.health <= 0 and self.health > 0:
             print("You've defeated the creature!")
             print("You gain " + str(creature.experience) + " experience!")
@@ -709,6 +710,7 @@ class Player:
                             creature.hostility -= befriendSuccess
                 input()
 
+        print()
         if creature.hostility <= 0 and self.health > 0:
             print("You've befriended the creature!")
             print("You gain " + str(creature.experience) + " experience!")
@@ -860,6 +862,7 @@ class Player:
                             creature.hostility -= befriendSuccess
                 input()
 
+        print()
         if creature.health <= 0 and self.health > 0:
             print("You've defeated the creature!")
             print("You gain " + str(creature.experience) + " experience!")
