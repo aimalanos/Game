@@ -136,6 +136,7 @@ class Player:
             if self.m == 4:
                 del self.inventory['fruit']
                 del self.inventory['meat']
+                self.m = 0
                 print('Oh no! You carried meat in your bag for too long. All of your food has gone rotten.')
         else:
             self.m = 0
@@ -348,7 +349,7 @@ class Player:
                 if self.inventory['healing salve'] <=0:
                     del self.inventory['healing salve']
             elif item == 'flowers':
-                target.hostility -= target.hostility // 4
+                target.hostility -= target.hostility // 3
                 self.inventory['flowers'] -= 1
                 self.inventorySize -= 1
                 if self.inventory['flowers'] <=0:
@@ -376,6 +377,7 @@ class Player:
         else:
             print('You may not move South. Try again.')
         
+              
     def stats(self):
         if self.diet == 'herbivore':
             print("You are an herbivore.")
@@ -385,6 +387,7 @@ class Player:
         print("Hunger = " + str(self.hunger))
         print("Health = " + str(self.health))
         print('Type: \n \t "all stats" for all stats; \n \t "inventory" for abilities and inventory; \n \t "location" for details on location')
+              
     def allstats(self):
         if self.diet == 'herbivore':
             print("You are an herbivore.")
@@ -409,7 +412,7 @@ class Player:
         print("Allies: " + str(len(self.allies)))
         print("Defeated: " + str(self.defeated))
         
-            
+              
     def attack(self, creature):
         while self.health > 0 and creature.health > 0:
             clear()
