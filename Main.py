@@ -533,32 +533,34 @@ while playing and p.alive:
                 print('\t' + elem.name)
 
         elif command == 'show map':
-            #mapx,mapy
-            sWidth = 8
+            sWidth = 8 #square width
             sHeight = 4
-            print('|' + ('-'*sWidth + '|')*mapx*2)
-            row = 0
-            while row < mapy*2:
-                curr = []
-                minirow = 0
+            print('|' + ('-'*sWidth + '|')*mapx*2) #top border
+            row = mapy #start here to get proper north/south orientation
+            while row >= -mapy: #go from 4 to -4
+                curr = [] #keeps track of all square objects in current row
+                minirow = 0 #aka sub-row; tracks lines within the square
                 while minirow < sHeight:
-                    if minirow == 0:
+                    if minirow == 0: #top line of each square states terrain
                         for elem in w.squares:
-                            if elem.coordinates[1] == row:
-                                curr.append(elem)
-                        print('| ' + curr[0].terrain + ' '*(sWidth-len(curr[0].terrain)-1) + '| ' + curr[1].terrain + ' '*(sWidth-len(curr[1].terrain)-1) + '| ' + curr[2].terrain + ' '*(sWidth-len(curr[2].terrain)-1) + '| ' + curr[3].terrain + ' '*(sWidth-len(curr[3].terrain)-1) + '|')
+                            if elem.coordinates[1] == row: #all squares with y-coord equal to current row are relevant
+                                curr.append(elem)          #add these squares to curr
+                        i = 1
+                        while i < len(curr): #compensate for the fact that each square was being added twice(??)
+                            del curr[i]
+                            i += 2
+                        print('| ' + curr[0].terrain + ' '*(sWidth-len(curr[0].terrain)-1) + '| ' + curr[1].terrain + ' '*(sWidth-len(curr[1].terrain)-1) + '| ' + curr[2].terrain + ' '*(sWidth-len(curr[2].terrain)-1) + '| ' + curr[3].terrain + ' '*(sWidth-len(curr[3].terrain)-1) + '| ' + curr[4].terrain + ' '*(sWidth-len(curr[4].terrain)-1) + '| ' + curr[5].terrain + ' '*(sWidth-len(curr[5].terrain)-1) + '| ' + curr[6].terrain + ' '*(sWidth-len(curr[6].terrain)-1) + '| ' + curr[7].terrain + ' '*(sWidth-len(curr[7].terrain)-1) + '|')
                         minirow += 1
-                    elif minirow == 1 or minirow == 2:
+                    elif minirow == 1 or minirow == 2: #minirows 1 and 2 are just spaces
                         print('|' + (' '*sWidth + '|')*mapx*2)
                         minirow += 1
-                    else:
+                    else: #minirow 3 is the bottom border of each square
                         print('|' + ('-'*sWidth + '|')*mapx*2)
                         minirow += 1
                         if minirow == 4:
                             row += 1
                             break
-                #print('|' + ('-'*sWidth + '|')*mapx*2)
-                    
+
         else:
             print()
             print('Sorry, I don\'t understand. Type "help" for available options. ')
