@@ -882,11 +882,17 @@ class Player:
             self.die()
 
     def recruit(self, creature):
-        if creature in self.friends:
-            self.ally = creature
-            return True
-        else:
+        if self.location.creature == None:
+            print('There is no creature here for you to befriend!')
             return False
+        else:
+            if creature in self.friends:
+                self.ally = creature
+                print('You have allied your friend the ' + self.ally.name + '! Your ally will follow you around and fight with you.')
+                return True
+            else:
+                print('You must befriend a creature before it will be your ally!')
+                return False
                 
                 
     def locationDets(self):
