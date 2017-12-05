@@ -528,7 +528,7 @@ while playing and p.alive:
             if p.location.creature == None:
                 print('There is no creature here.')
                 commandSuccess = False
-            elif not p.ally(p.location.creature):
+            elif not p.makeAlly(p.location.creature):
                 print('You need to befriend a creature before it will be your ally!')
                 commandSuccess = False
 #             print()
