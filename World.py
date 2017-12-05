@@ -4,7 +4,7 @@ import random
 
 class World:
     terrains = ['forest','forest','desert','desert','hills','hills','lake','tundra','grassy']
-    possibleItems = ['stinkfruit', 'sticky sap', '1 berries', 'big leaf', 'healing salve', 'flowers']
+    possibleItems = ['stinkfruit', 'sticky sap', 'poison berries', 'big leaf', 'healing salve', 'flowers']
     possibleCreatures = [Creature.Wolf,Creature.Tiger,Creature.Monkey,Creature.Dog,Creature.Sheep,Creature.Snake]
     def __init__(self):
         self.turn_count = 0
