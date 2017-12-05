@@ -28,9 +28,9 @@ class Player:
         self.alive = True
         self.hunger = 100 # If self.hunger reaches 0, the player's health will decrease at each update.
         self.maxHealth, self.health = 50, 50
-        self.maxStrength, self.strength = 10, 10
-        self.maxSociability, self.sociability = 10, 10
-        self.maxSpeed, self.speed = 10, 10
+        self.maxStrength, self.strength = 5, 5
+        self.maxSociability, self.sociability = 5, 5
+        self.maxSpeed, self.speed = 5, 5
         self.healthLoss = 2
         self.hungerLoss = 20
         self.speedPenalty = 1
@@ -358,7 +358,7 @@ class Player:
                     del self.inventory['flowers']
                     
     def go(self, dir):
-        if dir.lower() in 'north':
+        if dir.lower() == 'north':
             if self.location.exits['north'] == None:
                 print('You may not go north. Try again.')
                 return False
@@ -370,7 +370,7 @@ class Player:
                 print('You go north.')
                 self.location = self.location.exits['north']
                 return True
-        if dir.lower() in 'south':
+        if dir.lower() == 'south':
             if self.location.exits['south'] == None:
                 print('You may not go south. Try again.')
                 return False
@@ -382,7 +382,7 @@ class Player:
                 print('You go south.')
                 self.location = self.location.exits['south']
                 return True
-        if dir.lower() in 'east':
+        if dir.lower() == 'east':
             if self.location.exits['east'] == None:
                 print('You may not go east. Try again.')
                 return False
@@ -394,7 +394,7 @@ class Player:
                 print('You go east.')
                 self.location = self.location.exits['east']
                 return True
-        if dir.lower() in 'west':
+        if dir.lower() == 'west':
             if self.location.exits['west'] == None:
                 print('You may not go north. Try again.')
                 return False
@@ -409,27 +409,6 @@ class Player:
         else:
             print("Sorry, I don't understand. Choose north, south, east or west.")
             return False
-    
-#     def north(self):
-#         if self.location.exits['north'] != None:
-#             self.location = self.location.exits['north']
-#         else:
-#             print('You may not move North. Try again.')
-#     def east(self):
-#         if self.location.exits['east'] != None:
-#             self.location = self.location.exits['east']
-#         else:
-#             print('You may not move East. Try again.')
-#     def west(self):
-#         if self.location.exits['west'] != None:
-#             self.location = self.location.exits['west']
-#         else:
-#             print('You may not move West. Try again.')
-#     def south(self):
-#         if self.location.exits['south'] != None:
-#             self.location = self.location.exits['south']
-#         else:
-#             print('You may not move South. Try again.')
         
               
     def stats(self):
@@ -895,7 +874,7 @@ class Player:
         elif self.health <= 0:
             self.die()
 
-    def makeAlly(self, creature):
+    def ally(self, creature):
         if creature in self.allied:
             self.ally = creature
             return True
