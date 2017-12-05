@@ -6,7 +6,7 @@ import random
 #     os.system('cls' if os.name == 'nt' else 'clear')
 
 class World:
-    terrains = ['grassy','grassy','desert','desert','mountainous','mountainous','tundra','forest']
+    terrains = ['forest','forest','desert','desert','hills','hills','water','tundra','grassy']
     possibleItems = ['stinkfruit', 'sticky sap', 'poison berries', 'big leaf', 'healing salve', 'flowers']
     possibleCreatures = [Creature.Wolf,Creature.Tiger,Creature.Monkey,Creature.Dog,Creature.Sheep,Creature.Snake]
     def __init__(self):
@@ -14,7 +14,7 @@ class World:
         self.weather = "clear"
         self.player = None
         self.squares = []
-        self.possibleCommands = {'me':['me'],'help':['help'],'allstats':['allstats'],'pickup':['pickup'],'go':['go'],'inspect':['inspect'], 'attack': ['attack'], 'befriend': ['befriend'], 'ally': ['ally'], 'dismiss':['dismiss'], 'evolve': ['evolve'], 'use': ['use'], 'inventory': ['inventory'], 'use': ['use'], 'drop': ['drop']}
+        self.possibleCommands = {'me':['me'],'help':['help'],'allstats':['allstats','all stats'],'pickup':['pickup'],'go':['go'],'inspect':['inspect'], 'attack': ['attack'], 'befriend': ['befriend'], 'ally': ['ally'], 'dismiss':['dismiss'], 'evolve': ['evolve'], 'use': ['use'], 'inventory': ['inventory'], 'use': ['use'], 'drop': ['drop']}
         self.weatherlist = ["clear", "rainy", "hailing", "snowy", "drought"]
         self.weather = random.choice(self.weatherlist)
     def makeMap(self,x,y):
@@ -34,7 +34,7 @@ class World:
                         if squ.coordinates[1] == nei.coordinates[1] - 1:
                             nei.exits['south'] = squ
                         elif squ.coordinates[1] == nei.coordinates[1] + 1:
-                            nei.exits['north'] = squ
+                            nei.exits['north'] = squ        
 
     def add_player(self, player):
         self.player = player
