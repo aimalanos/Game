@@ -71,10 +71,24 @@ class Player:
                 self.dirstring = elem
             else:
                 self.dirstring += ', ' + elem
+                
         self.healthLoss = 2
-        self.hungerLoss = 20
+        self.hungerLoss = 15
         self.speedPenalty = 1
         self.socPenalty = 1
+        
+        if self.location.terrain == "desert":
+            self.hungerLoss *= 2
+        elif self.location.terrain == "mountainous":
+            self.speedPenalty *= 2
+        elif self.location.terrain == "tundra":
+            self.healthLoss *= 2
+        elif self.location.terrain == "grassy":
+            self.healthLoss = 1
+            self.hungerLoss = 10
+            self.speedPenalty = 0
+            self.socPenalty = 0
+            
         if self.location.weather == "rainy":
             self.speedPenalty *= 3
         elif self.location.weather == "hailing":
@@ -83,17 +97,7 @@ class Player:
             self.socPenalty *= 2
         elif self.location.weather == "drought":
             self.hungerLoss *= 2
-        if self.location.terrain == "desert":
-            self.hungerLoss *= 2
-        elif self.location.terrain == "mountainous":
-            self.speedPenalty *= 2
-        elif self.location.terrain == "tundra":
-            self.healthLoss *= 2
-        elif self.location.terrain == "forest":
-            self.healthLoss = 1
-            self.hungerLoss = 10
-            self.speedPenalty = 0
-            self.socPenalty = 0
+
         if self.location == self.home:
             self.health += self.maxHealth // 2
             if self.health > self.maxHealth:
@@ -102,40 +106,53 @@ class Player:
             self.health -= self.healthLoss
         if self.health <= 0:
             self.die()
+            
         if self.hunger > 0:
+            if 'Improved metabolism' in self.abilities:
+                self.hunger -= 5
             self.hunger -= self.hungerLoss
             if self.hunger < 0:
                 self.hunger = 0
         elif self.hunger == 0:
             r = random.randint(0,3) #player will randomly take damage to health, strength, sociability, speed, or intelligence
             if r == 0:
-                self.health -= self.health/10
+                self.health -= self.health//10
             elif r == 1:
-                self.strength -= self.strength/10
+                self.strength -= self.strength//10
             elif r == 2:
-                self.sociability -= self.sociability/10
+                self.sociability -= self.sociability//10
             elif r == 3:
-                self.speed -= self.speed/10
+                self.speed -= self.speed//10
         if self.hunger < 0:
             self.hunger = 0
+            
         self.availabledirs = []
         for exit in self.location.exits:
             if exit != None:
                 self.availabledirs.append(exit)
+                
         if 'meat' in self.inventory:
             self.m += 1
             if self.m == 4:
                 del self.inventory['fruit']
                 del self.inventory['meat']
-                print('Oh no! You carried meat in your bag for too long. All of your food has gone rotten. ')
+                print('Oh no! You carried meat in your bag for too long. All of your food has gone rotten.')
         else:
             self.m = 0
             
-    def fillStats(self):
-        self.health = self.maxHealth
-        self.strength = self.maxStrength
-        self.sociability = self.maxSociability
-        self.speed = self.maxSpeed
+    def fillStats(self, n):
+        self.health += self.maxHealth // n
+        if self.health > self.maxHealth:
+            self.health = self.maxHealth
+        self.strength += self.maxStrength // n
+        if self.strength > self.maxStrength:
+            self.strength = self.maxStrength
+        self.sociability += self.maxSociability // n
+        if self.sociability > self.maxSociability:
+            self.sociability = self.maxSociability
+        self.speed += self.maxSpeed // n
+        if self.speed > self.maxSpeed:
+            self.speed = self.maxSpeed
         
     def die(self):
         self.alive = False
@@ -144,13 +161,13 @@ class Player:
         if food == 'fruit':
             if self.diet == 'herbivore' or self.diet == 'omnivore':
                 if 'fruit' in self.location.items:
-                    self.fillStats()
+                    self.fillStats(2)
                     self.hunger += 25
                     self.location.items['fruit'] -= 1
                     if self.location.items['fruit'] <= 0:
                         del self.location.items['fruit']
                 elif 'fruit' in self.inventory:
-                    self.fillStats()
+                    self.fillStats(2)
                     self.hunger += 25
                     self.inventory['fruit'] -= 1
                     self.inventorySize -= 1
@@ -165,13 +182,13 @@ class Player:
         elif food == 'meat':
             if self.diet == 'carnivore' or self.diet == 'omnivore':
                 if 'meat' in self.location.items:
-                    self.fillStats()
+                    self.fillStats(1)
                     self.hunger += 25
                     self.location.items['meat'] -= 1
                     if self.location.items['meat'] <= 0:
                         del self.location.items['meat']
                 elif 'meat' in self.inventory:
-                    self.fillStats()
+                    self.fillStats(1)
                     self.hunger += 25
                     self.inventory['meat'] -= 1
                     self.inventorySize -= 1
