@@ -16,6 +16,7 @@ def help(p):
     print('Use the "drop __" command to drop an item.')
     if 'Item use' in p.abilities:
         print('Use the "use __" command to use an item.')
+    print('Use the "show map" command to see a map of the world.')
     print('Use the "inspect __" command to learn more about your environment.')
     print('Use the "attack" command to attack a creature.')
     print('Use the "befriend" command to try to befriend a creature.')
@@ -85,7 +86,7 @@ def victory(p):
         print('You have discovered fire! You have successfully set yourself on the path to civilization! Congratulations!')
     elif p.defeated >= 30:
         print('You have defeated enough enemies that you are now at the top of the food chain! Congratulations!')
-    elif len(p.allies) >= 30:
+    elif len(p.friends) >= 30:
         print('You have enough allies to be protected wherever you go! That means you win! Congratulations!')
     # We should put some fireworks in here
                       
@@ -308,6 +309,23 @@ while playing and p.alive:
             showInventory(p)
 #             print()
 #             input('Press enter to continue.')
+
+        elif 'cheat' in commandWords:
+            stat = commandWords[1]
+            if stat == 'health':
+                p.health = p.maxHealth
+            elif stat == 'strength':
+                p.strength = 100
+            elif stat == 'befriend':
+                p.friends.append(p.location.creature)
+                p.location.creature = None
+            elif stat == 'map':
+                count = 0
+                print('squares:')
+                for elem in w.squares:
+                    print('\t' + str(elem.coordinates),elem.terrain,elem)
+                    count += 1
+                print('total = ' + str(count))
           
         elif commandWords[0] == 'go' and 'abbreviate' not in commandWords:
             turn = True
@@ -465,7 +483,7 @@ while playing and p.alive:
                 else:
                     clear()
                     p.befriend(p.location.creature)
-                if len(p.allies) >= 30:
+                if len(p.friends) >= 30:
                     victory(p)
                     break
                 timePasses = True
@@ -476,12 +494,18 @@ while playing and p.alive:
 #             input('Press enter to continue.')
         
         elif 'ally' in commandWords and 'abbreviate' not in commandWords:
-            if p.location.creature == None:
-                print('There is no creature here.')
+            print(p.friends)
+            if p.friends == []:
+                print("You don't have any friends who can become your ally.")
                 commandSuccess = False
-            elif not p.ally(p.location.creature):
-                print('You need to befriend a creature before it will be your ally!')
+            elif commandWords[1] in p.friends:
+                for elem in p.friends:
+                    if elem.name == commandWords[1]:
+                        p.ally = elem
+                print('You have allied your friend the ' + commandWords[1] + '! Your ally will follow you around and fight with you.')
                 commandSuccess = False
+            else:
+                print('You do not have a ' + commandWords[1] + ' friend. Type \'friends\' to see a list of your friends.')
 #             print()
 #             input('Press enter to continue.')
                 
@@ -502,7 +526,39 @@ while playing and p.alive:
 
         elif command == 'skip':
             x=3
-                
+
+        elif command == 'friends':
+            print('Your friends are:')
+            for elem in p.friends:
+                print('\t' + elem.name)
+
+        elif command == 'show map':
+            #mapx,mapy
+            sWidth = 8
+            sHeight = 4
+            print('|' + ('-'*sWidth + '|')*mapx*2)
+            row = 0
+            while row < mapy*2:
+                curr = []
+                minirow = 0
+                while minirow < sHeight:
+                    if minirow == 0:
+                        for elem in w.squares:
+                            if elem.coordinates[1] == row:
+                                curr.append(elem)
+                        print('| ' + curr[0].terrain + ' '*(sWidth-len(curr[0].terrain)-1) + '| ' + curr[1].terrain + ' '*(sWidth-len(curr[1].terrain)-1) + '| ' + curr[2].terrain + ' '*(sWidth-len(curr[2].terrain)-1) + '| ' + curr[3].terrain + ' '*(sWidth-len(curr[3].terrain)-1) + '|')
+                        minirow += 1
+                    elif minirow == 1 or minirow == 2:
+                        print('|' + (' '*sWidth + '|')*mapx*2)
+                        minirow += 1
+                    else:
+                        print('|' + ('-'*sWidth + '|')*mapx*2)
+                        minirow += 1
+                        if minirow == 4:
+                            row += 1
+                            break
+                #print('|' + ('-'*sWidth + '|')*mapx*2)
+                    
         else:
             print()
             print('Sorry, I don\'t understand. Type "help" for available options. ')
