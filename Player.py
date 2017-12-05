@@ -24,6 +24,8 @@ class Player:
         w.add_player(self)
         self.world = w
         self.location = random.choice(self.world.squares)
+        while self.location.terrain == 'water':
+            self.location = random.choice(self.world.squares)
         self.home = self.location # The player's home base will be their starting location.
         self.alive = True
         self.hunger = 100 # If self.hunger reaches 0, the player's health will decrease at each update.
@@ -38,9 +40,9 @@ class Player:
         self.intelligence = 0
         self.experience = 0
         self.abilities = []
-#         self.startItems = ['matches','flashlight']
+        self.startItems = ['matches','flashlight']
         self.inventory = {}
-#         self.startInv()
+        self.startInv()
         self.inventorySize = 0
         self.inventoryCap = 10
         self.invweight = 0
@@ -48,7 +50,7 @@ class Player:
         self.availabledirs = []
         self.dirstring = ''
         self.defeated = 0
-        self.allies = []
+        self.friends = []
         self.ally = None
         self.m = 0
 
@@ -79,7 +81,7 @@ class Player:
         
         if self.location.terrain == "desert":
             self.hungerLoss *= 2
-        elif self.location.terrain == "mountainous":
+        elif self.location.terrain == "hills":
             self.speedPenalty *= 2
         elif self.location.terrain == "tundra":
             self.healthLoss *= 2
@@ -88,14 +90,19 @@ class Player:
             self.hungerLoss = 10
             self.speedPenalty = 0
             self.socPenalty = 0
-            
-        if self.location.weather == "rainy":
+        elif self.location.terrain == 'water':
+            self.speedPenalty = 3
+            self.socPenalty = 2
+            self.hungerLoss = 25
+            self.strength = 3
+
+        if self.world.weather == "rainy":
             self.speedPenalty *= 3
-        elif self.location.weather == "hailing":
+        elif self.world.weather == "hailing":
             self.healthLoss *= 2
-        elif self.location.weather == "snowy":
+        elif self.world.weather == "snowy":
             self.socPenalty *= 2
-        elif self.location.weather == "drought":
+        elif self.world.weather == "drought":
             self.hungerLoss *= 2
 
         if self.location == self.home:
@@ -442,7 +449,7 @@ class Player:
         print("Inventory cap = " + str(self.inventoryCap))
         print("Inventory weight = " + str(self.invweight))
         print("Inventory max weight = " + str(self.maxinvweight))
-        print("Allies: " + str(len(self.allies)))
+        print("Friends: " + str(len(self.friends)))
         print("Defeated: " + str(self.defeated))
         
               
@@ -596,7 +603,7 @@ class Player:
             print('\t flee')
             choice = input('What will you do? ')
             while choice.lower() not in 'befriend' and choice.lower() not in 'flee' and 'item' not in choice.lower():
-                if 'item use' in self.abilities:
+                if 'item use' in self.abilities: #why say "not in 'befriend'?
                     print('Invalid command. Choose "befriend," "item" or "flee."')
                 else:
                     print('Invalid command. Choose "befriend" or "flee."')
@@ -694,7 +701,7 @@ class Player:
             print("You've befriended the creature!")
             print("You gain " + str(creature.experience) + " experience!")
             self.experience += creature.experience
-            self.allies.append(creature)
+            self.friends.append(creature)
             creature.befriended = True
             if random.random() < .15:
                 itemDrop = random.choice(self.world.possibleItems)
@@ -861,7 +868,7 @@ class Player:
             print("You've befriended the creature!")
             print("You gain " + str(creature.experience) + " experience!")
             self.experience += creature.experience
-            self.allies.append(creature)
+            self.friends.append(creature)
             creature.befriended = True
             if random.random() < .15:
                 itemDrop = random.choice(self.world.possibleItems)
@@ -875,7 +882,7 @@ class Player:
             self.die()
 
     def ally(self, creature):
-        if creature in self.allied:
+        if creature in self.friends:
             self.ally = creature
             return True
         else:
