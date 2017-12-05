@@ -579,7 +579,7 @@ class Player:
                             creature.health -= attackStrength
                             creature.hostility += 3
 
-                input()
+            input()
 
         print()
         if creature.health <= 0 and self.health > 0:
@@ -708,7 +708,7 @@ class Player:
                             print("Your ally helps befriend the creature!")
                             print("The creature's hostility decreases!")
                             creature.hostility -= befriendSuccess
-                input()
+            input()
 
         print()
         if creature.hostility <= 0 and self.health > 0:
@@ -860,7 +860,7 @@ class Player:
                             print("Your ally helps befriend the creature!")
                             print("The creature's hostility decreases!")
                             creature.hostility -= befriendSuccess
-                input()
+            input()
 
         print()
         if creature.health <= 0 and self.health > 0:
