@@ -299,66 +299,71 @@ while playing and p.alive:
             showInventory(p)
 #             print()
 #             input('Press enter to continue.')
+          
+        elif commandWords[0] == 'go':
+            direction = commandWords[1]
+            if not p.go(direction):
+                commandSuccess = 0
             
-        elif 'north' in commandWords and 'abbreviate' not in commandWords:
-            if p.location.exits['north'] == None:
-                print('You may not go north. Try again.')
-                commandSuccess = False
-            elif p.location.exits['north'].terrain == 'water':
-                if 'semiaquatic' not in player.abilities:
-                    print('There is water in that direction, and you cannot swim. Try again.')
-                    commandSuccess = False
-            else:
-                print('You go north.')
-                p.north()
-                timePasses = True
-#             print()
-#             input('Press enter to continue.')
+#         elif 'north' in commandWords and 'abbreviate' not in commandWords:
+#             if p.location.exits['north'] == None:
+#                 print('You may not go north. Try again.')
+#                 commandSuccess = False
+#             elif p.location.exits['north'].terrain == 'water':
+#                 if 'semiaquatic' not in player.abilities:
+#                     print('There is water in that direction, and you cannot swim. Try again.')
+#                     commandSuccess = False
+#             else:
+#                 print('You go north.')
+#                 p.north()
+#                 timePasses = True
+# #             print()
+# #             input('Press enter to continue.')
                 
-        elif 'south' in commandWords and 'abbreviate' not in commandWords:
-            if p.location.exits['south'] == None:
-                print('You may not go south. Try again.')
-                commandSuccess = False
-            elif p.location.exits['south'].terrain == 'water':
-                if 'semiaquatic' not in player.abilities:
-                    print('There is water in that direction, and you cannot swim. Try again.')
-                    commandSuccess = False
-            else:
-                print('You go south.')
-                p.south()
-                timePasses = True
-#             print()
-#             input('Press enter to continue.')
+#         elif 'south' in commandWords and 'abbreviate' not in commandWords:
+#             if p.location.exits['south'] == None:
+#                 print('You may not go south. Try again.')
+#                 commandSuccess = False
+#             elif p.location.exits['south'].terrain == 'water':
+#                 if 'semiaquatic' not in player.abilities:
+#                     print('There is water in that direction, and you cannot swim. Try again.')
+#                     commandSuccess = False
+#             else:
+#                 print('You go south.')
+#                 p.south()
+#                 timePasses = True
+# #             print()
+# #             input('Press enter to continue.')
                 
-        elif 'west' in commandWords and 'abbreviate' not in commandWords:
-            if p.location.exits['west'] == None:
-                print('You may not go west. Try again.')
-                commandSuccess = False
-            elif p.location.exits['west'].terrain == 'water':
-                if 'semiaquatic' not in player.abilities:
-                    print('There is water in that direction, and you cannot swim. Try again.')
-                    commandSuccess = False
-            else:
-                print('You go west.')
-                p.west()
-                timePasses = True
-#             print()
-#             input('Press enter to continue.')
+#         elif 'west' in commandWords and 'abbreviate' not in commandWords:
+#             if p.location.exits['west'] == None:
+#                 print('You may not go west. Try again.')
+#                 commandSuccess = False
+#             elif p.location.exits['west'].terrain == 'water':
+#                 if 'semiaquatic' not in player.abilities:
+#                     print('There is water in that direction, and you cannot swim. Try again.')
+#                     commandSuccess = False
+#             else:
+#                 print('You go west.')
+#                 p.west()
+#                 timePasses = True
+# #             print()
+# #             input('Press enter to continue.')
                 
-        elif 'east' in commandWords and 'abbreviate' not in commandWords:
-            if p.location.exits['east'] == None:
-                print('You may not go east. Try again.')
-                commandSuccess = False
-            elif p.location.exits['east'].terrain == 'water':
-                if 'semiaquatic' not in player.abilities:
-                    print('There is water in that direction, and you cannot swim. Try again.')
-                    commandSuccess = False
-            else:
-                print('You go east.')
-                p.east()
-                timePasses = True
-#             print()
-#             input('Press enter to continue.')
+#         elif 'east' in commandWords and 'abbreviate' not in commandWords:
+#             if p.location.exits['east'] == None:
+#                 print('You may not go east. Try again.')
+#                 commandSuccess = False
+#             elif p.location.exits['east'].terrain == 'water':
+#                 if 'semiaquatic' not in player.abilities:
+#                     print('There is water in that direction, and you cannot swim. Try again.')
+#                     commandSuccess = False
+#             else:
+#                 print('You go east.')
+#                 p.east()
+#                 timePasses = True
+# #             print()
+# #             input('Press enter to continue.')
                 
         elif commandWords[0] == 'pickup':
             if len(commandWords) == 3:
