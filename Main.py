@@ -502,7 +502,7 @@ while playing and p.alive:
         w.turn_count = 199
 
     elif command == 'skip':
-        x=3
+        pass
 
     elif commandWords[0] == 'friends':
         print('Your friends are:')
