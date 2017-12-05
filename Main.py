@@ -11,6 +11,8 @@ def help(p):
     print('Use the "me" command to see an abbridged list of stats.')
     print('Use the "allstats" command to see a full list of stats.')
     print('Use the "inventory" command to see your inventory.')
+    print('Use the "location" command to see details on your location.')
+    print('Use the "friends" command to see a list of creatures you have befriended.')
     print('Use the "go __" command to move. Don\'t forget to say which direction!')
     print('Use the "pickup __" command to pick up an item.')
     print('Use the "drop __" command to drop an item.')
@@ -294,23 +296,21 @@ while playing and p.alive:
                 commandWords[0] = key
                 break
                 
-        if command == 'help' and 'abbreviate' not in commandWords:
+        if commandWords[0] == 'help':
             help(p)
             
-        elif command == 'me' and 'abbreviate' not in commandWords:
+        elif commandWords[0] == 'me':
             clear()
             p.stats()
             
-        elif command == 'all stats' and 'abbreviate' not in commandWords:
+        elif commandWords[0] == 'allstats':
             clear()
             p.allstats()
         
-        elif 'inventory' in commandWords and 'abbreviate' not in commandWords:
+        elif 'inventory' in commandWords[0]:
             showInventory(p)
-#             print()
-#             input('Press enter to continue.')
 
-        elif 'cheat' in commandWords:
+        elif commandWords[0] == 'cheat':
             stat = commandWords[1]
             if stat == 'health':
                 p.health = p.maxHealth
@@ -318,7 +318,6 @@ while playing and p.alive:
                 p.strength = 100
             elif stat == 'befriend':
                 p.friends.append(p.location.creature)
-                p.location.creature = None
             elif stat == 'map':
                 count = 0
                 print('squares:')
@@ -346,8 +345,6 @@ while playing and p.alive:
                 commandSuccess = False
             if not s:
                 print("This item is too heavy for you to pick up! Leave it behind or free up " + str(s) + " kg in your inventory. ")
-#             print()
-#             input('Press enter to continue.')
                 
         elif commandWords[0] == 'drop':
             if len(commandWords) == 3:
@@ -359,8 +356,6 @@ while playing and p.alive:
             else:
                 print('You don\'t have any such item. Try again.')
                 commandSuccess = False
-#             print()
-#             input('Press enter to continue.')
             
         elif commandWords[0] == 'use':
             if len(commandWords) == 3:
@@ -372,7 +367,7 @@ while playing and p.alive:
             if not p.useItem():
                 commandSuccess = False
             
-        elif commandWords[0] == 'eat' and 'abbreviate' not in commandWords:
+        elif commandWords[0] == 'eat':
             if len(commandWords) == 2:
                 if commandWords[1] == 'meat' or commandWords[1] == 'fruit':
                     food = commandWords[1]
@@ -392,10 +387,9 @@ while playing and p.alive:
             else:
                 print('There is no ' + food + ' for you to eat.')
                 commandSuccess = False
-#             print()
-#             input('Press enter to continue.')
+
                     
-        elif 'wait' in command and 'abbreviate' not in commandWords:
+        elif commandWords[0] == 'wait':
             if len(commandWords) == 3:
                 if commandWords[0] == 'wait' and commandWords[2] == 'turns' or commandWords[2] == 'turn':
                     i = int(commandWords[1])
@@ -408,10 +402,8 @@ while playing and p.alive:
                     gameOver()
                 j += 1
             print('You wait ' + str(i) + ' turns.')
-#             print()
-#             print('Press enter to continue.')
                 
-        elif 'inspect' in commandWords and 'abbreviate' not in commandWords:
+        elif commandWords[0] == 'inspect':
             if len(commandWords) == 3:
                 item = commandWords[1] + ' ' + commandWords[2]
             elif len(commandWords) == 2:
@@ -420,17 +412,12 @@ while playing and p.alive:
                 commandSuccess = False
                 print("Sorry, I didn't catch that. Please try again.")
                 item = None
-#                 print()
-#                 input('Press enter to continue.')
-#                 break
             if item:
                 if item in p.location.items or item in p.inventory or item == 'creature':
                     p.inspect(item)
                 else:
                     print('There is nothing by that name here. Try again.')
                     commandSuccess = False
-#             print()
-#             input('Press enter to continue.')
                 
         elif commandWords[0] == 'abbreviate':
             if 'as' in commandWords:
@@ -445,17 +432,15 @@ while playing and p.alive:
                     if comm in w.possibleCommands: #make this dict
                         w.possibleCommands[comm].append(abbrev)
                         
-        elif command == 'quit'  and 'abbreviate' not in commandWords:
+        elif commandWords[0] == 'quit':
             playing = False
             break
             
-        elif command == 'location' and 'abbreviate' not in commandWords:
+        elif commandWords[0] == 'location':
             clear()
             p.locationDets()
-#             print()
-#             input('Press enter to continue.')
             
-        elif 'attack' in commandWords and 'abbreviate' not in commandWords:
+        elif commandWords[0] == 'attack':
             if p.location.creature != None:
                 if 'Flexible responding' in p.abilities:
                     clear()
@@ -470,10 +455,8 @@ while playing and p.alive:
             else:
                 print('There is no creature here.')
                 commandSuccess = False
-#             print()
-#             input('Press enter to continue.')
               
-        elif 'befriend' in commandWords and 'abbreviate' not in commandWords:
+        elif commandWords[0] == 'befriend':
             if p.location.creature != None:
                 if 'Flexible responding' in p.abilities:
                     clear()
@@ -488,8 +471,6 @@ while playing and p.alive:
             else:
                 print('There is no creature here.')
                 commandSuccess = False
-#             print()
-#             input('Press enter to continue.')
         
         elif commandWords[0] == 'recruit':
             print(p.friends)
@@ -504,19 +485,16 @@ while playing and p.alive:
                 commandSuccess = False
             else:
                 print('You do not have a ' + commandWords[1] + ' friend. Type \'friends\' to see a list of your friends.')
-#             print()
-#             input('Press enter to continue.')
                 
-        elif 'dismiss' in commandWords and 'abbreviate' not in commandWords:
+        elif commandWords[0] == 'dismiss':
             if self.ally == None:
                 print('You have no ally to dismiss!')
                 commandSuccess = False
             else:
                 self.ally = None
-#             print()
-#             input('Press enter to continue.')
+
                 
-        elif command == 'evolve' and 'abbreviate' not in commandWords:
+        elif commandWords[0] == 'evolve':
             evolve(p)
 
         elif command == 'test':
@@ -525,7 +503,7 @@ while playing and p.alive:
         elif command == 'skip':
             x=3
 
-        elif command == 'friends':
+        elif commandWords[0] == 'friends':
             print('Your friends are:')
             for elem in p.friends:
                 print('\t' + elem.name)
@@ -562,8 +540,6 @@ while playing and p.alive:
         else:
             print()
             print('Sorry, I don\'t understand. Type "help" for available options. ')
-#             print()
-#             input('Press enter to continue.')
             commandSuccess = False
             
         print()
