@@ -14,7 +14,7 @@ class Creature:
         self.speed = random.randint(self.level*(5-2), self.level*(5+2))
         self.fleeRate = random.uniform(0, 0.2)
         self.befriended = False
-        self.experience = (self.health + self.strength + self.hostility + self.speed) // 2
+        self.experience = (self.health + self.strength + self.hostility + self.speed) // 3
 
 class Wolf(Creature):
     def __init__(self,square,level):
