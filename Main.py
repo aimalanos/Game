@@ -63,6 +63,8 @@ def printSituation(w, p):
     print("Turn " + str(w.turn_count))
     print()
     print("Your coordinates are " + str(p.location.coordinates) + ".")
+    if p.location == p.home:
+        print('This is your home.')
     print("The weather is " + w.weather + ". " + wc)
     print("The terrain is " + p.location.terrain + ". " + tc)
     if p.location.creature != None:
