@@ -20,7 +20,7 @@ def help(p):
     print('Use the "inspect __" command to learn more about your environment.')
     print('Use the "attack" command to attack a creature.')
     print('Use the "befriend" command to try to befriend a creature.')
-    print('Use the "ally" command to make a befriended creature your ally.')
+    print('Use the "recruit" command to make a befriended creature your ally.')
     print('Use the "dismiss" command to dismiss your ally.')
     print('Use the "evolve" command to purchase upgrades for your creature.')
     print('Use the "wait __ turn(s)" command to wait.')
