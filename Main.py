@@ -406,27 +406,25 @@ while playing and p.alive:
                 commandSuccess = False
             
         elif commandWords[0] == 'eat':
-            else:
-                if len(commandWords) == 2:
-                    if commandWords[1] == 'meat' or commandWords[1] == 'fruit':
-                        food = commandWords[1]
-                    else:
-                        commandSuccess = False
-                        print("Sorry, I didn't catch that. Please try again.")
-#                         break
-                elif len(commandWords) == 1:
-                    food = input("What would you like to eat?")
-                    if food != 'meat' and food != 'fruit':
-                        print("Sorry, I didn't catch that. Please try again.")
-                if food in p.location.items or food in p.inventory:
-                    if not p.eat(food):
-                        commandSuccess = False
-                        print('You can\'t eat that! Bleh!')
-                    else:
-                        timePasses = True
+            if len(commandWords) == 2:
+                if commandWords[1] == 'meat' or commandWords[1] == 'fruit':
+                    food = commandWords[1]
                 else:
-                    print('There is no ' + food + ' for you to eat.')
                     commandSuccess = False
+                    print("Sorry, I didn't catch that. Please try again.")
+            elif len(commandWords) == 1:
+                food = input("What would you like to eat?")
+                if food != 'meat' and food != 'fruit':
+                    print("Sorry, I didn't catch that. Please try again.")
+            if food in p.location.items or food in p.inventory:
+                if not p.eat(food):
+                    commandSuccess = False
+                    print('You can\'t eat that! Bleh!')
+                else:
+                    timePasses = True
+            else:
+                print('There is no ' + food + ' for you to eat.')
+                commandSuccess = False
 #             print()
 #             input('Press enter to continue.')
                     
