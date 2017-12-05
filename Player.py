@@ -586,7 +586,7 @@ class Player:
             print("You gain " + str(creature.experience) + " experience!")
             self.experience += creature.experience
             self.defeated += 1
-            self.location.creature = False
+            self.location.creature = None
             self.location.items['meat'] = random.randint(1,3)
             if random.random() < .15:
                 itemDrop = random.choice(self.world.possibleItems)
@@ -865,7 +865,7 @@ class Player:
             print("You gain " + str(creature.experience) + " experience!")
             self.experience += creature.experience
             self.defeated += 1
-            self.location.creature = False
+            self.location.creature = None
             self.location.items['meat'] = random.randint(1,3)
             if random.random() < .15:
                 itemDrop = random.choice(self.world.possibleItems)
