@@ -6,22 +6,25 @@ from Creature import Creature
 import os
 import random
 
-def me():
+def help(p):
     clear()
-    p.stats()
-
-def help():
-    clear()
-    print('Type "me" for player stats.')
-    print('Use "go" to move. Don\'t forget to say which direction!')
-    print('Use "pickup" command to pick up an item.')
-    print('Use "drop" command to drop an item.')
-    print('Use "inventory" to see your inventory.')
-    print('Use "inspect ___" to learn more about your environment.')
-    print('Use "abbreviate ___ as ___" to make shortcuts for commands.')
-    print('Press the "return" key to return to the game.')
-    input()
-    # Not finished
+    print('Use the "me" command to see an abbridged list of stats.')
+    print('Use the "allstats" command to see a full list of stats.')
+    print('Use the "inventory" command to see your inventory.')
+    print('Use the "go __" command to move. Don\'t forget to say which direction!')
+    print('Use the "pickup __" command to pick up an item.')
+    print('Use the "drop __" command to drop an item.')
+    if 'Item use' in p.abilities:
+        print('Use the "use __" command to use an item.')
+    print('Use the "inspect __" command to learn more about your environment.')
+    print('Use the "attack" command to attack a creature.')
+    print('Use the "befriend" command to try to befriend a creature.')
+    print('Use the "ally" command to make a befriended creature your ally.'
+    print('Use the "dismiss" command to dismiss your ally.')
+    print('Use the "evolve" command to purchase upgrades for your creature.')
+    print('Use the "wait __ turn(s)" command to wait.')
+    print('Use the "abbreviate __ as __" command to make shortcuts for commands.')
+    print('Use the "quit" command to leave the game.')
     
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -282,10 +285,11 @@ while playing and p.alive:
                 break
                 
         if command == 'help':
-            help()
+            help(p)
             
         elif command == 'me':
-            me()
+            clear()
+            p.stats()
             
         elif command == 'all stats':
             clear()
