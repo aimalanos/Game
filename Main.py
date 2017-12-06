@@ -12,7 +12,7 @@ def help(p):
     print('Use the "allstats" command to see a full list of stats.')
     print('Use the "inventory" command to see your inventory.')
     print('Use the "location" command to see details on your location.')
-    print('Use the "friends" command to see a list of creatures you have befriended.')
+#     print('Use the "friends" command to see a list of creatures you have befriended.')
     print('Use the "go __" command to move. Don\'t forget to say which direction!')
     print('Use the "eat __" command to eat.")
     print('Use the "pickup __" command to pick up an item.')
@@ -353,7 +353,7 @@ while playing and p.alive:
         else:
             item = input('What do you want to pick up? ')
         item = item.lower()
-        s = p.pickup(item)
+        p.pickup(item)
             
     elif commandWords[0] == 'drop':
         if len(commandWords) == 3:
@@ -379,13 +379,12 @@ while playing and p.alive:
     elif commandWords[0] == 'eat':
         clear()
         if len(commandWords) == 2:
-                food = commandWords[1]
+            food = commandWords[1]
         elif len(commandWords) == 1:
             food = input("What would you like to eat? ")
         if p.eat(food):
             timePasses = True
-
-                
+              
     elif commandWords[0] == 'wait':
         if len(commandWords) == 3:
             if commandWords[0] == 'wait' and commandWords[2] == 'turns' or commandWords[2] == 'turn':
@@ -406,14 +405,9 @@ while playing and p.alive:
         elif len(commandWords) == 2:
             item = commandWords[1]
         else:
-            commandSuccess = False
-            print("Sorry, I didn't catch that. Please try again.")
-            item = None
-        if item:
-            if item in p.location.items or item in p.inventory or item == 'creature':
-                p.inspect(item)
-            else:
-                print('There is nothing by that name here. Try again.')
+            item = input("Sorry, I didn't catch that. What would you like to inspect? ")
+        p.inspect(item)
+
             
     elif commandWords[0] == 'abbreviate':
         if 'as' in commandWords:
@@ -440,31 +434,29 @@ while playing and p.alive:
         if p.location.creature != None:
             if 'Flexible responding' in p.abilities:
                 clear()
-                p.flexibleResponse(p.location.creature)
+                if p.flexibleResponse(p.location.creature):
+                    timePasses = True
             else:
                 clear()
-                p.attack(p.location.creature)
+                if p.attack(p.location.creature):
+                    timePasses = True
             if p.defeated >= 30:
                 victory(p)
                 break
-            timePasses = True
-        else:
-            print('There is no creature here.')
           
     elif commandWords[0] == 'befriend':
         if p.location.creature != None:
             if 'Flexible responding' in p.abilities:
                 clear()
-                p.flexibleResponse(p.location.creature)
+                if p.flexibleResponse(p.location.creature):
+                    timePasses = True
             else:
                 clear()
-                p.befriend(p.location.creature)
+                if p.befriend(p.location.creature):
+                    timePasses = True
             if len(p.friends) >= 30:
                 victory(p)
                 break
-            timePasses = True
-        else:
-            print('There is no creature here.')
     
     elif commandWords[0] == 'recruit':
         if p.recruit():
@@ -476,7 +468,6 @@ while playing and p.alive:
         else:
             self.ally = None
 
-            
     elif commandWords[0] == 'evolve':
         evolve(p)
 
@@ -486,10 +477,10 @@ while playing and p.alive:
     elif command == 'skip':
         pass
 
-    elif commandWords[0] == 'friends':
-        print('Your friends are:')
-        for elem in p.friends:
-            print('\t' + elem.name)
+#     elif commandWords[0] == 'friends':
+#         print('Your friends are:')
+#         for friend in p.friends:
+#             print('\t' + friend.name)
 
     elif command == 'show map':
             sWidth = 8 #square width
