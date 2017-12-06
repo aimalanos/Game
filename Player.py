@@ -24,7 +24,7 @@ class Player:
         w.add_player(self)
         self.world = w
         self.location = random.choice(self.world.squares)
-        while self.location.terrain == 'water':
+        while self.location.terrain == 'lake':
             self.location = random.choice(self.world.squares)
         self.home = self.location # The player's home base will be their starting location.
         self.alive = True
@@ -107,6 +107,8 @@ class Player:
             self.sociabilty -= self.socPenalty
             self.speed -= self.speedPenalty
             print('You lose ' + str(self.healthLoss) + ' health.')
+            print('Your sociability decreases by ' + str(self.socPenalty) + ' points.')
+            print('Your speed decreases by ' + str(self.speedPenalty) + ' points.')
         if self.health <= 0:
             self.die()
             
@@ -243,10 +245,10 @@ class Player:
                 if item in self.location.items:
                     if item in self.inventory:
                         self.inventory[item] += 1
-                        self.invweight += self.world.itemWeights['item']
+                        self.invweight += self.world.itemWeights[item]
                     else:
                         self.inventory[item] = 1
-                        self.invweight += self.world.itemWeights['item']
+                        self.invweight += self.world.itemWeights[item]
                     self.location.items[item] -= 1
                     if self.location.items[item] <= 0:
                         del self.location.items[item]
