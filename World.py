@@ -24,28 +24,28 @@ class World:
              t = random.randint(0,8)
              squ.terrain = self.terrains[t]
              if squ.exits['east'] == None:
-                 if squ.coordinates[0] != x:
+                 if squ.coordinates[0] != 2*x+1:
                      for squ2 in self.squares:
                          if squ2.coordinates[0] == squ.coordinates[0] + 1:
                              if squ2.coordinates[1] == squ.coordinates[1]:
                                  squ.exits['east'] = squ2
                                  squ2.exits['west'] = squ
              if squ.exits['west'] == None:
-                 if squ.coordinates[0] != -x:
+                 if squ.coordinates[0] != 0:
                      for squ2 in self.squares:
                          if squ2.coordinates[0] == squ.coordinates[0] - 1:
                              if squ2.coordinates[1] == squ.coordinates[1]:
                                  squ.exits['west'] = squ2
                                  squ2.exits['east'] = squ
              if squ.exits['north'] == None:
-                 if squ.coordinates[1] != y:
+                 if squ.coordinates[1] != 2*y+1:
                      for squ2 in self.squares:
                          if squ2.coordinates[1] == squ.coordinates[0] + 1:
                              if squ2.coordinates[0] == squ.coordinates[0]:
                                  squ.exits['north'] = squ2
                                  squ2.exits['south'] = squ
              if squ.exits['south'] == None:
-                 if squ.coordinates[0] != -y:
+                 if squ.coordinates[0] != 0:
                      for squ2 in self.squares:
                          if squ2.coordinates[1] == squ.coordinates[1] - 1:
                              if squ2.coordinates[0] == squ.coordinates[0]:
