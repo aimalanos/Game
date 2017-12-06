@@ -403,6 +403,7 @@ while playing and p.alive:
         print('You wait ' + str(i) + ' turns.')
             
     elif commandWords[0] == 'inspect':
+        clear()
         if len(commandWords) == 3:
             item = commandWords[1] + ' ' + commandWords[2]
         elif len(commandWords) == 2:
