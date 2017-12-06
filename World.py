@@ -17,85 +17,40 @@ class World:
         self.possibleCommands = {'me':['me'],'help':['help'],'allstats':['allstats','all stats'],'pickup':['pickup'],'go':['go'],'inspect':['inspect'], 'attack': ['attack'], 'befriend': ['befriend'], 'recruit': ['recruit'], 'dismiss':['dismiss'], 'evolve': ['evolve'], 'use': ['use'], 'inventory': ['inventory'], 'use': ['use'], 'drop': ['drop']}
         self.weather = random.choice(self.weatherlist)
     def makeMap(self,x,y):
-        length = 2*x + 1
-        height = 2*y + 1
-        self.squares = [[None]*length]*height
-        for i in range(-x,x+1):
-            for j in range(-y,y+1):
-                self.squares[j+4][i+4] = Square(self, i, j)
-        col = 0
-        while col < len(self.squares)-1:
-            row = 0
-            while row < len(self.squares[col])-1:
-                if self.squares[col][row].coordinates[0] == 0:
-                    if self.squares[col][row].coordinates[1] == 0:
-                        self.squares[col][row].exits['north'] = self.squares[col][row+1]
-                        self.squares[col][row].exits['east'] = self.squares[col+1][row]
-                    elif self.squares[col][row].coordinates[1] == y:
-                        self.squares[col][row].exits['south'] = self.squares[col][row-1]
-                        self.squares[col][row].exits['east'] = self.squares[col+1][row]
-                    else:
-                        self.squares[col][row].exits['north'] = self.squares[col][row+1]
-                        self.squares[col][row].exits['south'] = self.squares[col][row-1]
-                        self.squares[col][row].exits['east'] = self.squares[col+1][row]
-                elif self.squares[col][row].coordinates[0] == x:
-                    if self.squares[col][row].coordinates[1] == 0:
-                        self.squares[col][row].exits['north'] = self.squares[col][row+1]
-                        self.squares[col][row].exits['west'] = self.squares[col-1][row]
-                    elif self.squares[col][row].coordinates[1] == y:
-                        self.squares[col][row].exits['south'] = self.squares[col][row-1]
-                        self.squares[col][row].exits['west'] = self.squares[col-1][row]
-                    else:
-                        self.squares[col][row].exits['north'] = self.squares[col][row+1]
-                        self.squares[col][row].exits['south'] = self.squares[col][row-1]
-                        self.squares[col][row].exits['west'] = self.squares[col-1][row]
-                elif self.squares[col][row].coordinates[1] == 0:
-                    self.squares[col][row].exits['west'] = self.squares[col-1][row]
-                    self.squares[col][row].exits['south'] = self.squares[col][row-1]
-                    self.squares[col][row].exits['east'] = self.squares[col+1][row]
-                elif self.squares[col][row].coordinates[1] == y:
-                    self.squares[col][row].exits['west'] = self.squares[col-1][row]
-                    self.squares[col][row].exits['north'] = self.squares[col][row+1]
-                    self.squares[col][row].exits['east'] = self.squares[col+1][row]
-                else:
-                    self.squares[col][row].exits['north'] = self.squares[col][row+1]
-                    self.squares[col][row].exits['south'] = self.squares[col][row-1]
-                    self.squares[col][row].exits['east'] = self.squares[col+1][row]
-                    self.squares[col][row].exits['west'] = self.squares[col-1][row]
-                row += 1
-            col += 1
-###############
-#         for squ in self.squares:
-#             t = random.randint(0,8)
-#             squ.terrain = self.terrains[t]
-#             if squ.exits['east'] == None:
-#                 if squ.coordinates[0] != x:
-#                     for squ2 in self.squares:
-#                         if squ2.coordinates[0] == squ.coordinates[0] + 1:
-#                             if squ2.coordinates[1] == squ.coordinates[1]:
-#                                 squ.exits['east'] = squ2
-#                                 squ2.exits['west'] = squ
-#             if squ.exits['west'] == None:
-#                 if squ.coordinates[0] != -x:
-#                     for squ2 in self.squares:
-#                         if squ2.coordinates[0] == squ.coordinates[0] - 1:
-#                             if squ2.coordinates[1] == squ.coordinates[1]:
-#                                 squ.exits['west'] = squ2
-#                                 squ2.exits['east'] = squ
-#             if squ.exits['north'] == None:
-#                 if squ.coordinates[1] != y:
-#                     for squ2 in self.squares:
-#                         if squ2.coordinates[1] == squ.coordinates[0] + 1:
-#                             if squ2.coordinates[0] == squ.coordinates[0]:
-#                                 squ.exits['north'] = squ2
-#                                 squ2.exits['south'] = squ
-#             if squ.exits['south'] == None:
-#                 if squ.coordinates[0] != -y:
-#                     for squ2 in self.squares:
-#                         if squ2.coordinates[1] == squ.coordinates[1] - 1:
-#                             if squ2.coordinates[0] == squ.coordinates[0]:
-#                                 squ.exits['south'] = squ2
-#                                 squ2.exits['north'] = squ
+        for i in range(2*x+1):
+            for j in range(2*y+1):
+                self.squares.append(Square(self, i, j))
+         for squ in self.squares:
+             t = random.randint(0,8)
+             squ.terrain = self.terrains[t]
+             if squ.exits['east'] == None:
+                 if squ.coordinates[0] != x:
+                     for squ2 in self.squares:
+                         if squ2.coordinates[0] == squ.coordinates[0] + 1:
+                             if squ2.coordinates[1] == squ.coordinates[1]:
+                                 squ.exits['east'] = squ2
+                                 squ2.exits['west'] = squ
+             if squ.exits['west'] == None:
+                 if squ.coordinates[0] != -x:
+                     for squ2 in self.squares:
+                         if squ2.coordinates[0] == squ.coordinates[0] - 1:
+                             if squ2.coordinates[1] == squ.coordinates[1]:
+                                 squ.exits['west'] = squ2
+                                 squ2.exits['east'] = squ
+             if squ.exits['north'] == None:
+                 if squ.coordinates[1] != y:
+                     for squ2 in self.squares:
+                         if squ2.coordinates[1] == squ.coordinates[0] + 1:
+                             if squ2.coordinates[0] == squ.coordinates[0]:
+                                 squ.exits['north'] = squ2
+                                 squ2.exits['south'] = squ
+             if squ.exits['south'] == None:
+                 if squ.coordinates[0] != -y:
+                     for squ2 in self.squares:
+                         if squ2.coordinates[1] == squ.coordinates[1] - 1:
+                             if squ2.coordinates[0] == squ.coordinates[0]:
+                                 squ.exits['south'] = squ2
+                                 squ2.exits['north'] = squ
 
     def add_player(self, player):
         self.player = player
