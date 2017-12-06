@@ -15,7 +15,7 @@ class Player:
     def __init__(self, w):
         self.name = input("What is your creature's name? ")
         print("Is your creature a carnivore or an herbivore?")
-        self.diet = input("Herbivores need only find fruit to survive, while carnivores must kill their prey to get meat. ").lower()
+        self.diet = input("Herbivores need only find fruit to survive, while carnivores must kill their prey to have meat. ").lower()
         while self.diet not in 'carnivore' and self.diet not in 'herbivore':
             self.diet = input('Invalid response. Choose "carnivore" or "herbivore." ')
         if self.diet in 'carnivore':
@@ -521,7 +521,7 @@ class Player:
                         for kvp in orderedInventory:
                             print('\t' + kvp[0] + ' x' + str(kvp[1]))
                         itemChoice = input('Pick an item. ')
-                        self.useBattleItem('item')
+                        self.useBattleItem(itemChoice)
                     elif choice.lower() in 'flee':
                         print("You flee!")
                         break
@@ -569,7 +569,7 @@ class Player:
                         for kvp in orderedInventory:
                             print('\t' + kvp[0] + ' x' + str(kvp[1]))
                         itemChoice = input('Pick an item. ')
-                        self.useBattleItem('item')
+                        self.useBattleItem(itemChoice)
                     elif choice.lower() in 'flee':
                         print("You flee!")
                         break
