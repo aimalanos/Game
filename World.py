@@ -61,10 +61,11 @@ class World:
         if self.turn_count % 5 == 0:
             # New creatures will spawn
             randomSquare = random.choice(self.squares)
-            if randomSquare.creature == None:
-                level = random.randint(1,3)
-                creatureType = random.choice(self.possibleCreatures)
-                creatureType(self, randomSquare, level)
+            while randomSquare.creature != None or randomSquare.terrain == 'lake':
+                randomSquare = random.choice(self.squares)
+            level = random.randint(1,3)
+            creatureType = random.choice(self.possibleCreatures)
+            creatureType(self, randomSquare, level)
             # New items will appear
             for i in range(3):
                 randomSquare = random.choice(self.squares)
