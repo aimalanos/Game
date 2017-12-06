@@ -8,15 +8,14 @@ class World:
     itemWeights = {'fruit': 2, 'meat': 2, 'sticky sap': 3, 'poison berries': 3, 'big leaf': 3, 'healing salve': 3, 'flowers': 2, 'big stick': 3, 'nesting materials': 5}
     possibleCreatures = [Creature.Wolf,Creature.Tiger,Creature.Monkey,Creature.Dog,Creature.Sheep,Creature.Snake]
     aquaticCreatures = [Creature.Fish,Creature.Eel,Creature.Leviathan]
+    weatherlist = ["clear", "rainy", "hailing", "snowy", "drought"]
     def __init__(self):
         self.turn_count = 0
         self.weather = "clear"
         self.player = None
         self.squares = []
         self.possibleCommands = {'me':['me'],'help':['help'],'allstats':['allstats','all stats'],'pickup':['pickup'],'go':['go'],'inspect':['inspect'], 'attack': ['attack'], 'befriend': ['befriend'], 'recruit': ['recruit'], 'dismiss':['dismiss'], 'evolve': ['evolve'], 'use': ['use'], 'inventory': ['inventory'], 'use': ['use'], 'drop': ['drop']}
-        self.weatherlist = ["clear", "rainy", "hailing", "snowy", "drought"]
         self.weather = random.choice(self.weatherlist)
-        
     def makeMap(self,x,y):
         length = 2*x + 1
         height = 2*y + 1
@@ -126,4 +125,9 @@ class World:
                 else:
                     randomSquare.items[newItem] = 1
             self.weather = random.choice(self.weatherlist)
-            print('here')
+            if self.weather == 'rainy' or self.weather == 'snowy' or self.weather == 'hailing':
+                if self.player.location.terrain == 'desert':
+                    self.weather = random.choice(['clear','drought'])
+            if self.weather == 'drought':
+                if self.player.location.terrain == 'tundra':
+                    self.weather = random.choice(['clear','rainy','snowy','hailing'])
