@@ -18,9 +18,9 @@ class World:
         self.weather = random.choice(self.weatherlist)
         
     def makeMap(self,x,y):
-        for i in range(-x, x+1):
-            for j in range(-y, y+1):
-                Square(self, i, j)
+        for i in range(0,x):
+            for j in range(0,y):
+                self.squares[j][i] = Square(self, i, j)
         col = 0
         while col < len(self.squares)-1:
             row = 0
