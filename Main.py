@@ -29,7 +29,6 @@ def help(p):
     print('Use the "abbreviate __ as __" command to make shortcuts for commands.')
     print('Use the "help" command to see this menu again.')
     print('Use the "quit" command to leave the game.')
-    input("Press Enter to continue. ")
     
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -72,7 +71,10 @@ def printSituation(w, p):
     print("The terrain is " + p.location.terrain + ". " + tc)
     if p.location.creature != None:
         if (p.ally != None and p.ally.location == p.location) or p.ally == None:
-            print("There is a creature here. It is a " + str(p.location.creature.name) + ".")
+            if p.location.creature in p.friends:
+                print("There is a creature here. It is your friend the " + str(p.location.creature.name) + ".")
+            else:
+                print("There is a creature here. It is a " + str(p.location.creature.name) + ".")
     else:
         print("You are alone here.")
     if len(p.location.items) > 0:
@@ -306,19 +308,22 @@ print()
 p = Player(w)       
 clear()
 print('Before you get started, you may want to see a list of commands!')
-coms = input('Type "commands" to see a list of commands, or "start" to start the game. ')
-x=True
-while x:
-    if coms == 'commands':
-        print()
-        help(p)
-        input = ('Press Enter to continue. ')
-        x = False
-    elif coms == 'start':
-        x = False
-        pass
-    else:
-        coms = input('Invalid input. Please type "commands" or "start." ')
+help(p)
+print()
+input('Press enter to continue.')
+# coms = input('Type "commands" to see a list of commands, or "start" to start the game. ')
+# x=True
+# while x:
+#     if coms == 'commands':
+#         print()
+#         help(p)
+#         input = ('Press Enter to continue. ')
+#         x = False
+#     elif coms == 'start':
+#         x = False
+#         pass
+#     else:
+#         coms = input('Invalid input. Please type "commands" or "start." ')
 
 while playing and p.alive:
     timePasses = False
@@ -335,12 +340,13 @@ while playing and p.alive:
         if elem in w.possibleCommands[key]:
             commandWords[0] = key
             break
-    elem = commandWords[0] + ' ' + commandWords[1]
-    for key in w.possibleCommands:
-        if elem in w.possibleCommands[key]:
-            commandWords[0] = key
-            del commandWords[1]
-            break
+    if len(commandWords) > 1:
+        elem = commandWords[0] + ' ' + commandWords[1]
+        for key in w.possibleCommands:
+            if elem in w.possibleCommands[key]:
+                commandWords[0] = key
+                del commandWords[1]
+                break
     print(commandWords)
             
     if commandWords[0] == 'help':
