@@ -7,7 +7,6 @@ import os
 import random
 
 def help(p):
-    clear()
     print('Use the "me" command to see an abbridged list of stats.')
     print('Use the "allstats" command to see a full list of stats.')
     print('Use the "inventory" command to see your inventory.')
@@ -30,6 +29,7 @@ def help(p):
     print('Use the "abbreviate __ as __" command to make shortcuts for commands.')
     print('Use the "help" command to see this menu again.')
     print('Use the "quit" command to leave the game.')
+    input("Press Enter to continue. ")
     
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
@@ -292,28 +292,35 @@ for i in range(0,50):
 
             
 print('Welcome to Irtiqa! In this turn-based game, you act as an animal within a world full of other animals and objects.')
-print()
 print('Your health will decrease and your hunger will increase steadily with time. You may recharge both by eating or by returning to your home (starting location).')
-print()
 print('Your goal is to become the dominant creature in your environment, however you choose to do so.')
-print()
 print('You can fight with creatures or befriend them. Either one will bring you experience points, and each has its risks and benefits.')
-print()
 print('You may win the game by becoming every creature\'s best friend...or their biggest fear.')
-print()
-print('Use the "help" command at any time to see a list of commands available to you.')
+print('Type "HELP"+ENTER at any time to see a list of commands available to you.')
 print()
 p = Player(w)       
 clear()
-print('Before you get started, you should probably see the commands!')
-print()
-help(p)
+print('Before you get started, you may want to see a list of commands!')
+coms = input('Type "commands" to see a list of commands, or "start" to start the game. ')
+x=True
+while x:
+    if coms == 'commands':
+        print()
+        help(p)
+        input = ('Press Enter to continue. ')
+        x = False
+    elif coms == 'start':
+        x = False
+        pass
+    else:
+        coms = input('Invalid input. Please type "commands" or "start." ')
 
 while playing and p.alive:
     timePasses = False
     clear()
     printSituation(w,p)
-    command = input('What will you do? ').lower()
+    command = input('What will you do? ')
+    command = command.lower() #i was getting a bug when .lower() was in the above line, idk why
     if command == '':
         print('Oops! Looks like you forgot to give a command.')
         command = 'skip'
@@ -323,6 +330,13 @@ while playing and p.alive:
         if elem in w.possibleCommands[key]:
             commandWords[0] = key
             break
+    elem = commandWords[0] + ' ' + commandWords[1]
+    for key in w.possibleCommands:
+        if elem in w.possibleCommands[key]:
+            commandWords[0] = key
+            del commandWords[1]
+            break
+    print(commandWords)
             
     if commandWords[0] == 'help':
         help(p)
@@ -365,7 +379,7 @@ while playing and p.alive:
         elif len(commandWords) == 2:
             item = commandWords[1]
         else:
-            item = input('What do you want to pick up? ')
+            item = input('What do want to pick up? ')
         item = item.lower()
         p.pickup(item)
             
@@ -547,7 +561,7 @@ while playing and p.alive:
         print('Sorry, I don\'t understand. Type "help" for available options. ')
         
     print()
-    input('Press enter to continue.')
+    #input('Press enter to continue.')
     if timePasses:
         clear()
         w.update()
