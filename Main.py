@@ -39,7 +39,8 @@ def showInventory(p):
     print('Your inventory contains the following items:')
     orderedInventory = asOrderedList(p.inventory)
     for kvp in orderedInventory:
-        print('\t' + kvp[0] + ' x' + str(kvp[1]))
+        weight = p.world.itemWeights[kvp[0]] * kvp[1]
+        print('\t' + kvp[0] + ' x' + str(kvp[1]) + ', ' + str(weight) + 'weight')
     
 def printSituation(w, p):
     wc = ''
