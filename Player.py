@@ -14,7 +14,8 @@ def clear():
 class Player:
     def __init__(self, w):
         self.name = input("What is your creature's name? ")
-        self.diet = input("Is your creature a carnivore or an herbivore? ").lower() # lower() puts it in lowercase, which eliminates the problem of whether the player types with capital or lowercase letters
+        print("Is your creature a carnivore or an herbivore?")
+        self.diet = input("Herbivores need only find fruit to survive, while carnivores must kill their prey to have meat. ").lower()
         while self.diet not in 'carnivore' and self.diet not in 'herbivore':
             self.diet = input('Invalid response. Choose "carnivore" or "herbivore." ')
         if self.diet in 'carnivore':
@@ -104,7 +105,7 @@ class Player:
             print('You gain ' + str(healthGained) + ' health at your home base!')
         else: #no health loss at home
             self.health -= self.healthLoss
-            self.sociabilty -= self.socPenalty
+            self.sociability -= self.socPenalty
             self.speed -= self.speedPenalty
             print('You lose ' + str(self.healthLoss) + ' health.')
             print('Your sociability decreases by ' + str(self.socPenalty) + ' points.')
