@@ -3,7 +3,7 @@ import Creature
 import random
 
 class World:
-    terrains = ['forest','forest','desert','desert','hills','hills','lake','tundra','grassy']
+    terrains = ['forest','desert','desert','hills','hills','lake','tundra','grassy','grassy']
     possibleItems = ['sticky sap', 'poison berries', 'big leaf', 'healing salve', 'flowers', 'big stick', 'nesting materials']
     itemWeights = {'fruit': 2, 'meat': 2, 'sticky sap': 3, 'poison berries': 3, 'big leaf': 3, 'healing salve': 3, 'flowers': 2, 'big stick': 3, 'nesting materials': 5}
     possibleCreatures = [Creature.Wolf,Creature.Tiger,Creature.Monkey,Creature.Dog,Creature.Sheep,Creature.Snake]
