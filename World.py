@@ -21,6 +21,46 @@ class World:
         for i in range(-x, x+1):
             for j in range(-y, y+1):
                 Square(self, i, j)
+        col = 0
+        while col < len(self.squares)-1:
+            row = 0
+            while row < len(self.squares[col])-1:
+                if self.squares[col][row].coordinates[0] == 0:
+                    if self.squares[col][row].coordinates[1] == 0:
+                        self.squares[col][row].exits['north'] = col[row+1]
+                        self.squares[col][row].exits['east'] = self.squares[column+1][row]
+                    elif self.squares[col][row].coordinates[1] == y:
+                        self.squares[col][row].exits['south'] = col[row-1]
+                        self.squares[col][row].exits['east'] = self.squares[column+1][row]
+                    else:
+                        self.squares[col][row].exits['north'] = col[row+1]
+                        self.squares[col][row].exits['south'] = col[row-1]
+                        self.squares[col][row].exits['east'] = self.squares[column+1][row]
+                elif self.squares[col][row].coordinates[0] == x:
+                    if self.squares[col][row].coordinates[1] == 0:
+                        self.squares[col][row].exits['north'] = col[row+1]
+                        self.squares[col][row].exits['west'] = self.squares[column-1][row]
+                    elif self.squares[col][row].coordinates[1] == y:
+                        self.squares[col][row].exits['south'] = col[row-1]
+                        self.squares[col][row].exits['west'] = self.squares[column-1][row]
+                    else:
+                        self.squares[col][row].exits['north'] = col[row+1]
+                        self.squares[col][row].exits['south'] = col[row-1]
+                        self.squares[col][row].exits['west'] = self.squares[column-1][row]
+                elif self.squares[col][row].coordinates[1] == 0:
+                    self.squares[col][row].exits['west'] = self.squares[column-1][row]
+                    self.squares[col][row].exits['south'] = col[row-1]
+                    self.squares[col][row].exits['east'] = self.squares[column+1][row]
+                elif self.squares[col][row].coordinates[1] == y:
+                    self.squares[col][row].exits['west'] = self.squares[column-1][row]
+                    self.squares[col][row].exits['north'] = col[row+1]
+                    self.squares[col][row].exits['east'] = self.squares[column+1][row]
+                else:
+                    self.squares[col][row].exits['north'] = col[row+1]
+                    self.squares[col][row].exits['south'] = col[row-1]
+                    self.squares[col][row].exits['east'] = self.squares[column+1][row]
+                    self.squares[col][row].exits['west'] = self.squares[column-1][row]
+###############
         for squ in self.squares:
             t = random.randint(0,7)
             squ.terrain = self.terrains[t]
