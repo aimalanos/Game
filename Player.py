@@ -970,7 +970,7 @@ class Player:
             return False
         else:
             if self.location.creature in self.friends:
-                self.ally = creature
+                self.ally = self.location.creature
                 print('You have allied your friend the ' + self.ally.name + '! Your ally will follow you around and fight with you.')
                 return True
             else:
