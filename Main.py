@@ -347,7 +347,6 @@ while playing and p.alive:
                 commandWords[0] = key
                 del commandWords[1]
                 break
-    print(commandWords)
             
     if commandWords[0] == 'help':
         help(p)
