@@ -67,7 +67,7 @@ class World:
             col += 1
 ###############
 #         for squ in self.squares:
-#             t = random.randint(0,7)
+#             t = random.randint(0,8)
 #             squ.terrain = self.terrains[t]
 #             if squ.exits['east'] == None:
 #                 if squ.coordinates[0] != x:
