@@ -91,11 +91,11 @@ def printSituation(w, p):
     
 def victory(p):
     clear()
-    if 'fire' in p.inventory:
+    if 'Fire' in p.abilities:
         print('You have discovered fire! You have successfully set yourself on the path to civilization! Congratulations!')
-    elif p.defeated >= 30:
+    elif p.defeated >= 20:
         print('You have defeated enough enemies that you are now at the top of the food chain! Congratulations!')
-    elif len(p.friends) >= 30:
+    elif len(p.friends) >= 20:
         print('You have enough allies to be protected wherever you go! That means you win! Congratulations!')
     # We should put some fireworks in here
                       
@@ -229,14 +229,15 @@ def evolve(p):
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'flexible responding':
-            if p.experience >= 30:
+            if p.experience >= 25:
                 p.abilities.append('Fat reserves')
                 p.experience -= 30
                 transactionCompleted = True
             else:
                 ('Not enough experience. Try again.')
         elif choice.lower() in 'fire':
-            if p.experience >= 50:
+            if p.experience >= 35:
+                p.abilities.append('Fire')
                 victory()
             else:
                 ('Not enough experience. Try again.')
@@ -449,7 +450,10 @@ while playing and p.alive:
                 clear()
                 if p.attack(p.location.creature):
                     timePasses = True
-            if p.defeated >= 30:
+            if p.defeated >= 20:
+                victory(p)
+                break
+            if len(p.friends) >= 20:
                 victory(p)
                 break
           
@@ -463,7 +467,10 @@ while playing and p.alive:
                 clear()
                 if p.befriend(p.location.creature):
                     timePasses = True
-            if len(p.friends) >= 30:
+            if p.defeated >= 20:
+                victory(p)
+                break
+            if len(p.friends) >= 20:
                 victory(p)
                 break
     
