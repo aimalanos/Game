@@ -23,7 +23,7 @@ class World:
         self.squares = [[None]*length]*height
         for i in range(-x,x+1):
             for j in range(-y,y+1):
-                self.squares[j][i] = Square(self, i, j)
+                self.squares[j+4][i+4] = Square(self, i, j)
         col = 0
         while col < len(self.squares)-1:
             row = 0
