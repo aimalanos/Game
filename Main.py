@@ -566,7 +566,7 @@ while playing and p.alive:
         print('Sorry, I don\'t understand. Type "help" for available options. ')
         
     print()
-    #input('Press enter to continue.')
+    input('Press enter to continue.')
     if timePasses:
         clear()
         w.update()
