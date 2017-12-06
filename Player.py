@@ -592,7 +592,7 @@ class Player:
                 input('Press enter to continue.')
 
             print()
-            if fleeing = True:
+            if fleeing == True:
                 r = random.choice(self.world.squares)
                 if creature in self.world.aquaticCreatures:
                     while r.creature != None and r.terrain != 'lake':
@@ -742,7 +742,7 @@ class Player:
                 input('Press enter to continue.')
 
             print()
-            if fleeing = True:
+            if fleeing == True:
                 r = random.choice(self.world.squares)
                 if creature in self.world.aquaticCreatures:
                     while r.creature != None and r.terrain != 'lake':
@@ -915,7 +915,7 @@ class Player:
                 input('Press enter to continue.')
 
             print()
-            if fleeing = True:
+            if fleeing == True:
                 r = random.choice(self.world.squares)
                 if creature in self.world.aquaticCreatures:
                     while r.creature != None and r.terrain != 'lake':
