@@ -60,6 +60,8 @@ def printSituation(w, p):
     elif p.location.terrain == 'tundra':
         tc = 'The harsh conditions damage your health!'
     elif p.location.terrain == 'forest':
+        tc = "All the items here are in trees! You'll need a stick to get them out."
+    elif p.location.terrain == 'grassy':
         tc = 'It\'s very nice here.'
     print("Turn " + str(w.turn_count))
     print()
