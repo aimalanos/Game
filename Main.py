@@ -67,7 +67,7 @@ def printSituation(w, p):
     print()
     print("Your coordinates are " + str(p.location.coordinates) + ".")
     if p.location == p.home:
-        print('This is your home.')
+        print('You\'re at home!')
     print("The weather is " + w.weather + ". " + wc)
     print("The terrain is " + p.location.terrain + ". " + tc)
     if p.location.creature != None:
@@ -290,7 +290,12 @@ for i in range(0,50):
         r.items[rItem] = 1
 
             
-print('Welcome to Irtiqa! Your goal is to become the dominant creature in your environment, however you choose to do so.')
+print('Welcome to Irtiqa! In this turn-based game, you act as an animal within a world full of other animals and objects.')
+print('Your health will decrease and your hunger will increase steadily with time. You may recharge both by eating or by returning to your home (starting location).')
+print('Your goal is to become the dominant creature in your environment, however you choose to do so.')
+print('You can fight with creatures or befriend them. Either one will bring you experience points, and each has its risks and benefits.')
+print('You may win the game by becoming every creature\'s best friend...or their biggest fear.')
+print('Type "HELP"+ENTER at any time to see a list of commands available to you.')
 print()
 p = Player(w)       
 clear()
@@ -489,9 +494,9 @@ while playing and p.alive:
     elif command == 'show map':
             sWidth = 8 #square width
             sHeight = 4
-            print('|' + ('-'*sWidth + '|')*mapx*2) #top border
-            row = mapy #start here to get proper north/south orientation
-            while row >= -mapy: #go from 4 to -4
+            print('|' + ('-'*sWidth + '|')*(mapx*2+1)) #top border
+            row = 2*mapy #start here to get proper north/south orientation
+            while row >= 0: #go from 2*mapy to 0
                 curr = [] #keeps track of all square objects in current row
                 minirow = 0 #aka sub-row; tracks lines within the square
                 while minirow < sHeight:
@@ -499,16 +504,27 @@ while playing and p.alive:
                         for elem in w.squares:
                             if elem.coordinates[1] == row: #all squares with y-coord equal to current row are relevant
                                 curr.append(elem)          #add these squares to curr                        i = 1
-                        #while i < len(curr): #compensate for the fact that each square was being added twice(??)
-#                            del curr[i]
-#                            i += 2
-                        print('| ' + curr[0].terrain + ' '*(sWidth-len(curr[0].terrain)-1) + '| ' + curr[1].terrain + ' '*(sWidth-len(curr[1].terrain)-1) + '| ' + curr[2].terrain + ' '*(sWidth-len(curr[2].terrain)-1) + '| ' + curr[3].terrain + ' '*(sWidth-len(curr[3].terrain)-1) + '| ' + curr[4].terrain + ' '*(sWidth-len(curr[4].terrain)-1) + '| ' + curr[5].terrain + ' '*(sWidth-len(curr[5].terrain)-1) + '| ' + curr[6].terrain + ' '*(sWidth-len(curr[6].terrain)-1) + '| ' + curr[7].terrain + ' '*(sWidth-len(curr[7].terrain)-1) + '|')
+                        print('| ' + curr[0].terrain + ' '*(sWidth-len(curr[0].terrain)-1) + '| ' + curr[1].terrain + ' '*(sWidth-len(curr[1].terrain)-1) + '| ' + curr[2].terrain + ' '*(sWidth-len(curr[2].terrain)-1) + '| ' + curr[3].terrain + ' '*(sWidth-len(curr[3].terrain)-1) + '| ' + curr[4].terrain + ' '*(sWidth-len(curr[4].terrain)-1) + '| ' + curr[5].terrain + ' '*(sWidth-len(curr[5].terrain)-1) + '| ' + curr[6].terrain + ' '*(sWidth-len(curr[6].terrain)-1) + '| ' + curr[7].terrain + ' '*(sWidth-len(curr[7].terrain)-1) + '| ' + curr[8].terrain + ' '*(sWidth-len(curr[8].terrain)-1) + '|')
                         minirow += 1
-                    elif minirow == 1 or minirow == 2: #minirows 1 and 2 are just spaces
-                        print('|' + (' '*sWidth + '|')*mapx*2)
-                        minirow += 1
+                    elif minirow == 1:
+                        if p.location.coordinates[1] == row:
+                            print('|' + (' '*sWidth + '|')*p.location.coordinates[0] + '   YOU  |' + (' '*sWidth + '|')*(2*mapx-p.location.coordinates[0]))
+                            minirow += 1
+                        elif p.home.coordinates[1] == row: #display home location
+                            print('|' + (' '*sWidth + '|')*p.home.coordinates[0] + '  HOME  |' + (' '*sWidth + '|')*(2*mapx-p.home.coordinates[0]))
+                            minirow += 1
+                        else:
+                            print('|' + (' '*sWidth + '|')*(mapx*2+1))
+                            minirow += 1
+                    elif minirow == 2: #minirow 2 is just spaces
+                        if p.location.coordinates[1] == row:
+                            print('|' + (' '*sWidth + '|')*p.location.coordinates[0] + 'ARE HERE|' + (' '*sWidth + '|')*(2*mapx-p.location.coordinates[0]))
+                            minirow += 1
+                        else:
+                            print('|' + (' '*sWidth + '|')*(mapx*2+1))
+                            minirow += 1
                     else: #minirow 3 is the bottom border of each square
-                        print('|' + ('-'*sWidth + '|')*mapx*2)
+                        print('|' + ('-'*sWidth + '|')*(mapx*2+1))
                         minirow += 1
                         if minirow == 4:
                             row -= 1
