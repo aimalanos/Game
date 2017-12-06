@@ -14,7 +14,7 @@ def help(p):
     print('Use the "location" command to see details on your location.')
 #     print('Use the "friends" command to see a list of creatures you have befriended.')
     print('Use the "go __" command to move. Don\'t forget to say which direction!')
-    print('Use the "eat __" command to eat.")
+    print('Use the "eat __" command to eat.')
     print('Use the "pickup __" command to pick up an item.')
     print('Use the "drop __" command to drop an item.')
     if 'Item use' in p.abilities:
