@@ -124,7 +124,7 @@ def evolve(p):
     if 'Semiaquatic' not in p.abilities:
         print('Semiaquatic – access watery terrain: 10 exp')
     if p.intelligence >= 8 and 'Item use' not in p.abilities:
-        print('Tool use: 10 exp')
+        print('Item use: 10 exp')
     if p.intelligence >= 13 and 'Item use' in p.abilities and 'Flexible responding' not in p.abilities:
         print('Flexible responding – more options when you engage with other creatures: 20 exp') # Idk, maybe players will be able to change whether they want to socialize or attack. Also, I just thought that if the player attacks a creature, then the creature's hostility should go up
     if p.intelligence >= 20 and 'Flexible responding' in p.abilities:
@@ -298,12 +298,7 @@ help(p)
 while playing and p.alive:
     timePasses = False
     clear()
-    if w.turn_count >= 200:
-        gameOver(w)
-        playing = False
-        break
     printSituation(w,p)
-    commandSuccess = True
     command = input('What will you do? ').lower()
     if command == '':
         print('Oops! Looks like you forgot to give a command.')
@@ -353,25 +348,22 @@ while playing and p.alive:
     elif commandWords[0] == 'pickup':
         if len(commandWords) == 3:
             item = commandWords[1] + ' ' + commandWords[2]
-        else:
+        elif len(commandWords) == 2:
             item = commandWords[1]
-        if item in p.location.items:
-            s = p.pickup(item)
         else:
-            print('There is no such item. Try again.')
-            commandSuccess = False
-        if not s:
-            print("This item is too heavy for you to pick up! Leave it behind or free up " + str(s) + " kg in your inventory. ")
+            item = input('What do you want to pick up? ')
+        item = item.lower()
+        s = p.pickup(item)
             
     elif commandWords[0] == 'drop':
         if len(commandWords) == 3:
             item = commandWords[1] + ' ' + commandWords[2]
-        else:
+        elif len(commandWords) == 2:
             item = commandWords[1]
-        if item in p.inventory:
-            p.drop(item)
         else:
-            print('You don\'t have any such item. Try again.')
+            item = input('What do you want to drop? ')
+        item = item.lower()
+        p.drop(item)
         
     elif commandWords[0] == 'use':
         if len(commandWords) == 3:
@@ -379,29 +371,19 @@ while playing and p.alive:
         elif len(commandWords) == 2:
             item = commandWords[1]
         else:
-            item = input('What do you want to use?')
+            item = input('What do you want to use? ')
+        item = item.lower()
         if p.useItem():
             timePasses = True
         
     elif commandWords[0] == 'eat':
+        clear()
         if len(commandWords) == 2:
-            if commandWords[1] == 'meat' or commandWords[1] == 'fruit':
                 food = commandWords[1]
-            else:
-                commandSuccess = False
-                print("Sorry, I didn't catch that. Please try again.")
         elif len(commandWords) == 1:
-            food = input("What would you like to eat?")
-            if food != 'meat' and food != 'fruit':
-                print("Sorry, I didn't catch that. Please try again.")
-        if food in p.location.items or food in p.inventory:
-            if not p.eat(food):
-                commandSuccess = False
-                print('You can\'t eat that! Bleh!')
-            else:
-                timePasses = True
-        else:
-            print('There is no ' + food + ' for you to eat.')
+            food = input("What would you like to eat? ")
+        if p.eat(food):
+            timePasses = True
 
                 
     elif commandWords[0] == 'wait':
@@ -549,6 +531,6 @@ while playing and p.alive:
         if w.turn_count > 200:
             gameOver(w)
         print()
-        print('Press enter to continue.')
+        input('Press enter to continue.')
 if not p.alive:
     gameOver(w)
