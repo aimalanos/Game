@@ -40,9 +40,9 @@ class Player:
         self.intelligence = 0
         self.experience = 0
         self.abilities = []
-        self.startItems = ['matches','flashlight']
+#         self.startItems = ['matches','flashlight']
         self.inventory = {}
-        self.startInv()
+#         self.startInv()
         self.inventorySize = 0
         self.inventoryCap = 10
         self.invweight = 0
@@ -54,17 +54,17 @@ class Player:
         self.ally = None
         self.m = 0
 
-    def startInv(self): #function to give the player a few starting items
-        l = []
-        for i in range(3):
-            l.append(random.choice(self.startItems))
-        for elem in l:
-            if elem in self.inventory:
-                self.inventory[elem] += 1
-            else:
-                self.inventory[elem] = 1
-        if 'matches' in self.inventory:
-            self.inventory['matches'] = 4
+#     def startInv(self): #function to give the player a few starting items
+#         l = []
+#         for i in range(3):
+#             l.append(random.choice(self.startItems))
+#         for elem in l:
+#             if elem in self.inventory:
+#                 self.inventory[elem] += 1
+#             else:
+#                 self.inventory[elem] = 1
+#         if 'matches' in self.inventory:
+#             self.inventory['matches'] = 4
             
     def update(self):
         self.dirstring = ''
@@ -84,22 +84,12 @@ class Player:
         elif self.location.terrain == "hills":
             self.speedPenalty += self.maxSpeed // 4
         elif self.location.terrain == "tundra":
-            self.healthLoss *= 2
-#         elif self.location.terrain == "grassy":
-#             self.healthLoss = 1
-#             self.hungerLoss = 10
-#             self.speedPenalty = 0
-#             self.socPenalty = 0
-#         elif self.location.terrain == 'water':
-#             self.speedPenalty = 3
-#             self.socPenalty = 2
-#             self.hungerLoss = 25
-#             self.strength = 3
+            self.healthLoss += 3
 
         if self.world.weather == "rainy":
             self.speedPenalty += self.maxSpeed // 4
         elif self.world.weather == "hailing":
-            self.healthLoss *= 2
+            self.healthLoss += 3
         elif self.world.weather == "snowy":
             self.socPenalty += self.maxSociability // 4
         elif self.world.weather == "drought":
@@ -114,6 +104,8 @@ class Player:
             print('You gain ' + str(healthGained) + ' health at your home base!')
         else: #no health loss at home
             self.health -= self.healthLoss
+            self.sociabilty -= self.socPenalty
+            self.speed -= self.speedPenalty
             print('You lose ' + str(self.healthLoss) + ' health.')
         if self.health <= 0:
             self.die()
