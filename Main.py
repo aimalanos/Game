@@ -292,11 +292,16 @@ for i in range(0,50):
 
             
 print('Welcome to Irtiqa! In this turn-based game, you act as an animal within a world full of other animals and objects.')
+print()
 print('Your health will decrease and your hunger will increase steadily with time. You may recharge both by eating or by returning to your home (starting location).')
+print()
 print('Your goal is to become the dominant creature in your environment, however you choose to do so.')
+print()
 print('You can fight with creatures or befriend them. Either one will bring you experience points, and each has its risks and benefits.')
+print()
 print('You may win the game by becoming every creature\'s best friend...or their biggest fear.')
-print('Type "HELP"+ENTER at any time to see a list of commands available to you.')
+print()
+print('Use the "help" command at any time to see a list of commands available to you.')
 print()
 p = Player(w)       
 clear()
