@@ -20,7 +20,7 @@ class World:
         for i in range(2*x+1):
             for j in range(2*y+1):
                 self.squares.append(Square(self, i, j))
-         for squ in self.squares:
+        for squ in self.squares:
              t = random.randint(0,8)
              squ.terrain = self.terrains[t]
              if squ.exits['east'] == None:
