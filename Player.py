@@ -274,7 +274,7 @@ class Player:
             else:
                 self.location.items[item] = 1
             self.inventory[item] -= 1
-            self.invweight -= self.world.itemWeights['item]
+            self.invweight -= self.world.itemWeights[item]
             if self.inventory[item] <= 0:
                 del self.inventory[item]
             print('You drop the ' + item + '.')
