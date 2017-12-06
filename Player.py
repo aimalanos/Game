@@ -475,6 +475,7 @@ class Player:
             print('There is no creature here.')
             return
         else:
+            fleeing = False
             while self.health > 0 and creature.health > 0:
                 clear()
                 print('Creature health: ' + str(creature.health))
@@ -529,6 +530,7 @@ class Player:
                     creatureChoice = random.random()
                     if creatureChoice < creature.fleeRate:
                         print("The creature flees!")
+                        fleeing = True
                         break
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
@@ -544,6 +546,7 @@ class Player:
                     creatureChoice = random.random()
                     if creatureChoice < creature.fleeRate:
                         print("The creature flees!")
+                        fleeing = True
                         break
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
@@ -589,7 +592,21 @@ class Player:
                 input('Press enter to continue.')
 
             print()
-            if creature.health <= 0 and self.health > 0:
+            if fleeing = True:
+                r = random.choice(self.world.squares)
+                if creature in self.world.aquaticCreatures:
+                    while r.creature != None and r.terrain != 'lake':
+                        r.random.choice(self.world.squares)
+                    r.creature = creature
+                    creature.location = r
+                    self.location.creature = None
+                else:
+                    while r.creature != None:
+                        r = random.choice(self.world.squares)
+                    r.creature = creature
+                    creature.location = r
+                    self.location.creature = None
+            elif creature.health <= 0 and self.health > 0:
                 print("You've defeated the creature!")
                 print("You gain " + str(creature.experience) + " experience!")
                 self.experience += creature.experience
@@ -613,6 +630,7 @@ class Player:
             print('There is no creature here.')
             return
         else:
+            fleeing = False
             while self.health > 0 and creature.hostility > 0:
                 clear()
                 print('Creature health: ' + str(creature.health))
@@ -664,6 +682,7 @@ class Player:
                     creatureChoice = random.random()
                     if creatureChoice < creature.fleeRate:
                         print("The creature flees!")
+                        fleeing = True
                         break
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
@@ -680,6 +699,7 @@ class Player:
                     if creatureChoice < creature.fleeRate:
                         print("The creature flees!")
                         break
+                        fleeing = True
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
                         print("The creature attacks!")
@@ -722,7 +742,21 @@ class Player:
                 input('Press enter to continue.')
 
             print()
-            if creature.hostility <= 0 and self.health > 0:
+            if fleeing = True:
+                r = random.choice(self.world.squares)
+                if creature in self.world.aquaticCreatures:
+                    while r.creature != None and r.terrain != 'lake':
+                        r.random.choice(self.world.squares)
+                    r.creature = creature
+                    creature.location = r
+                    self.location.creature = None
+                else:
+                    while r.creature != None:
+                        r = random.choice(self.world.squares)
+                    r.creature = creature
+                    creature.location = r
+                    self.location.creature = None
+            elif creature.hostility <= 0 and self.health > 0:
                 print("You've befriended the creature!")
                 print("You gain " + str(creature.experience) + " experience!")
                 self.experience += creature.experience
@@ -746,6 +780,7 @@ class Player:
             print('There is no creature here.')
             return
         else:
+            fleeing = False
             while self.health > 0 and (creature.hostility > 0 or creature.health > 0):
                 clear()
                 print('Creature health: ' + str(creature.health))
@@ -806,6 +841,7 @@ class Player:
                     creatureChoice = random.random()
                     if creatureChoice < creature.fleeRate:
                         print("The creature flees!")
+                        fleeing = True
                         break
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
@@ -821,6 +857,7 @@ class Player:
                     creatureChoice = random.random()
                     if creatureChoice < creature.fleeRate:
                         print("The creature flees!")
+                        fleeing = True
                         break
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
@@ -878,7 +915,21 @@ class Player:
                 input('Press enter to continue.')
 
             print()
-            if creature.health <= 0 and self.health > 0:
+            if fleeing = True:
+                r = random.choice(self.world.squares)
+                if creature in self.world.aquaticCreatures:
+                    while r.creature != None and r.terrain != 'lake':
+                        r.random.choice(self.world.squares)
+                    r.creature = creature
+                    creature.location = r
+                    self.location.creature = None
+                else:
+                    while r.creature != None:
+                        r = random.choice(self.world.squares)
+                    r.creature = creature
+                    creature.location = r
+                    self.location.creature = None
+            elif creature.health <= 0 and self.health > 0:
                 print("You've defeated the creature!")
                 print("You gain " + str(creature.experience) + " experience!")
                 self.experience += creature.experience
