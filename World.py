@@ -12,7 +12,7 @@ class World:
         self.turn_count = 0
         self.weather = "clear"
         self.player = None
-        self.squares = []
+        self.squares = [[None,None,None,None,None,None,None,None,None],[None,None,None,None,None,None,None,None,None],[None,None,None,None,None,None,None,None,None],[None,None,None,None,None,None,None,None,None],[None,None,None,None,None,None,None,None,None],[None,None,None,None,None,None,None,None,None],[None,None,None,None,None,None,None,None,None],[None,None,None,None,None,None,None,None,None],[None,None,None,None,None,None,None,None,None]]
         self.possibleCommands = {'me':['me'],'help':['help'],'allstats':['allstats','all stats'],'pickup':['pickup'],'go':['go'],'inspect':['inspect'], 'attack': ['attack'], 'befriend': ['befriend'], 'recruit': ['recruit'], 'dismiss':['dismiss'], 'evolve': ['evolve'], 'use': ['use'], 'inventory': ['inventory'], 'use': ['use'], 'drop': ['drop']}
         self.weatherlist = ["clear", "rainy", "hailing", "snowy", "drought"]
         self.weather = random.choice(self.weatherlist)
