@@ -69,7 +69,6 @@ class Player:
 #             self.inventory['matches'] = 4
             
     def update(self):
-        #@@@import pdb; pdb.set_trace()
         if self.going != '':
             print('You go ' + self.going + '.')
         self.dirstring = ''
