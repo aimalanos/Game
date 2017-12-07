@@ -54,6 +54,7 @@ class Player:
         self.friends = []
         self.ally = None
         self.m = 0
+        self.going = ''
 
 #     def startInv(self): #function to give the player a few starting items
 #         l = []
@@ -68,6 +69,9 @@ class Player:
 #             self.inventory['matches'] = 4
             
     def update(self):
+        #@@@import pdb; pdb.set_trace()
+        if self.going != '':
+            print('You go ' + self.going + '.')
         self.dirstring = ''
         for elem in self.availabledirs:
             if self.dirstring == '':
@@ -289,12 +293,13 @@ class Player:
             print('There is no such item in your inventory.')
                 
     def inspect(self, item):
-        if item == 'creature' or item == self.location.creature.name:
+        if item == 'creature' or item in self.world.creatureNames:
             if self.location.creature == None:
                 print('There is no creature here.')
             else:
                 print("The creature is a " + self.location.creature.name + '!')
-                print("It has " + str(self.location.creature.health) + " health, " + str(self.location.creature.speed) + " speed, " + str(self.location.creature.strength) + " strength, and " + str(self.location.creature.hostility) + " hostility.")  
+                print("It has " + str(self.location.creature.health) + " health, " + str(self.location.creature.speed) + " speed, " + str(self.location.creature.strength) + " strength, and " + str(self.location.creature.hostility) + " hostility.")
+            #$$$
         elif item in self.location.items or item in self.inventory:
             if item == 'sticky sap':
                 print("Sticky sap from a tree. Use it during an encounter to decrease the other creature's speed.")
@@ -314,6 +319,7 @@ class Player:
                 print('A fruit. If you are an herbivore or omnivore, then eating this will reduce hunger and restore your stats.')
             elif item == 'meat':
                 print('A piece of meat. If you are a carnivore or omnivore, then eating this will reduce hunger and restore your stats.')
+            input("Press enter to continue.")
         else:
             print('There is nothing by that name here.')
                     
@@ -403,7 +409,7 @@ class Player:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
             else:
-                print('You go north.')
+                self.going = 'north'
                 self.location = self.location.exits['north']
                 return True
         if dir.lower() == 'south':
@@ -415,7 +421,7 @@ class Player:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
             else:
-                print('You go south.')
+                self.going = 'south'
                 self.location = self.location.exits['south']
                 return True
         if dir.lower() == 'east':
@@ -427,7 +433,7 @@ class Player:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
             else:
-                print('You go east.')
+                self.going = 'east'
                 self.location = self.location.exits['east']
                 return True
         if dir.lower() == 'west':
@@ -439,7 +445,7 @@ class Player:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
             else:
-                print('You go west.')
+                self.going = 'west'
                 self.location = self.location.exits['west']
                 return True
         else:
