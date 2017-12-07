@@ -143,109 +143,109 @@ def evolve(p):
     transactionCompleted = False
     while not transactionCompleted:
         choice = input('What would you like to improve? ')
-        if choice.lower() in 'health increase':
+        if choice.lower() == 'health increase':
             if p.experience >= 5:
                 p.maxHealth += 8
                 p.health = p.maxHealth
                 p.experience -= 5
                 transactionCompleted = True
             else:
-                ('Not enough experience. Try again.')
-        elif choice.lower() in 'stomach size increase':
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'stomach size increase':
             if p.experience >= 5:
                 p.maxHunger += 5
                 p.hunger = p.maxHunger
                 p.experience -= 5
                 transactionCompleted = True
             else:
-                ('Not enough experience. Try again.')
-        elif choice.lower() in 'strength increase':
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'strength increase':
             if p.experience >= 5:
                 p.maxStrength += 3
                 p.strength = p.maxStrength
                 p.experience -= 5
                 transactionCompleted = True
             else:
-                ('Not enough experience. Try again.')
-        elif choice.lower() in 'sociability increase':
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'sociability increase':
             if p.experience >= 5:
                 p.maxSociability += 3
                 p.sociability = p.maxSociability
                 p.experience -= 5
                 transactionCompleted = True
             else:
-                ('Not enough experience. Try again.')
-        elif choice.lower() in 'speed increase':
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'speed increase':
             if p.experience >= 5:
                 p.maxSpeed += 3
                 p.speed = p.maxSpeed
                 p.experience -= 5
                 transactionCompleted = True
             else:
-                ('Not enough experience. Try again.')
-        elif choice.lower() in 'intelligence increase':
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'intelligence increase':
             if p.experience >= 5:
                 p.intelligence += 4
                 p.experience -= 5
                 transactionCompleted = True
             else:
-                ('Not enough experience. Try again.')
-        elif choice.lower() in 'pouches':
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'pouches':
             if p.experience >= 5:
-                p.self.inventoryCap += 3
+                p.inventoryCap += 3
                 p.experience -= 5
                 transactionCompleted = True
             else:
-                ('Not enough experience. Try again.')
-        elif choice.lower() in 'stronger back':
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'stronger back':
             if p.experience >= 5:
-                p.self.maxinvweight += 3
+                p.maxinvweight += 3
                 p.experience -= 5
                 transactionCompleted = True
             else:
-                ('Not enough experience. Try again.')
-        elif choice.lower() in 'metabolism increase':
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'metabolism increase':
             if p.experience >= 15:
                 p.abilities.append('Improved metabolism') # Will implement this later
                 p.experience -= 15
                 transactionCompleted = True
             else:
-                ('Not enough experience. Try again.')
-        elif choice.lower() in 'fat reserves':
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'fat reserves':
             if p.experience >= 15:
                 p.abilities.append('Fat reserves') # Will implement this later
                 p.experience -= 15
                 transactionCompleted = True
             else:
-                ('Not enough experience. Try again.')
-        elif choice.lower() in 'semiaquatic':
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'semiaquatic':
             if p.experience >= 15:
                 p.abilities.append('Semiaquatic') # Will implement this later
                 p.experience -= 15
                 transactionCompleted = True
             else:
-                ('Not enough experience. Try again.')
-        elif choice.lower() in 'item use':
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'item use':
             if p.experience >= 15:
                 p.abilities.append('Item use')
                 p.experience -= 15
                 transactionCompleted = True
             else:
-                ('Not enough experience. Try again.')
-        elif choice.lower() in 'flexible responding':
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'flexible responding':
             if p.experience >= 25:
                 p.abilities.append('Fat reserves')
                 p.experience -= 30
                 transactionCompleted = True
             else:
-                ('Not enough experience. Try again.')
-        elif choice.lower() in 'fire':
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'fire':
             if p.experience >= 35:
                 p.abilities.append('Fire')
                 victory()
             else:
-                ('Not enough experience. Try again.')
-        elif choice.lower() in 'go back':
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'go back':
             transactionCompleted = True
         
 
@@ -260,6 +260,7 @@ for i in range(0,41):
     r = random.choice(w.squares)
     if not r.creature:
         if r.terrain == 'lake':
+            print('@@@',str(r.coordinates))
             creatureType = random.choice(w.aquaticCreatures)
         else:
             creatureType = random.choice(w.possibleCreatures)
@@ -312,27 +313,13 @@ clear()
 print('Before you get started, you may want to see a list of commands!')
 help(p)
 print()
-input('Press enter to continue.')
-# coms = input('Type "commands" to see a list of commands, or "start" to start the game. ')
-# x=True
-# while x:
-#     if coms == 'commands':
-#         print()
-#         help(p)
-#         input = ('Press Enter to continue. ')
-#         x = False
-#     elif coms == 'start':
-#         x = False
-#         pass
-#     else:
-#         coms = input('Invalid input. Please type "commands" or "start." ')
+input('Press enter to continue. ')
 
 while playing and p.alive:
     timePasses = False
     clear()
     printSituation(w,p)
-    command = input('What will you do? ')
-    command = command.lower() #i was getting a bug when .lower() was in the above line, idk why
+    command = input('What will you do? ').lower()
     if command == '':
         print('Oops! Looks like you forgot to give a command.')
         input("Press enter to continue.")
@@ -377,9 +364,13 @@ while playing and p.alive:
             count = 0
             print('squares:')
             for elem in w.squares:
-                print('\t' + str(elem.coordinates),elem.terrain,elem)
+                print('\t' + str(elem.coordinates),elem.terrain)
                 count += 1
             print('total = ' + str(count))
+        elif stat == 'experience':
+            amt = int(commandWords[2])
+            p.experience += amt
+        
       
     elif commandWords[0] == 'go':
         direction = commandWords[1]
@@ -527,11 +518,11 @@ while playing and p.alive:
     elif command == 'show map':
         w.showMap(mapx,mapy)
         action = input("Press enter to continue, or \"go ___ \" to move. ")
-        action = input("Press enter to continue, or \"go ___ \" to move. ")
         if action == '':
             pass
         elif action.split()[0] == 'go':
-            command = action
+            p.go(action.split()[1])
+            w.showMap(mapx,mapy)
 
     else:
         print()
@@ -539,12 +530,12 @@ while playing and p.alive:
         
     if not timePasses:
         print()
-        input('Press enter to continue.')
+        input('Press enter to continue. ')
     else:
         w.update()
         if w.turn_count > 200:
             gameOver(w)
         print()
-        input('Press enter to continue.')
+        input('Press enter to continue. ')
 if not p.alive:
     gameOver(w)
