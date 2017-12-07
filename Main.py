@@ -89,6 +89,8 @@ def printSituation(w, p):
     print()
     print("Health: " + str(p.health))
     print("Food meter: " + str(p.hunger))
+    if p.hunger == 0:
+        print('STARVING')
     print()
     
 def victory(p):
@@ -254,7 +256,7 @@ w = World()
 mapx = 4
 mapy = 4
 w.makeMap(mapx,mapy)
-for i in range(0,28):
+for i in range(0,41):
     r = random.choice(w.squares)
     if not r.creature:
         if r.terrain == 'lake':
@@ -270,7 +272,7 @@ for i in range(0,28):
         else:
             creatureType = random.choice(w.possibleCreatures)
         creatureType(r, 2)
-for i in range(0,28):
+for i in range(0,15):
     r = random.choice(w.squares)
     if not r.creature:
         if r.terrain == 'lake':
