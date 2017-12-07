@@ -35,9 +35,9 @@ class Player:
         self.maxSociability, self.sociability = 5, 5
         self.maxSpeed, self.speed = 5, 5
         self.healthLoss = 2
-        self.hungerLoss = 20
-        self.speedPenalty = 1
-        self.socPenalty = 1
+        self.hungerLoss = 10
+        self.speedPenalty = 0
+        self.socPenalty = 0
         self.intelligence = 0
         self.experience = 0
         self.abilities = []
@@ -334,7 +334,7 @@ class Player:
                     del self.inventory['healing salve']
             elif item == 'big leaf':
                 print('You are now protected from the weather!')
-                self.location.weather = 'clear'
+                self.world.weather = 'clear'
                 self.inventory['big leaf'] -= 1
                 self.inventorySize -= 1
                 self.invweight -= self.world.itemWeights['big leaf']
@@ -533,7 +533,7 @@ class Player:
                         for kvp in orderedInventory:
                             print('\t' + kvp[0] + ' x' + str(kvp[1]))
                         itemChoice = input('Pick an item. ')
-                        self.useBattleItem(itemChoice)
+                        self.useBattleItem(itemChoice, creature)
                     elif choice.lower() in 'flee':
                         print("You flee!")
                         break
@@ -581,7 +581,7 @@ class Player:
                         for kvp in orderedInventory:
                             print('\t' + kvp[0] + ' x' + str(kvp[1]))
                         itemChoice = input('Pick an item. ')
-                        self.useBattleItem(itemChoice)
+                        self.useBattleItem(itemChoice, creature)
                     elif choice.lower() in 'flee':
                         print("You flee!")
                         break
@@ -685,7 +685,7 @@ class Player:
                         for kvp in orderedInventory:
                             print('\t' + kvp[0] + ' x' + str(kvp[1]))
                         itemChoice = input('Pick an item. ')
-                        self.useBattleItem('item')
+                        self.useBattleItem(itemChoice, creature)
                     elif choice.lower() in 'flee':
                         print("You flee!")
                         break
@@ -731,7 +731,7 @@ class Player:
                         for kvp in orderedInventory:
                             print('\t' + kvp[0] + ' x' + str(kvp[1]))
                         itemChoice = input('Pick an item. ')
-                        self.useBattleItem('item')
+                        self.useBattleItem(itemChoice, creature)
                     elif choice.lower() in 'flee':
                         print("You flee!")
                         break
@@ -844,7 +844,7 @@ class Player:
                         for kvp in orderedInventory:
                             print('\t' + kvp[0] + ' x' + str(kvp[1]))
                         itemChoice = input('Pick an item. ')
-                        self.useBattleItem('item')
+                        self.useBattleItem(itemChoice, creature)
                     elif choice.lower() in 'flee':
                         print("You flee!")
                         break
@@ -897,7 +897,7 @@ class Player:
                         for kvp in orderedInventory:
                             print('\t' + kvp[0] + ' x' + str(kvp[1]))
                         itemChoice = input('Pick an item. ')
-                        self.useBattleItem('item')
+                        self.useBattleItem(itemChoice, creature)
                     elif choice.lower() in 'flee':
                         print("You flee!")
                         break
