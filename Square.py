@@ -1,7 +1,6 @@
 class Square:
     def __init__(self, w, xcoor, ycoor):
         self.world = w
-        self.world.squares.append(self)
         self.coordinates = (xcoor,ycoor)
         self.exits = {'east': None, 'west': None, 'north': None, 'south': None}
         self.creature = None
