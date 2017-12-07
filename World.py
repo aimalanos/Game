@@ -51,7 +51,7 @@ class World:
                              if squ2.coordinates[0] == squ.coordinates[0]:
                                  squ.exits['south'] = squ2
                                  squ2.exits['north'] = squ
-    counter = 1
+        counter = 1
         for square in self.squares:
             print(counter)
             print(square.coordinates)
