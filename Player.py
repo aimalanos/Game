@@ -83,7 +83,7 @@ class Player:
         
         # Terrain effects
         if self.location.terrain == "desert":
-            self.hungerLoss += 10
+            self.hungerLoss += 5
         elif self.location.terrain == "hills":
             self.speedPenalty += self.maxSpeed // 4
         elif self.location.terrain == "tundra":
@@ -97,7 +97,7 @@ class Player:
         elif self.world.weather == "snowy":
             self.socPenalty += self.maxSociability // 4
         elif self.world.weather == "drought":
-            self.hungerLoss += 10
+            self.hungerLoss += 5
 
         # You gain health 
         if self.location == self.home:
