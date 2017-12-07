@@ -254,8 +254,31 @@ clear()
 playing = True
 w = World()
 w.makeMap(w.mapx,w.mapy)
+            
+print('Welcome to Irtiqa! In this turn-based game, you act as an animal within a world full of other animals and objects.')
+print()
+print('Your health will decrease and your hunger will increase steadily with time. You may recharge both by eating or by returning to your home (starting location).')
+print()
+print('Your goal is to become the dominant creature in your environment, however you choose to do so.')
+print()
+print('You can fight with creatures or befriend them. Either one will bring you experience points, and each has its risks and benefits.')
+print()
+print('You may win the game by becoming every creature\'s best friend...or their biggest fear.')
+print()
+print('Use the "help" command at any time to see a list of commands available to you.')
+print()
+p = Player(w)
+clear()
+print('Before you get started, you may want to see a list of commands!')
+help(p)
+print()
+input('Press enter to continue. ')
+
 for i in range(0,41):
     r = random.choice(w.squares)
+    if r == p.location:
+        if random.randint(0,1) == 1: #player should start with level 1 creature or no creature at home
+            creatureType = random.choice(w.possibleCreatures)
     if not r.creature:
         if r.terrain == 'lake':
             creatureType = random.choice(w.aquaticCreatures)
@@ -291,26 +314,6 @@ for i in range(0,50):
         r.items[rItem] += 1
     else:
         r.items[rItem] = 1
-
-            
-print('Welcome to Irtiqa! In this turn-based game, you act as an animal within a world full of other animals and objects.')
-print()
-print('Your health will decrease and your hunger will increase steadily with time. You may recharge both by eating or by returning to your home (starting location).')
-print()
-print('Your goal is to become the dominant creature in your environment, however you choose to do so.')
-print()
-print('You can fight with creatures or befriend them. Either one will bring you experience points, and each has its risks and benefits.')
-print()
-print('You may win the game by becoming every creature\'s best friend...or their biggest fear.')
-print()
-print('Use the "help" command at any time to see a list of commands available to you.')
-print()
-p = Player(w)       
-clear()
-print('Before you get started, you may want to see a list of commands!')
-help(p)
-print()
-input('Press enter to continue. ')
 
 while playing and p.alive:
     timePasses = False
