@@ -41,7 +41,7 @@ class World:
              if squ.exits['north'] == None:
                  if squ.coordinates[1] != 2*y:
                      for squ2 in self.squares:
-                         if squ2.coordinates[1] == squ.coordinates[0] + 1:
+                         if squ2.coordinates[1] == squ.coordinates[1] + 1:
                              if squ2.coordinates[0] == squ.coordinates[0]:
                                  squ.exits['north'] = squ2
                                  squ2.exits['south'] = squ
