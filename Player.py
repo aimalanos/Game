@@ -423,7 +423,7 @@ class Player:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
                 else:
-                    self.location = self.location.exits['north']
+                    self.location = self.location.exits['south']
                     return True
             else:
                 self.going = 'south'
@@ -438,7 +438,7 @@ class Player:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
                 else:
-                    self.location = self.location.exits['north']
+                    self.location = self.location.exits['east']
                     return True
             else:
                 self.going = 'east'
@@ -453,7 +453,7 @@ class Player:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
                 else:
-                    self.location = self.location.exits['north']
+                    self.location = self.location.exits['west']
                     return True
             else:
                 self.going = 'west'
