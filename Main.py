@@ -253,14 +253,11 @@ clear()
 
 playing = True
 w = World()
-mapx = 4
-mapy = 4
-w.makeMap(mapx,mapy)
+w.makeMap(w.mapx,w.mapy)
 for i in range(0,41):
     r = random.choice(w.squares)
     if not r.creature:
         if r.terrain == 'lake':
-            print('@@@',str(r.coordinates))
             creatureType = random.choice(w.aquaticCreatures)
         else:
             creatureType = random.choice(w.possibleCreatures)
@@ -516,13 +513,13 @@ while playing and p.alive:
         pass
 
     elif command == 'show map':
-        w.showMap(mapx,mapy)
+        w.showMap()
         action = input("Press enter to continue, or \"go ___ \" to move. ")
         if action == '':
             pass
         elif action.split()[0] == 'go':
             p.go(action.split()[1])
-            w.showMap(mapx,mapy)
+            w.showMap()
 
     else:
         print()
