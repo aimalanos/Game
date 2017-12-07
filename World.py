@@ -7,6 +7,7 @@ class World:
     possibleItems = ['sticky sap', 'poison berries', 'big leaf', 'healing salve', 'flowers', 'big stick', 'nesting materials']
     itemWeights = {'fruit': 2, 'meat': 2, 'sticky sap': 3, 'poison berries': 3, 'big leaf': 3, 'healing salve': 3, 'flowers': 2, 'big stick': 3, 'nesting materials': 5}
     possibleCreatures = [Creature.Wolf,Creature.Tiger,Creature.Monkey,Creature.Dog,Creature.Sheep,Creature.Snake]
+    creatureNames = ['wolf','tiger','monkey','dog','sheep','snake']
     aquaticCreatures = [Creature.Fish,Creature.Eel,Creature.Leviathan]
     weatherlist = ["clear", "rainy", "hailing", "snowy", "drought"]
     def __init__(self):
@@ -51,14 +52,6 @@ class World:
                              if squ2.coordinates[0] == squ.coordinates[0]:
                                  squ.exits['south'] = squ2
                                  squ2.exits['north'] = squ
-        counter = 1
-        for square in self.squares:
-            print(counter)
-            print(square.coordinates)
-            for elem in square.exits:
-                if square.exits[elem] != None:
-                    print(elem,square.exits[elem].coordinates)
-            counter += 1
 
     def add_player(self, player):
         self.player = player
@@ -94,3 +87,4 @@ class World:
             elif self.weather == 'drought':
                 if self.player.location.terrain == 'tundra':
                     self.weather = 'clear'
+        input("Press enter to continue.")
