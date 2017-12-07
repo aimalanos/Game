@@ -70,7 +70,7 @@ def printSituation(w, p):
     print("The weather is " + w.weather + ". " + wc)
     print("The terrain is " + p.location.terrain + ". " + tc)
     if p.location.creature != None:
-        if (p.ally != None and p.ally.location == p.location) or p.ally == None:
+        if p.ally == None or p.ally.location != p.location:
             if p.location.creature in p.friends:
                 print("There is a creature here. It is your friend the " + str(p.location.creature.name) + ".")
             else:
