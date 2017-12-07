@@ -35,7 +35,7 @@ class Player:
         self.maxSociability, self.sociability = 5, 5
         self.maxSpeed, self.speed = 5, 5
         self.healthLoss = 2
-        self.hungerLoss = 10
+        self.hungerLoss = 5
         self.speedPenalty = 0
         self.socPenalty = 0
         self.intelligence = 0
@@ -77,7 +77,7 @@ class Player:
                 
         # We reset the penalties in order to implement the terrain and weather effects
         self.healthLoss = 2
-        self.hungerLoss = 10
+        self.hungerLoss = 5
         self.speedPenalty = 0
         self.socPenalty = 0
         
