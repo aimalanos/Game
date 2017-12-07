@@ -506,8 +506,7 @@ while playing and p.alive:
                 break
     
     elif commandWords[0] == 'recruit':
-        if p.recruit():
-            timePasses = True
+        p.recruit():
             
     elif commandWords[0] == 'dismiss':
         if self.ally == None:
