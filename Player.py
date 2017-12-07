@@ -126,13 +126,21 @@ class Player:
         elif self.hunger == 0:
             r = random.randint(0,3) #player will randomly take damage to health, strength, sociability, speed, or intelligence
             if r == 0:
-                self.health -= self.health//10
+                hungerPenalty = self.health // 10
+                self.health -= hungerPenalty
+                print("You're starving! You lose " + str(hungerPenalty) + " health!")
             elif r == 1:
-                self.strength -= self.strength//10
+                hungerPenalty = self.strength // 10
+                self.strength -= hungerPenalty
+                print("You're starving! You lose " + str(hungerPenalty) + " strength!")
             elif r == 2:
-                self.sociability -= self.sociability//10
+                hungerPenalty = self.sociability // 10
+                self.sociability -= hungerPenalty
+                print("You're starving! You lose " + str(hungerPenalty) + " sociability!")
             elif r == 3:
-                self.speed -= self.speed//10
+                hungerPenalty = self.speed // 10
+                self.speed -= hungerPenalty
+                print("You're starving! You lose " + str(hungerPenalty) + " speed!")
         if self.hunger < 0:
             self.hunger = 0
             
