@@ -254,7 +254,10 @@ class Player:
                 print('You need to unlock the "item use" ability before that stick will help you!')
                 return
         if item in self.location.items:
-            if self.inventorySize < self.inventoryCap and self.invweight + self.world.itemWeights[item] <= self.maxinvweight:
+            if self.invweight + self.world.itemWeights[item] > self.maxinvweight:
+                s = self.invweight + self.world.itemWeights[item] - self.maxinvweight
+                print("This item is too heavy for you to pick up! Leave it behind or free up " + str(s) + " points of weight in your inventory. ")
+            elif self.inventorySize < self.inventoryCap:
                 if item in self.location.items:
                     if item in self.inventory:
                         self.inventory[item] += 1
@@ -266,9 +269,6 @@ class Player:
                     if self.location.items[item] <= 0:
                         del self.location.items[item]
                     print('You pick up the ' + item + '.')
-            elif self.invweight + self.world.itemWeights[item] > self.maxinvweight:
-                s = self.invweight + self.world.itemWeights[item] - self.maxinvweight
-                print("This item is too heavy for you to pick up! Leave it behind or free up " + str(s) + " points of weight in your inventory. ")
             else:
                 print('Your inventory is already full!')
         else:
