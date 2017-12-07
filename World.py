@@ -15,7 +15,7 @@ class World:
         self.player = None
         self.squares = []
         self.possibleCommands = {'me':['me'],'help':['help'],'allstats':['allstats','all stats'],'pickup':['pickup','pick up'],'go':['go'],'inspect':['inspect'], 'attack': ['attack'], 'befriend': ['befriend'], 'recruit': ['recruit'], 'dismiss':['dismiss'], 'evolve': ['evolve'], 'use': ['use'], 'inventory': ['inventory'], 'use': ['use'], 'drop': ['drop']}
-        self.weather = random.choice(self.weatherlist)
+        self.weather = 'clear'
     def makeMap(self,x,y):
         for i in range(2*x+1):
             for j in range(2*y+1):
