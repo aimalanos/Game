@@ -335,6 +335,7 @@ while playing and p.alive:
     command = command.lower() #i was getting a bug when .lower() was in the above line, idk why
     if command == '':
         print('Oops! Looks like you forgot to give a command.')
+        input("Press enter to continue.")
         command = 'skip'
     commandWords = command.split()
     elem = commandWords[0]
@@ -384,6 +385,8 @@ while playing and p.alive:
         direction = commandWords[1]
         if p.go(direction):
             timePasses = True
+        else:
+            input("Press enter to continue.")
             
     elif commandWords[0] == 'pickup':
         if len(commandWords) == 3:
@@ -506,7 +509,7 @@ while playing and p.alive:
                 break
     
     elif commandWords[0] == 'recruit':
-        p.recruit():
+        p.recruit()
             
     elif commandWords[0] == 'dismiss':
         if self.ally == None:
@@ -522,11 +525,6 @@ while playing and p.alive:
 
     elif command == 'skip':
         pass
-
-#     elif commandWords[0] == 'friends':
-#         print('Your friends are:')
-#         for friend in p.friends:
-#             print('\t' + friend.name)
 
     elif command == 'show map':
             sWidth = 8 #square width
@@ -566,19 +564,20 @@ while playing and p.alive:
                         if minirow == 4:
                             row -= 1
                             break
+            input("Press enter to continue.")
 
     else:
         print()
         print('Sorry, I don\'t understand. Type "help" for available options. ')
         
     print()
-    input('Press enter to continue.')
+    #input('Press enter to continue.')
     if timePasses:
         clear()
         w.update()
         if w.turn_count > 200:
             gameOver(w)
         print()
-        input('Press enter to continue.')
+        #input('Press enter to continue.')
 if not p.alive:
     gameOver(w)
