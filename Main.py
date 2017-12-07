@@ -220,7 +220,7 @@ def evolve(p):
                 print('Not enough experience. Try again.')
         elif choice.lower() == 'semiaquatic':
             if p.experience >= 15:
-                p.abilities.append('Semiaquatic') # Will implement this later
+                p.abilities.append('semiaquatic') # Will implement this later
                 p.experience -= 15
                 transactionCompleted = True
             else:
@@ -365,7 +365,10 @@ while playing and p.alive:
                 count += 1
             print('total = ' + str(count))
         elif stat == 'experience':
-            amt = int(commandWords[2])
+            if len(commandWords) == 2:
+                amt = int(input('how much? '))
+            else:
+                amt = int(commandWords[2])
             p.experience += amt
         
       
@@ -513,13 +516,16 @@ while playing and p.alive:
         pass
 
     elif command == 'show map':
-        w.showMap()
-        action = input("Press enter to continue, or \"go ___ \" to move. ")
-        if action == '':
-            pass
-        elif action.split()[0] == 'go':
-            p.go(action.split()[1])
+        close = False
+        while close == False:
             w.showMap()
+            action = input("Type close to close the map, or \"go ___ \" to move. ")
+            if action == '':
+                pass
+            elif action.split()[0] == 'go':
+                p.go(action.split()[1])
+            elif action == 'close':
+                close = True
 
     else:
         print()
