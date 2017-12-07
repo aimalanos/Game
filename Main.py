@@ -385,8 +385,6 @@ while playing and p.alive:
         direction = commandWords[1]
         if p.go(direction):
             timePasses = True
-        else:
-            input("Press enter to continue.")
             
     elif commandWords[0] == 'pickup':
         if len(commandWords) == 3:
@@ -564,20 +562,19 @@ while playing and p.alive:
                         if minirow == 4:
                             row -= 1
                             break
-            input("Press enter to continue.")
 
     else:
         print()
         print('Sorry, I don\'t understand. Type "help" for available options. ')
         
-    print()
-    #input('Press enter to continue.')
-    if timePasses:
-        clear()
+    if not timePasses:
+        print()
+        input('Press enter to continue.')
+    else:
         w.update()
         if w.turn_count > 200:
             gameOver(w)
         print()
-        #input('Press enter to continue.')
+        input('Press enter to continue.')
 if not p.alive:
     gameOver(w)
