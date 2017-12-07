@@ -87,4 +87,3 @@ class World:
             elif self.weather == 'drought':
                 if self.player.location.terrain == 'tundra':
                     self.weather = 'clear'
-        input("Press enter to continue.")
