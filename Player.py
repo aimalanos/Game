@@ -85,6 +85,7 @@ class Player:
         self.socPenalty = 0
         
         # Terrain effects
+        #@@@@@@@@@@@@@@@@@@@@@@@@@import pdb; pdb.set_trace()
         if self.location.terrain == "desert":
             self.hungerLoss += 5
         elif self.location.terrain == "hills":
@@ -406,6 +407,9 @@ class Player:
                 if 'semiaquatic' not in self.abilities:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
+                else:
+                    self.location = self.location.exits['north']
+                    return True
             else:
                 self.going = 'north'
                 self.location = self.location.exits['north']
@@ -418,6 +422,9 @@ class Player:
                 if 'semiaquatic' not in self.abilities:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
+                else:
+                    self.location = self.location.exits['north']
+                    return True
             else:
                 self.going = 'south'
                 self.location = self.location.exits['south']
@@ -430,6 +437,9 @@ class Player:
                 if 'semiaquatic' not in self.abilities:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
+                else:
+                    self.location = self.location.exits['north']
+                    return True
             else:
                 self.going = 'east'
                 self.location = self.location.exits['east']
@@ -442,6 +452,9 @@ class Player:
                 if 'semiaquatic' not in self.abilities:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
+                else:
+                    self.location = self.location.exits['north']
+                    return True
             else:
                 self.going = 'west'
                 self.location = self.location.exits['west']
