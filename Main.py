@@ -562,7 +562,7 @@ while playing and p.alive:
                         if minirow == 4:
                             row -= 1
                             break
-        action = input("Press enter to continue, or \"go ___ \" to move. ")
+            action = input("Press enter to continue, or \"go ___ \" to move. ")
             if action == '':
                 pass
             elif action.split()[0] == 'go':
