@@ -17,9 +17,11 @@ class World:
         self.squares = []
         self.possibleCommands = {'me':['me'],'help':['help'],'allstats':['allstats','all stats'],'pickup':['pickup','pick up'],'go':['go'],'inspect':['inspect'], 'attack': ['attack'], 'befriend': ['befriend'], 'recruit': ['recruit'], 'dismiss':['dismiss'], 'evolve': ['evolve'], 'use': ['use'], 'inventory': ['inventory'], 'use': ['use'], 'drop': ['drop']}
         self.weather = 'clear'
+        self.mapx = 8
+        self.mapy = 8
     def makeMap(self,x,y):
-        for i in range(2*x+1):
-            for j in range(2*y+1):
+        for i in range(x+1):
+            for j in range(y+1):
                 self.squares.append(Square(self, i, j))
         for squ in self.squares:
              t = random.randint(0,8)
@@ -52,40 +54,40 @@ class World:
                              if squ2.coordinates[0] == squ.coordinates[0]:
                                  squ.exits['south'] = squ2
                                  squ2.exits['north'] = squ
-    def showMap(self,mapx,mapy):
+    def showMap(self):
         sWidth = 8 #square width
         sHeight = 4
-        print('|' + ('-'*sWidth + '|')*(mapx*2+1)) #top border
-        row = 2*mapy #start here to get proper north/south orientation
-        while row >= 0: #go from 2*mapy to 0
+        print('|' + ('-'*sWidth + '|')*(self.mapx+1)) #top border
+        row = self.mapy #start here to get proper north/south orientation
+        while row >= 0: #go from self.mapy to 0
             curr = [] #keeps track of all square objects in current row
             minirow = 0 #aka sub-row; tracks lines within the square
             while minirow < sHeight:
                 if minirow == 0: #top line of each square states terrain
                     for elem in self.squares:
                         if elem.coordinates[1] == row: #all squares with y-coord equal to current row are relevant
-                            curr.append(elem)          #add these squares to curr                        i = 1
+                            curr.append(elem)          #add these squares to curr
                     print('| ' + curr[0].terrain + ' '*(sWidth-len(curr[0].terrain)-1) + '| ' + curr[1].terrain + ' '*(sWidth-len(curr[1].terrain)-1) + '| ' + curr[2].terrain + ' '*(sWidth-len(curr[2].terrain)-1) + '| ' + curr[3].terrain + ' '*(sWidth-len(curr[3].terrain)-1) + '| ' + curr[4].terrain + ' '*(sWidth-len(curr[4].terrain)-1) + '| ' + curr[5].terrain + ' '*(sWidth-len(curr[5].terrain)-1) + '| ' + curr[6].terrain + ' '*(sWidth-len(curr[6].terrain)-1) + '| ' + curr[7].terrain + ' '*(sWidth-len(curr[7].terrain)-1) + '| ' + curr[8].terrain + ' '*(sWidth-len(curr[8].terrain)-1) + '|')
                     minirow += 1
                 elif minirow == 1:
                     if self.player.location.coordinates[1] == row:
-                        print('|' + (' '*sWidth + '|')*self.player.location.coordinates[0] + '   YOU  |' + (' '*sWidth + '|')*(2*mapx-self.player.location.coordinates[0]))
+                        print('|' + (' '*sWidth + '|')*self.player.location.coordinates[0] + '   YOU  |' + (' '*sWidth + '|')*(self.mapx-self.player.location.coordinates[0]))
                         minirow += 1
                     elif self.player.home.coordinates[1] == row: #display home location
-                        print('|' + (' '*sWidth + '|')*self.player.home.coordinates[0] + '  HOME  |' + (' '*sWidth + '|')*(2*mapx-self.player.home.coordinates[0]))
+                        print('|' + (' '*sWidth + '|')*self.player.home.coordinates[0] + '  HOME  |' + (' '*sWidth + '|')*(self.mapx-self.player.home.coordinates[0]))
                         minirow += 1
                     else:
-                        print('|' + (' '*sWidth + '|')*(mapx*2+1))
+                        print('|' + (' '*sWidth + '|')*(self.mapx+1))
                         minirow += 1
                 elif minirow == 2: #minirow 2 is just spaces
                     if self.player.location.coordinates[1] == row:
-                        print('|' + (' '*sWidth + '|')*self.player.location.coordinates[0] + 'ARE HERE|' + (' '*sWidth + '|')*(2*mapx-self.player.location.coordinates[0]))
+                        print('|' + (' '*sWidth + '|')*self.player.location.coordinates[0] + 'ARE HERE|' + (' '*sWidth + '|')*(self.mapx-self.player.location.coordinates[0]))
                         minirow += 1
                     else:
-                        print('|' + (' '*sWidth + '|')*(mapx*2+1))
+                        print('|' + (' '*sWidth + '|')*(self.mapx+1))
                         minirow += 1
                 else: #minirow 3 is the bottom border of each square
-                    print('|' + ('-'*sWidth + '|')*(mapx*2+1))
+                    print('|' + ('-'*sWidth + '|')*(self.mapx+1))
                     minirow += 1
                     if minirow == 4:
                         row -= 1
