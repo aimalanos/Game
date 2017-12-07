@@ -390,7 +390,7 @@ class Player:
             if self.location.exits['north'] == None:
                 print('You may not go north. Try again.')
                 return False
-            elif self.location.exits['north'].terrain == 'water':
+            elif self.location.exits['north'].terrain == 'lake':
                 if 'semiaquatic' not in self.abilities:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
@@ -402,7 +402,7 @@ class Player:
             if self.location.exits['south'] == None:
                 print('You may not go south. Try again.')
                 return False
-            elif self.location.exits['south'].terrain == 'water':
+            elif self.location.exits['south'].terrain == 'lake':
                 if 'semiaquatic' not in self.abilities:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
@@ -414,7 +414,7 @@ class Player:
             if self.location.exits['east'] == None:
                 print('You may not go east. Try again.')
                 return False
-            elif self.location.exits['east'].terrain == 'water':
+            elif self.location.exits['east'].terrain == 'lake':
                 if 'semiaquatic' not in self.abilities:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
@@ -426,7 +426,7 @@ class Player:
             if self.location.exits['west'] == None:
                 print('You may not go north. Try again.')
                 return False
-            elif self.location.exits['west'].terrain == 'water':
+            elif self.location.exits['west'].terrain == 'lake':
                 if 'semiaquatic' not in self.abilities:
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
