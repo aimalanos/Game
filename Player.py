@@ -75,18 +75,21 @@ class Player:
             else:
                 self.dirstring += ', ' + elem
                 
+        # We reset the penalties in order to implement the terrain and weather effects
         self.healthLoss = 2
         self.hungerLoss = 10
         self.speedPenalty = 0
         self.socPenalty = 0
         
+        # Terrain effects
         if self.location.terrain == "desert":
             self.hungerLoss += 10
         elif self.location.terrain == "hills":
             self.speedPenalty += self.maxSpeed // 4
         elif self.location.terrain == "tundra":
             self.healthLoss += 3
-
+        
+        # Weather effects
         if self.world.weather == "rainy":
             self.speedPenalty += self.maxSpeed // 4
         elif self.world.weather == "hailing":
@@ -96,6 +99,7 @@ class Player:
         elif self.world.weather == "drought":
             self.hungerLoss += 10
 
+        # You gain health 
         if self.location == self.home:
             healthGained = self.maxHealth // 2
             self.health += healthGained
@@ -107,7 +111,7 @@ class Player:
             self.health -= self.healthLoss
             self.sociability -= self.socPenalty
             self.speed -= self.speedPenalty
-            print('You lose ' + str(self.healthLoss) + ' health.')
+            print('You lose ' + str(self.healthLoss) + ' health from the terrain and weather.')
             print('Your sociability decreases by ' + str(self.socPenalty) + ' points.')
             print('Your speed decreases by ' + str(self.speedPenalty) + ' points.')
         if self.health <= 0:
