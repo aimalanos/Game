@@ -138,7 +138,7 @@ class World:
             self.weather = random.choice(self.weatherlist)
             if self.weather == 'rainy' or self.weather == 'snowy' or self.weather == 'hailing':
                 if self.player.location.terrain == 'desert': # It's not going to be rainy, snowy, or hailing in the desert
-                    self.weather = clear
+                    self.weather = 'clear'
             elif self.weather == 'drought': # There's not going to be a drought in the tundra
                 if self.player.location.terrain == 'tundra':
                     self.weather = 'clear'
