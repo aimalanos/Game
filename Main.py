@@ -348,38 +348,30 @@ while playing and p.alive:
         p.locationDets()
         
     elif commandWords[0] == 'attack':
-        if p.location.creature != None:
-            if 'Flexible responding' in p.abilities:
-                clear()
-                if p.flexibleResponse(p.location.creature):
-                    timePasses = True
-            else:
-                clear()
-                if p.attack(p.location.creature):
-                    timePasses = True
-            if p.defeated >= 20:
-                victory(p)
-                break
-            if len(p.friends) >= 20:
-                victory(p)
-                break
+        if 'Flexible responding' in p.abilities:
+            clear()
+            if p.flexibleResponse(p.location.creature):
+                timePasses = True
+        else:
+            clear()
+            if p.attack(p.location.creature):
+                timePasses = True
+        if p.defeated >= 20 or len(p.friends) >= 20:
+            victory(p)
+            break
           
     elif commandWords[0] == 'befriend':
-        if p.location.creature != None:
-            if 'Flexible responding' in p.abilities:
-                clear()
-                if p.flexibleResponse(p.location.creature):
-                    timePasses = True
-            else:
-                clear()
-                if p.befriend(p.location.creature):
-                    timePasses = True
-            if p.defeated >= 20:
-                victory(p)
-                break
-            if len(p.friends) >= 20:
-                victory(p)
-                break
+        if 'Flexible responding' in p.abilities:
+            clear()
+            if p.flexibleResponse(p.location.creature):
+                timePasses = True
+        else:
+            clear()
+            if p.befriend(p.location.creature):
+                timePasses = True
+        if p.defeated >= 20 or len(p.friends) >= 20:
+            victory(p)
+            break
     
     elif commandWords[0] == 'recruit':
         p.recruit()
@@ -418,11 +410,13 @@ while playing and p.alive:
     if not timePasses:
         print()
         input('Press enter to continue. ')
+        
     else:
         w.update()
         if w.turn_count > 200:
             gameOver(w)
         print()
         input('Press enter to continue. ')
+        
 if not p.alive:
     gameOver(w)
