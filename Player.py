@@ -250,6 +250,14 @@ class Player:
             else:
                 print("You can't eat that! Bleh!")
                 return
+            
+    def showInventory():
+        clear()
+        print('Your inventory contains the following items:')
+        orderedInventory = asOrderedList(self.inventory)
+        for kvp in orderedInventory:
+            weight = self.world.itemWeights[kvp[0]] * kvp[1]
+            print('\t' + kvp[0] + ' x' + str(kvp[1]) + ', ' + str(weight) + ' weight')
         
     def pickup(self, item):
         if self.location.terrain == 'forest':
