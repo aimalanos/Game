@@ -14,6 +14,7 @@ def clear():
 class Player:
     def __init__(self, w):
         self.name = input("What is your creature's name? ")
+
         print("Is your creature a carnivore or an herbivore?")
         self.diet = input("Herbivores need only find fruit to survive, while carnivores must kill their prey to have meat. ").lower()
         while self.diet != 'carnivore' and self.diet!= 'c' and self.diet != 'herbivore' and self.diet != 'h':
@@ -22,51 +23,46 @@ class Player:
             self.diet = 'herbivore'
         elif self.diet == 'c':
             self.diet = 'carnivore'
+
         w.add_player(self)
-        self.world = w
+
         self.location = random.choice(self.world.squares)
         while self.location.terrain == 'lake':
             self.location = random.choice(self.world.squares)
         self.home = self.location # The player's home base will be their starting location.
+
         self.alive = True
+        
         self.hunger = 100 # If self.hunger reaches 0, the player's health will decrease at each update.
         self.maxHealth, self.health = 50, 50
         self.maxStrength, self.strength = 5, 5
         self.maxSociability, self.sociability = 5, 5
         self.maxSpeed, self.speed = 5, 5
+        
         self.healthLoss = 2
         self.hungerLoss = 5
         self.speedPenalty = 0
         self.socPenalty = 0
+        
         self.intelligence = 0
         self.experience = 0
+        
         self.abilities = []
-#         self.startItems = ['matches','flashlight']
         self.inventory = {}
-#         self.startInv()
         self.inventorySize = 0
         self.inventoryCap = 10
         self.invweight = 0
         self.maxinvweight = 20
+        
         self.availabledirs = []
         self.dirstring = ''
+        
         self.defeated = 0
         self.friends = []
         self.ally = None
+        
         self.m = 0
         self.going = ''
-
-#     def startInv(self): #function to give the player a few starting items
-#         l = []
-#         for i in range(3):
-#             l.append(random.choice(self.startItems))
-#         for elem in l:
-#             if elem in self.inventory:
-#                 self.inventory[elem] += 1
-#             else:
-#                 self.inventory[elem] = 1
-#         if 'matches' in self.inventory:
-#             self.inventory['matches'] = 4
             
     def update(self):
         if self.going != '':
@@ -105,7 +101,7 @@ class Player:
         elif self.world.weather == "drought":
             self.hungerLoss += 5
 
-        # You gain health 
+        # You gain health at home
         if self.location == self.home:
             healthGained = self.maxHealth // 2
             self.health += healthGained
@@ -113,10 +109,14 @@ class Player:
                 self.health = self.maxHealth
                 healthGained -= self.health - self.maxHealth
             print('You gain ' + str(healthGained) + ' health at your home base!')
-        else: #no health loss at home
+        else: # Your stats (may) go down elsewhere
             self.health -= self.healthLoss
             self.sociability -= self.socPenalty
+            if self.sociability < 0: # No negative stats
+                self.sociability = 0
             self.speed -= self.speedPenalty
+            if self.speed < 0:
+                self.speed = 0
             print('You lose ' + str(self.healthLoss) + ' health from the terrain and weather.')
             print('Your sociability decreases by ' + str(self.socPenalty) + ' points.')
             print('Your speed decreases by ' + str(self.speedPenalty) + ' points.')
@@ -124,13 +124,14 @@ class Player:
             self.die()
             
         if self.hunger > 0:
-            if 'Improved metabolism' in self.abilities:
+            if 'Improved metabolism' in self.abilities: # The "Improved metabolism" ability makes you become hungrier less quickly
                 self.hunger -= 5
-            self.hunger -= self.hungerLoss
+            else:
+                self.hunger -= self.hungerLoss
             if self.hunger < 0:
                 self.hunger = 0
-        elif self.hunger == 0:
-            r = random.randint(0,3) #player will randomly take damage to health, strength, sociability, speed, or intelligence
+        elif self.hunger == 0: # If they player is starving...
+            r = random.randint(0,3) # then they will randomly take damage to health, strength, sociability, or speed
             if r == 0:
                 hungerPenalty = self.health // 10
                 self.health -= hungerPenalty
@@ -147,7 +148,7 @@ class Player:
                 hungerPenalty = self.speed // 10
                 self.speed -= hungerPenalty
                 print("You're starving! You lose " + str(hungerPenalty) + " speed!")
-        if self.hunger < 0:
+        if self.hunger < 0: # You can't have negative hunger!
             self.hunger = 0
             
         self.availabledirs = []
@@ -157,7 +158,7 @@ class Player:
                 
         if 'meat' in self.inventory:
             self.m += 1
-            if self.m == 4:
+            if self.m == 6: # If you go long enough with meat in your inventory, then it will rot all your food
                 self.invweight -= self.inventory['fruit'] * self.world.itemWeights['fruit']
                 self.invweight -= self.inventory['meat'] * self.world.itemWeights['meat']
                 del self.inventory['fruit']
