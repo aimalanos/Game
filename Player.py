@@ -477,48 +477,52 @@ class Player:
             print('There is nothing by that name here.')
                     
     def useItem(self, item):
-        if item in self.inventory:
-            print('You use the ' + item + '.')
-            if item == 'fruit':
-                self.eat(item)
-            elif item == 'meat':
-                self.eat(item)
-            elif item == 'healing salve':
-                print('All your stats have been restored!')
-                self.fillStats(1)
-                self.inventory['healing salve'] -= 1
-                self.inventorySize -= 1
-                self.invweight -= self.world.itemWeights['healing salve']
-                if self.inventory['healing salve'] <= 0:
-                    del self.inventory['healing salve']
-            elif item == 'big leaf':
-                print('You are now protected from the weather!')
-                self.world.weather = 'clear'
-                self.inventory['big leaf'] -= 1
-                self.inventorySize -= 1
-                self.invweight -= self.world.itemWeights['big leaf']
-                if self.inventory['big leaf'] <= 0:
-                    del self.inventory['big leaf']
-            elif item == 'nesting materials':
-                if self.location == self.home:
-                    print("You're already at home!")
-                else:
-                    print('You have established a new home at the current location!')
-                    self.home = self.location
-                    self.inventory['nesting materials'] -= 1
-                    self.inventorySize -= 1
-                    self.invweight -= self.world.itemWeights['nesting materials']
-                    if self.inventory['nesting materials'] <= 0:
-                        del self.inventory['nesting materials']
-            else:
-                print("Now's not the time to use that!")
-                return False
-            return True
-        if item in self.location.items:
-            print('You must pick an item up before you can use it!')
+        if 'Item use' not in self.abilities:
+            print('You need to unlock the "Item use" ability before you can use items!')
+            return False
         else:
-            print("There's no item by that name in your inventory.")
-        return False
+            if item in self.inventory:
+                print('You use the ' + item + '.')
+                if item == 'fruit':
+                    self.eat(item)
+                elif item == 'meat':
+                    self.eat(item)
+                elif item == 'healing salve':
+                    print('All your stats have been restored!')
+                    self.fillStats(1)
+                    self.inventory['healing salve'] -= 1
+                    self.inventorySize -= 1
+                    self.invweight -= self.world.itemWeights['healing salve']
+                    if self.inventory['healing salve'] <= 0:
+                        del self.inventory['healing salve']
+                elif item == 'big leaf':
+                    print('You are now protected from the weather!')
+                    self.world.weather = 'clear'
+                    self.inventory['big leaf'] -= 1
+                    self.inventorySize -= 1
+                    self.invweight -= self.world.itemWeights['big leaf']
+                    if self.inventory['big leaf'] <= 0:
+                        del self.inventory['big leaf']
+                elif item == 'nesting materials':
+                    if self.location == self.home:
+                        print("You're already at home!")
+                    else:
+                        print('You have established a new home at the current location!')
+                        self.home = self.location
+                        self.inventory['nesting materials'] -= 1
+                        self.inventorySize -= 1
+                        self.invweight -= self.world.itemWeights['nesting materials']
+                        if self.inventory['nesting materials'] <= 0:
+                            del self.inventory['nesting materials']
+                else:
+                    print("Now's not the time to use that!")
+                    return False
+                return True
+            elif item in self.location.items:
+                print('You must pick an item up before you can use it!')
+            else:
+                print("There's no item by that name in your inventory.")
+            return False
                     
     def useBattleItem(self, item, target):
         if item in self.inventory:
