@@ -31,14 +31,6 @@ def help(p):
     
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
-
-def showInventory(p):
-    clear()
-    print('Your inventory contains the following items:')
-    orderedInventory = asOrderedList(p.inventory)
-    for kvp in orderedInventory:
-        weight = p.world.itemWeights[kvp[0]] * kvp[1]
-        print('\t' + kvp[0] + ' x' + str(kvp[1]) + ', ' + str(weight) + 'weight')
     
 def printSituation(w, p):
     wc = ''
