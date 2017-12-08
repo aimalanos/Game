@@ -247,6 +247,8 @@ while playing and p.alive:
             p.experience = 100
             p.abilities.append('use items')
             p.abilities.append('semiaquatic')
+        elif stat == 'drift':
+            p.inventory['driftwood'] = 1
       
     elif commandWords[0] == 'go':
         if len(commandWords) == 2:
