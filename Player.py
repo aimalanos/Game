@@ -83,6 +83,8 @@ class Player:
         self.hungerLoss = 5
         self.speedPenalty = 0
         self.socPenalty = 0
+        if self.hunger > 100:
+            self.hunger = 100
         
         # Terrain effects
         #@@@@@@@@@@@@@@@@@@@@@@@@@import pdb; pdb.set_trace()
@@ -472,7 +474,7 @@ class Player:
         print("Your location is " + str(self.location.coordinates))
         print("Hunger = " + str(self.hunger))
         print("Health = " + str(self.health))
-        print('Type: \n \t "allstats" for all stats; \n \t "inventory" for inventory; \n \t "location" for details on location')
+        print('Type: \n \t "all stats" for all stats; \n \t "inventory" for abilities and inventory; \n \t "location" for details on location')
               
     def allstats(self):
         if self.diet == 'herbivore':
