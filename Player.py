@@ -158,8 +158,8 @@ class Player:
         if 'meat' in self.inventory:
             self.m += 1
             if self.m == 4:
-                self.invWeight -= self.inventory['fruit'] * self.world.itemWeights['fruit']
-                self.invWeight -= self.inventory['meat'] * self.world.itemWeights['meat']
+                self.invweight -= self.inventory['fruit'] * self.world.itemWeights['fruit']
+                self.invweight -= self.inventory['meat'] * self.world.itemWeights['meat']
                 del self.inventory['fruit']
                 del self.inventory['meat']
                 self.m = 0
