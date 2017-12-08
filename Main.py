@@ -32,6 +32,7 @@ def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
     
 def printSituation(w, p):
+    clear()
     wc = '' # The flavor text for the weather
     if w.weather == 'rainy':
         wc = 'It slows you down.'
@@ -174,15 +175,22 @@ for i in range(0,60):
 # We spawn items
 for i in range(0,45):
     r = random.choice(w.squares)
-    rItem = random.choice(w.possibleItems)
-    if 'rItem' in r.items:
-        r.items[rItem] += 1
+    if r.terrain == 'lake':
+        rItem = random.choice(w.waterItems)
+        if 'rItem' in r.items:
+            r.items[rItem] += 1
+        else:
+            r.items[rItem] = 1
     else:
-        r.items[rItem] = 1
+        rItem = random.choice(w.landItems)
+        if 'rItem' in r.items:
+            r.items[rItem] += 1
+        else:
+            r.items[rItem] = 1
 
 while playing and p.alive:
     timePasses = False
-    clear()
+    #clear()
     printSituation(w,p)
     command = input('What will you do? ').lower()
     if command == '':
@@ -215,9 +223,13 @@ while playing and p.alive:
         clear()
         p.allstats()
     
-    elif commandWords[0] == 'inventory':
+    elif command == 'inventory':
         clear()
         p.showInventory()
+
+    elif command == 'abilities':
+        clear()
+        p.showAbilities()
 
     elif commandWords[0] == 'cheat':
         stat = commandWords[1]
@@ -227,26 +239,18 @@ while playing and p.alive:
             p.strength = 100
         elif stat == 'befriend':
             p.friends.append(p.location.creature)
-        elif stat == 'map':
-            count = 0
-            print('squares:')
-            for elem in w.squares:
-                print('\t' + str(elem.coordinates),elem.terrain)
-                count += 1
-            print('total = ' + str(count))
         elif stat == 'experience':
             if len(commandWords) == 2:
                 amt = int(input('how much? '))
             else:
                 amt = int(commandWords[2])
             p.experience += amt
-        elif stat == 'soc':
-            if len(commandWords) == 3:
-                amt = int(commandWords[2])
-            else:
-                amt = int(input('How much? '))
-            p.maxSociability,p.sociability = amt,amt
-        
+        elif stat == 'conch':
+            p.location.items['conch shell'] = 1
+        elif stat == 'all':
+            p.experience = 100
+            p.abilities.append('use items')
+            p.abilities.append('semiaquatic')
       
     elif commandWords[0] == 'go':
         if len(commandWords) == 2:
@@ -285,7 +289,7 @@ while playing and p.alive:
         else:
             item = input('What do you want to use? ')
         item = item.lower()
-        if p.useItem():
+        if p.useItem(item):
             timePasses = True
         
     elif commandWords[0] == 'eat':
