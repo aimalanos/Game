@@ -1,11 +1,5 @@
-Irtiqa is a text-based adventure game which allows you to navigate through a small world as an animal. Your ultimate goal in
-this game is to become dominant over all other animals in this world. Do so, and you win. As you interact more and more with
-the world, you will accumulate experience, tools, and abilities that will aid you in your quest for dominance. Use your
-experience points to 'evolve' progressively into a more and more powerful (or charming) animal.
-You will interact with 
-the world using text commands (e.g., "go north" or "eat fruit"). This will also involve interacting with other animals in the
-world; whether these interactions are friendly or hostile is up to you. You may attempt to befriend animals, or you may attack
-them. The game world is dynamic: the weather changes frequently, and new creatures are born regularly where old ones have died.
+Irtiqa is a text-based adventure game which allows you to navigate through a small world as an animal. Your ultimate goal in this game is to become dominant over all other animals in this world. Do so, and you win. As you interact more and more with the world, you will accumulate experience, tools, and abilities that will aid you in your quest for dominance. Use your experience points to 'evolve' progressively into a more and more powerful (or charming) animal.
+You will interact with the world using text commands (e.g., "go north" or "eat fruit"). This will also involve interacting with other animals in the world; whether these interactions are friendly or hostile is up to you. You may attempt to befriend animals, or you may attack them. The game world is dynamic: the weather changes frequently, and new creatures are born regularly where old ones have died.
 
 OUR IMPROVEMENTS
  - "me" command (2 points): We have included both a "me" command, which lets the player see their most important stats, and an"allstats" command, which lets the player see a comprehensive list of their stats. These commands call the methods stats and allstats of the Player class, respectively, located in the Player.py.
