@@ -11,6 +11,7 @@ def help(p):
     print('Use the "allstats" command to see a full list of stats.')
     print('Use the "inventory" command to see your inventory.')
     print('Use the "location" command to see details on your location.')
+#     print('Use the "friends" command to see a list of creatures you have befriended.')
     print('Use the "go __" command to move. Don\'t forget to say which direction!')
     print('Use the "eat __" command to eat.')
     print('Use the "pickup __" command to pick up an item.')
@@ -31,6 +32,14 @@ def help(p):
     
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
+
+def showInventory(p):
+    clear()
+    print('Your inventory contains the following items:')
+    orderedInventory = asOrderedList(p.inventory)
+    for kvp in orderedInventory:
+        weight = p.world.itemWeights[kvp[0]] * kvp[1]
+        print('\t' + kvp[0] + ' x' + str(kvp[1]) + ', ' + str(weight) + 'weight')
     
 def printSituation(w, p):
     wc = ''
@@ -104,7 +113,148 @@ def gameOver(w):
         print('Your creature has died!')
     print()
     print('Better luck next time!')
+          
+def evolve(p):
+    clear()
+    print('Health increase: 5 exp')
+    print('Stomach size increase: 5 exp')
+    print('Strength increase: 5 exp')
+    print('Sociability increase: 5 exp')
+    print('Speed increase: 5 exp')
+    print('Intelligence increase: 5 exp')
+    print('Pouches – can carry more items: 5 exp')
+    print('Stronger back – can carry heaver items: 5 exp')
+    if p.diet != 'omnivore':
+        print('Omnivorous diet — eat any food you find: 10 exp')
+    if 'Metabolism increase' not in p.abilities:
+        print('Metabolism increase – hunger increases more slowly: 10 exp')
+    if 'Fat reserves' not in p.abilities:
+        print('Fat reserves – reduced penalty when starving: 10 exp')
+    if 'Semiaquatic' not in p.abilities:
+        print('Semiaquatic – access watery terrain: 10 exp')
+    if p.intelligence >= 8 and 'Item use' not in p.abilities:
+        print('Item use: 10 exp')
+    if p.intelligence >= 13 and 'Item use' in p.abilities and 'Flexible responding' not in p.abilities:
+        print('Flexible responding – more options when you engage with other creatures: 20 exp') # Idk, maybe players will be able to change whether they want to socialize or attack. Also, I just thought that if the player attacks a creature, then the creature's hostility should go up
+    if p.intelligence >= 20 and 'Flexible responding' in p.abilities:
+        print('Fire: 30 exp')
         
+    print()
+    print('Go back.')
+    print()
+    print('You have ' + str(p.experience) + ' experience points.')
+    transactionCompleted = False
+    while not transactionCompleted:
+        choice = input('What would you like to improve? ')
+        if choice.lower() == 'health increase':
+            if p.experience >= 5:
+                p.maxHealth += 8
+                p.health = p.maxHealth
+                p.experience -= 5
+                transactionCompleted = True
+            else:
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'stomach size increase':
+            if p.experience >= 5:
+                p.maxHunger += 5
+                p.hunger = p.maxHunger
+                p.experience -= 5
+                transactionCompleted = True
+            else:
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'strength increase':
+            if p.experience >= 5:
+                p.maxStrength += 3
+                p.strength = p.maxStrength
+                p.experience -= 5
+                transactionCompleted = True
+            else:
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'sociability increase':
+            if p.experience >= 5:
+                p.maxSociability += 3
+                p.sociability = p.maxSociability
+                p.experience -= 5
+                transactionCompleted = True
+            else:
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'speed increase':
+            if p.experience >= 5:
+                p.maxSpeed += 3
+                p.speed = p.maxSpeed
+                p.experience -= 5
+                transactionCompleted = True
+            else:
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'intelligence increase':
+            if p.experience >= 5:
+                p.intelligence += 4
+                p.experience -= 5
+                transactionCompleted = True
+            else:
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'pouches':
+            if p.experience >= 5:
+                p.inventoryCap += 3
+                p.experience -= 5
+                transactionCompleted = True
+            else:
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'stronger back':
+            if p.experience >= 5:
+                p.maxinvweight += 3
+                p.experience -= 5
+                transactionCompleted = True
+            else:
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'metabolism increase':
+            if p.experience >= 15:
+                p.abilities.append('improved metabolism') # Will implement this later
+                p.experience -= 15
+                transactionCompleted = True
+            else:
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'fat reserves':
+            if p.experience >= 15:
+                p.abilities.append('fat reserves') # Will implement this later
+                p.experience -= 15
+                transactionCompleted = True
+            else:
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'semiaquatic':
+            if p.experience >= 15:
+                p.abilities.append('semiaquatic') # Will implement this later
+                p.experience -= 15
+                transactionCompleted = True
+            else:
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'item use':
+            if p.experience >= 15:
+                p.abilities.append('item use')
+                p.experience -= 15
+                transactionCompleted = True
+            else:
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'flexible responding':
+            if p.experience >= 25:
+                p.abilities.append('flexible responding')
+                p.experience -= 30
+                transactionCompleted = True
+            else:
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'fire':
+            if p.experience >= 35:
+                p.abilities.append('fire')
+                victory()
+            else:
+                print('Not enough experience. Try again.')
+        elif choice.lower() == 'omnivore':
+            p.diet = 'omnivore'
+            p.abilities.append('omnivore')
+        elif choice.lower() == 'go back':
+            transactionCompleted = True
+        
+
 clear()
 
 playing = True
@@ -206,7 +356,7 @@ while playing and p.alive:
         p.allstats()
     
     elif 'inventory' in commandWords[0]:
-        p.showInventory()
+        showInventory(p)
 
     elif commandWords[0] == 'cheat':
         stat = commandWords[1]
@@ -229,7 +379,14 @@ while playing and p.alive:
             else:
                 amt = int(commandWords[2])
             p.experience += amt
+        elif stat == 'soc':
+            if len(commandWords) == 3:
+                amt = int(commandWords[2])
+            else:
+                amt = int(input('How much? '))
+            p.maxSociability,p.sociability = amt,amt
         
+      
     elif commandWords[0] == 'go':
         direction = commandWords[1]
         if p.go(direction):
@@ -365,7 +522,7 @@ while playing and p.alive:
             self.ally = None
 
     elif commandWords[0] == 'evolve':
-        p.evolve()
+        evolve(p)
 
     elif command == 'test':
         w.turn_count = 199
