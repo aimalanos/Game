@@ -102,7 +102,7 @@ class World:
         if self.turn_count % 5 == 0:
             # New creatures will spawn
             randomSquare = random.choice(self.squares)
-            if randomSquare.creature == None:
+            if randomSquare.creature == None and randomSquare != self.player.home:
                 level = random.randint(1,3)
                 creatureType = random.choice(self.possibleCreatures)
                 creatureType(randomSquare, level)
