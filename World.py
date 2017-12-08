@@ -101,17 +101,13 @@ class World:
         self.turn_count += 1
         if self.turn_count % 5 == 0:
             # New creatures will spawn
-            for i in range(3):
-                randomSquare = random.choice(self.squares)
-                if randomSquare.creature == None:
-                    level = random.randint(1,3)
-                    if randomSquare.terrain == 'lake':
-                        creatureType = random.choice(self.aquaticCreatures)
-                    else:
-                        creatureType = random.choice(self.possibleCreatures)
-                    creatureType(randomSquare, level)
+            randomSquare = random.choice(self.squares)
+            if randomSquare.creature == None:
+                level = random.randint(1,3)
+                creatureType = random.choice(self.possibleCreatures)
+                creatureType(randomSquare, level)
             # New items will appear
-            for i in range(5):
+            for i in range(3):
                 randomSquare = random.choice(self.squares)
                 if 'fruit' in randomSquare.items:
                     randomSquare.items['fruit'] += 1
