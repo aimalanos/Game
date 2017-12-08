@@ -499,6 +499,10 @@ class Player:
                 print('A piece of meat. If you are a carnivore or omnivore, then eating this will reduce hunger and restore your stats.')
             elif item == 'seaweed':
                 print('A big nasty ball of seaweed. Use it during a fight to distract an animal and reduce its strength.')
+            elif item == 'driftwood':
+                print('A large piece of driftwood. Use it during a fight to try to block your opponent\'s attacks.')
+            elif item == 'conch shell':
+                print('A conch shell. Use it on land to calm the creatures around you and temporarily decrease their hostility.')
         else:
             print('There is nothing by that name here.')
                     
