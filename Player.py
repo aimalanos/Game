@@ -596,6 +596,13 @@ class Player:
                 self.invWeight -= self.world.itemWeights['seaweed']
                 if self.inventory['seaweed'] <=0:
                     del self.inventory['seaweed']
+            elif item == 'driftwood':
+                self.inventory['driftwood'] -= 1
+                self.inventorySize -= 1
+                self.invWeight -= self.world.itemWeights['driftwood']
+                if self.inventory['driftwood'] <=0:
+                    del self.inventory['driftwood']
+                return True
                     
     def go(self, dir):
         if dir.lower() == 'north':
@@ -603,7 +610,7 @@ class Player:
                 print('You may not go north. Try again.')
                 return False
             elif self.location.exits['north'].terrain == 'lake':
-                if 'semiaquatic' not in self.abilities:
+                if 'semiaquatic' not in self.abilities: # You have to have the "Semiaquatic" skill to access lake terrain
                     print('There is water in that direction, and you cannot swim. Try again.')
                     return False
                 else:
@@ -704,6 +711,7 @@ class Player:
             return
         else:
             fleeing = False
+            defense = False
             while self.health > 0 and creature.health > 0:
                 clear()
                 print('Creature health: ' + str(creature.health))
@@ -725,10 +733,10 @@ class Player:
                     else:
                         print('Invalid command. Choose "attack" or "flee."')
                     choice = input('What will you do? ')
-                if 'item' in choice.lower() and len(self.inventory) == 0:
+                while 'item' in choice.lower() and len(self.inventory) == 0:
                     print('Your inventory is empty!')
                     choice = input('What will you do? ')
-                if 'item' in choice.lower() and 'item use' not in self.abilities == 0:
+                while 'item' in choice.lower() and 'item use' not in self.abilities == 0:
                     print('You can\'t do that!')
                     choice = input('What will you do? ')
 
@@ -749,7 +757,8 @@ class Player:
                         for kvp in orderedInventory:
                             print('\t' + kvp[0] + ' x' + str(kvp[1]))
                         itemChoice = input('Pick an item. ')
-                        self.useBattleItem(itemChoice, creature)
+                        if self.useBattleItem(itemChoice, creature):
+                            defense = True
                     elif choice.lower() in 'flee':
                         print("You flee!")
                         break
@@ -763,6 +772,10 @@ class Player:
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
                         print("The creature attacks!")
+                        if defense = True:
+                            if random.random() < 0.5:
+                                creatureAttackStrength = 0
+                                print('Your driftwood barrier protects you!')
                         print("You take " + str(creatureAttackStrength) + " damage!")
                         self.health -= creatureAttackStrength
                     else:
@@ -779,6 +792,10 @@ class Player:
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
                         print("The creature attacks!")
+                        if defense = True:
+                            if random.random() < 0.5:
+                                creatureAttackStrength = 0
+                                print('Your driftwood barrier protects you!')
                         print("You take " + str(creatureAttackStrength) + " damage!")
                         self.health -= creatureAttackStrength
                     else:
@@ -797,7 +814,8 @@ class Player:
                         for kvp in orderedInventory:
                             print('\t' + kvp[0] + ' x' + str(kvp[1]))
                         itemChoice = input('Pick an item. ')
-                        self.useBattleItem(itemChoice, creature)
+                        if self.useBattleItem(itemChoice, creature):
+                            defense = True
                     elif choice.lower() in 'flee':
                         print("You flee!")
                         break
@@ -852,6 +870,7 @@ class Player:
                 self.die()
             return True
 
+#######################################################################################
 
     def befriend(self, creature):
         if self.location.creature == None:
@@ -859,6 +878,7 @@ class Player:
             return
         else:
             fleeing = False
+            defense = False
             while self.health > 0 and creature.hostility > 0:
                 clear()
                 print('Creature health: ' + str(creature.health))
@@ -901,7 +921,8 @@ class Player:
                         for kvp in orderedInventory:
                             print('\t' + kvp[0] + ' x' + str(kvp[1]))
                         itemChoice = input('Pick an item. ')
-                        self.useBattleItem(itemChoice, creature)
+                        if self.useBattleItem(itemChoice, creature):
+                            defense = True
                     elif choice.lower() in 'flee':
                         print("You flee!")
                         break
@@ -915,6 +936,10 @@ class Player:
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
                         print("The creature attacks!")
+                        if defense = True:
+                            if random.random() < 0.5:
+                                creatureAttackStrength = 0
+                                print('Your driftwood barrier protects you!')
                         print("You take " + str(creatureAttackStrength) + " damage!")
                         self.health -= creatureAttackStrength
                     else:
@@ -931,6 +956,10 @@ class Player:
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
                         print("The creature attacks!")
+                        if defense = True:
+                            if random.random() < 0.5:
+                                creatureAttackStrength = 0
+                                print('Your driftwood barrier protects you!')
                         print("You take " + str(creatureAttackStrength) + " damage!")
                         self.health -= creatureAttackStrength
                     else:
@@ -947,7 +976,8 @@ class Player:
                         for kvp in orderedInventory:
                             print('\t' + kvp[0] + ' x' + str(kvp[1]))
                         itemChoice = input('Pick an item. ')
-                        self.useBattleItem(itemChoice, creature)
+                        if self.useBattleItem(itemChoice, creature):
+                            defense = True
                     elif choice.lower() in 'flee':
                         print("You flee!")
                         break
@@ -1001,7 +1031,7 @@ class Player:
                 self.die()
             return True
 
-
+#######################################################################################
 
     def flexibleResponse(self, creature):
         if self.location.creature == None:
@@ -1009,6 +1039,7 @@ class Player:
             return
         else:
             fleeing = False
+            defense = False
             while self.health > 0 and (creature.hostility > 0 or creature.health > 0):
                 clear()
                 print('Creature health: ' + str(creature.health))
@@ -1060,7 +1091,8 @@ class Player:
                         for kvp in orderedInventory:
                             print('\t' + kvp[0] + ' x' + str(kvp[1]))
                         itemChoice = input('Pick an item. ')
-                        self.useBattleItem(itemChoice, creature)
+                        if self.useBattleItem(itemChoice, creature):
+                            defense = True
                     elif choice.lower() in 'flee':
                         print("You flee!")
                         break
@@ -1074,6 +1106,10 @@ class Player:
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
                         print("The creature attacks!")
+                        if defense = True:
+                            if random.random() < 0.5:
+                                creatureAttackStrength = 0
+                                print('Your driftwood barrier protects you!')
                         print("You take " + str(creatureAttackStrength) + " damage!")
                         self.health -= creatureAttackStrength
                     else:
@@ -1090,6 +1126,10 @@ class Player:
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
                         print("The creature attacks!")
+                        if defense = True:
+                            if random.random() < 0.5:
+                                creatureAttackStrength = 0
+                                print('Your driftwood barrier protects you!')
                         print("You take " + str(creatureAttackStrength) + " damage!")
                         self.health -= creatureAttackStrength
                     else:
@@ -1113,7 +1153,8 @@ class Player:
                         for kvp in orderedInventory:
                             print('\t' + kvp[0] + ' x' + str(kvp[1]))
                         itemChoice = input('Pick an item. ')
-                        self.useBattleItem(itemChoice, creature)
+                        if self.useBattleItem(itemChoice, creature):
+                            defense = True
                     elif choice.lower() in 'flee':
                         print("You flee!")
                         break
