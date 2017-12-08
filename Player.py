@@ -35,9 +35,9 @@ class Player:
         
         self.hunger = 100 # If self.hunger reaches 0, the player's health will decrease at each update.
         self.maxHealth, self.health = 50, 50
-        self.maxStrength, self.strength = 5, 5
-        self.maxSociability, self.sociability = 5, 5
-        self.maxSpeed, self.speed = 5, 5
+        self.maxStrength, self.strength = 10, 10
+        self.maxSociability, self.sociability = 10, 10
+        self.maxSpeed, self.speed = 10, 10
         
         self.healthLoss = 2
         self.hungerLoss = 5
@@ -323,8 +323,6 @@ class Player:
             elif choice.lower() == 'item use':
                 if self.experience >= 15:
                     self.abilities.append('item use')
-                    self.abilities.append('use items')
-                    self.abilities.append('Item use')
                     self.experience -= 15
                     transactionCompleted = True
                 else:
@@ -570,7 +568,7 @@ class Player:
                 target.speed -= target.speed // 2
                 self.inventory['sticky sap'] -= 1
                 self.inventorySize -= 1
-                self.invweight -= self.world.itemWeights['sticky sap']
+                self.invWeight -= self.world.itemWeights['sticky sap']
                 if self.inventory['sticky sap'] <= 0:
                     del self.inventory['sticky sap']
             elif item == 'poison berries':
@@ -578,34 +576,34 @@ class Player:
                 target.strength -= target.strength // 4
                 self.inventory['poison berries'] -= 1
                 self.inventorySize -= 1
-                self.invweight -= self.world.itemWeights['poison berries']
+                self.invWeight -= self.world.itemWeights['poison berries']
                 if self.inventory['poison berries'] <= 0:
                     del self.inventory['poison berries']
             elif item == 'healing salve':
                 self.fillStats()
                 self.inventory['healing salve'] -= 1
                 self.inventorySize -= 1
-                self.invweight -= self.world.itemWeights['healing salve']
+                self.invWeight -= self.world.itemWeights['healing salve']
                 if self.inventory['healing salve'] <=0:
                     del self.inventory['healing salve']
             elif item == 'flowers':
                 target.hostility -= target.hostility // 3
                 self.inventory['flowers'] -= 1
                 self.inventorySize -= 1
-                self.invweight -= self.world.itemWeights['flowers']
+                self.invWeight -= self.world.itemWeights['flowers']
                 if self.inventory['flowers'] <=0:
                     del self.inventory['flowers']
             elif item == 'seaweed':
                 target.strength -= random.randint(2,5)
                 self.inventory['seaweed'] -= 1
                 self.inventorySize -= 1
-                self.invweight -= self.world.itemWeights['seaweed']
+                self.invWeight -= self.world.itemWeights['seaweed']
                 if self.inventory['seaweed'] <=0:
                     del self.inventory['seaweed']
             elif item == 'driftwood':
                 self.inventory['driftwood'] -= 1
                 self.inventorySize -= 1
-                self.invweight -= self.world.itemWeights['driftwood']
+                self.invWeight -= self.world.itemWeights['driftwood']
                 if self.inventory['driftwood'] <=0:
                     del self.inventory['driftwood']
                 return True
@@ -613,7 +611,7 @@ class Player:
                 target.strength -= 2*target.level
                 self.inventory['seaweed'] -= 1
                 self.inventorySize -= 1
-                self.invweight -= self.world.itemWeights['seaweed']
+                self.invWeight -= self.world.itemWeights['seaweed']
                 if self.inventory['seaweed'] <=0:
                     del self.inventory['seaweed']
                     
@@ -698,19 +696,16 @@ class Player:
             print("You are an herbivore.")
         elif self.diet == 'carnivore':
             print("You are a carnivore.")
-        #print("Location: " + str(self.location.coordinates))
         print("You may travel " + self.dirstring +".")
         print("You may travel " + str(self.inventorySize))
         print("Hunger = " + str(self.hunger))
         print("Health = " + str(self.health))
+        print("Strength = " + str(self.strength))
         print("Sociability = " + str(self.sociability))
         print("Speed = " + str(self.speed))
-        print("Strength = " + str(self.strength))
         print("Intelligence = " + str(self.intelligence))
-        print("Sociability = " + str(self.sociability))
         print("Abilities = " + str(self.abilities))
         print("Inventory = " + str(self.inventory))
-        print("Sociability = " + str(self.sociability))
         print("Inventory size = " + str(self.inventorySize))
         print("Inventory cap = " + str(self.inventoryCap))
         print("Inventory weight = " + str(self.invweight))
@@ -736,12 +731,12 @@ class Player:
                 print('Strength: ' + str(self.strength))
                 print('You may:')
                 print('\t attack')
-                if 'item use' in self.abilities or 'use items' in self.abilities:
+                if 'item use' in self.abilities:
                     print('\t use item')
                 print('\t flee')
                 choice = input('What will you do? ')
                 choice = choice.lower()
-                while choice != 'attack' and choice != 'flee' and 'item' != choice and 'use item' != choice:
+                while choice != 'attack' and choice != 'flee' and 'item' != choice:
                     if 'item use' in self.abilities:
                         print('Invalid command. Choose "attack," "item" or "flee."')
                     else:
