@@ -607,6 +607,13 @@ class Player:
                 if self.inventory['driftwood'] <=0:
                     del self.inventory['driftwood']
                 return True
+            elif item == 'seaweed':
+                target.strength -= 2*target.level
+                self.inventory['seaweed'] -= 1
+                self.inventorySize -= 1
+                self.invWeight -= self.world.itemWeights['seaweed']
+                if self.inventory['seaweed'] <=0:
+                    del self.inventory['seaweed']
                     
     def go(self, dir):
         if dir.lower() == 'north':
