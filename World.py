@@ -98,6 +98,7 @@ class World:
 
     def add_player(self, player):
         self.player = player
+        player.world = self
         
     def update(self):
         self.player.update()
