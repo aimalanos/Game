@@ -177,16 +177,12 @@ for i in range(0,45):
     r = random.choice(w.squares)
     if r.terrain == 'lake':
         rItem = random.choice(w.waterItems)
-        if 'rItem' in r.items:
-            r.items[rItem] += 1
-        else:
-            r.items[rItem] = 1
     else:
         rItem = random.choice(w.landItems)
-        if 'rItem' in r.items:
-            r.items[rItem] += 1
-        else:
-            r.items[rItem] = 1
+    if 'rItem' in r.items:
+        r.items[rItem] += 1
+    else:
+        r.items[rItem] = 1
 
 while playing and p.alive:
     timePasses = False
