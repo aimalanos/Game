@@ -168,10 +168,14 @@ class Player:
         if 'meat' in self.inventory:
             self.m += 1
             if self.m == 6: # If you go long enough with meat in your inventory, then it will rot all your food
-                self.invweight -= self.inventory['fruit'] * self.world.itemWeights['fruit']
                 self.invweight -= self.inventory['meat'] * self.world.itemWeights['meat']
-                del self.inventory['fruit']
+                self.inventorySize -= self.inventory['meat']
                 del self.inventory['meat']
+                if 'fruit' in self.inventory:
+                    self.invweight -= self.inventory['fruit'] * self.world.itemWeights['fruit']
+                    self.inventorySize -= self.inventory['fruit']
+                    del self.inventory['fruit']
+                    
                 self.m = 0
                 print('Oh no! You carried meat in your bag for too long. All of your food has gone rotten.')
         else:
