@@ -4,8 +4,9 @@ import random
 
 class World:
     terrains = ['forest','desert','desert','hills','hills','lake','tundra','grassy','grassy'] # Some of the terrains are in here twice so that they'll be more likely
-    possibleItems = ['sticky sap', 'poison berries', 'big leaf', 'healing salve', 'flowers', 'big stick', 'nesting materials']
-    itemWeights = {'fruit': 2, 'meat': 2, 'sticky sap': 3, 'poison berries': 3, 'big leaf': 3, 'healing salve': 3, 'flowers': 2, 'big stick': 3, 'nesting materials': 5}
+    landItems = ['sticky sap', 'poison berries', 'big leaf', 'healing salve', 'flowers', 'big stick', 'nesting materials']
+    waterItems = ['seaweed','driftwood','conch shell']
+    itemWeights = {'fruit': 2, 'meat': 2, 'sticky sap': 3, 'poison berries': 3, 'big leaf': 3, 'healing salve': 3, 'flowers': 2, 'big stick': 3, 'nesting materials': 5, 'conch shell': 2, 'driftwood': 5, 'seaweed': 2}
     possibleCreatures = [Creature.Wolf,Creature.Tiger,Creature.Monkey,Creature.Dog,Creature.Sheep,Creature.Snake]
     creatureNames = ['wolf','tiger','monkey','dog','sheep','snake']
     aquaticCreatures = [Creature.Fish,Creature.Eel,Creature.Leviathan]
@@ -16,10 +17,12 @@ class World:
         self.weather = "clear"
         self.player = None
         self.squares = []
-        self.possibleCommands = {'me':['me'],'help':['help'],'allstats':['allstats','all stats'],'pickup':['pickup','pick up'],'go':['go'],'inspect':['inspect'], 'attack': ['attack','fight'], 'befriend': ['befriend'], 'recruit': ['recruit'], 'dismiss':['dismiss'], 'evolve': ['evolve'], 'use': ['use'], 'inventory': ['inventory'], 'use': ['use'], 'drop': ['drop']}
+        self.possibleCommands = {'me':['me'],'help':['help'],'allstats':['allstats','all stats'],'pickup':['pickup','pick up'],'go':['go'],'inspect':['inspect'], 'attack': ['attack','fight'], 'befriend': ['befriend'], 'recruit': ['recruit'], 'dismiss':['dismiss'], 'evolve': ['evolve'], 'use': ['use'], 'inventory': ['inventory'], 'drop': ['drop']}
         self.weather = 'clear'
         self.mapx = 8
         self.mapy = 8
+        self.hostilityDec = False
+        self.hostilityTime = 0
         
     def makeMap(self,x,y):
         for i in range(x+1):
@@ -98,7 +101,6 @@ class World:
 
     def add_player(self, player):
         self.player = player
-        player.world = self
         
     def update(self):
         self.player.update()
@@ -120,11 +122,18 @@ class World:
             # New items will appear
             for i in range(2):
                 randomSquare = random.choice(self.squares)
-                newItem = random.choice(self.possibleItems)
-                if newItem in randomSquare.items:
-                    randomSquare.items[newItem] += 1
+                if randomSquare.terrain == 'lake':
+                    newItem = random.choice(self.waterItems)
+                    if newItem in randomSquare.items:
+                        randomSquare.items[newItem] += 1
+                    else:
+                        randomSquare.items[newItem] = 1
                 else:
-                    randomSquare.items[newItem] = 1
+                    newItem = random.choice(self.landItems)
+                    if newItem in randomSquare.items:
+                        randomSquare.items[newItem] += 1
+                    else:
+                        randomSquare.items[newItem] = 1
             # The weather will change
             self.weather = random.choice(self.weatherlist)
             if self.weather == 'rainy' or self.weather == 'snowy' or self.weather == 'hailing':
@@ -133,3 +142,10 @@ class World:
             elif self.weather == 'drought': # There's not going to be a drought in the tundra
                 if self.player.location.terrain == 'tundra':
                     self.weather = 'clear'
+        if self.hostilityDec == True:
+            if self.hostilityTime >= 2:
+                self.hostilityDec = False
+            for square in self.squares:
+                if square.creature != None:
+                    square.creature.hostility -= 1
+            self.hostilityTime += 1
