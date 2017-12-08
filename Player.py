@@ -13,8 +13,8 @@ def clear():
 
 class Player:
     def __init__(self, w):
+        self.world = w
         self.name = input("What is your creature's name? ")
-
         print("Is your creature a carnivore or an herbivore?")
         self.diet = input("Herbivores need only find fruit to survive, while carnivores must kill their prey to have meat. ").lower()
         while self.diet != 'carnivore' and self.diet!= 'c' and self.diet != 'herbivore' and self.diet != 'h':
@@ -63,10 +63,19 @@ class Player:
         
         self.m = 0
         self.going = ''
+
+        self.conch = True
+        self.conchUses = 0
             
     def update(self):
+        if self.conchUses >= 2:
+            self.conch = False
+            self.conchUses = 0
+            del self.inventory['conch shell']
+            input('Unfortunately, you dropped your conch shell while using it. It is destroyed.')
         if self.going != '':
             print('You go ' + self.going + '.')
+            self.going = ''
         self.dirstring = ''
         for elem in self.availabledirs:
             if self.dirstring == '':
@@ -169,12 +178,17 @@ class Player:
             self.m = 0
 
     def showInventory(self):
-        clear()
+        #clear()
         print('Your inventory contains the following items:')
         orderedInventory = asOrderedList(self.inventory)
         for kvp in orderedInventory:
             weight = self.world.itemWeights[kvp[0]] * kvp[1]
             print('\t' + kvp[0] + ' x' + str(kvp[1]) + ', ' + str(weight) + ' weight')
+
+    def showAbilities(self):
+        print('You have the following abilities:')
+        for ab in self.abilities:
+            print('\t' + ab)
             
     def evolve(self):
         clear()
@@ -194,6 +208,8 @@ class Player:
             print('Fat reserves – reduced penalty when starving: 10 exp')
         if 'Semiaquatic' not in self.abilities:
             print('Semiaquatic – access watery terrain: 10 exp')
+        if 'use items' not in self.abilities:
+            print('Use items: 10 exp')
         if self.intelligence >= 8 and 'Item use' not in self.abilities:
             print('Item use: 10 exp')
         if self.intelligence >= 13 and 'Item use' in self.abilities and 'Flexible responding' not in self.abilities:
@@ -214,6 +230,13 @@ class Player:
                     self.maxHealth += 8
                     self.health = self.maxHealth
                     self.experience -= 5
+                    transactionCompleted = True
+                else:
+                    print('Not enough experience. Try again.')
+            elif choice.lower() == 'use items':
+                if self.experience >= 10:
+                    self.abilities.append('use items')
+                    self.abilities.append('Item use')
                     transactionCompleted = True
                 else:
                     print('Not enough experience. Try again.')
@@ -474,16 +497,19 @@ class Player:
                 print('A fruit. If you are an herbivore or omnivore, then eating this will reduce hunger and restore your stats.')
             elif item == 'meat':
                 print('A piece of meat. If you are a carnivore or omnivore, then eating this will reduce hunger and restore your stats.')
+            elif item == 'seaweed':
+                print('A big nasty ball of seaweed. Use it during a fight to distract an animal and reduce its strength.')
         else:
             print('There is nothing by that name here.')
                     
     def useItem(self, item):
-        if 'Item use' not in self.abilities:
+        if 'Item use' not in self.abilities and 'use items' not in self.abilities:
             print('You need to unlock the "Item use" ability before you can use items!')
             return False
         else:
             if item in self.inventory:
-                print('You use the ' + item + '.')
+                if item != 'conch shell':
+                    print('You use the ' + item + '.')
                 if item == 'fruit':
                     self.eat(item)
                 elif item == 'meat':
@@ -515,6 +541,13 @@ class Player:
                         self.invweight -= self.world.itemWeights['nesting materials']
                         if self.inventory['nesting materials'] <= 0:
                             del self.inventory['nesting materials']
+                elif item == 'conch shell':
+                    if self.location.terrain == 'lake':
+                        input("You can't use that here! Sea animals don't care for conch shells. Go to land to use this.")
+                    else:
+                        print('The sound of the conch calms the creatures around you, and briefly decreases their hostility!')
+                        self.world.hostilityDec = True
+                        self.conchUses += 1
                 else:
                     print("Now's not the time to use that!")
                     return False
@@ -556,6 +589,13 @@ class Player:
                 self.invWeight -= self.world.itemWeights['flowers']
                 if self.inventory['flowers'] <=0:
                     del self.inventory['flowers']
+            elif item == 'seaweed':
+                target.strength -= random.randint(2,5)
+                self.inventory['seaweed'] -= 1
+                self.inventorySize -= 1
+                self.invWeight -= self.world.itemWeights['seaweed']
+                if self.inventory['seaweed'] <=0:
+                    del self.inventory['seaweed']
                     
     def go(self, dir):
         if dir.lower() == 'north':
@@ -1125,7 +1165,10 @@ class Player:
                 self.location.creature = None
                 self.location.items['meat'] = random.randint(1,3)
                 if random.random() < .15:
-                    itemDrop = random.choice(self.world.possibleItems)
+                    if self.location.terrain == 'lake':
+                        itemDrop = random.choice(self.world.waterItems)
+                    else:
+                        itemDrop = random.choice(self.world.landItems)
                     print('The creature dropped an item!')
                     if itemDrop in self.location.items:
                         self.location.items[itemDrop] += 1
@@ -1139,7 +1182,10 @@ class Player:
                 self.friends.append(creature)
                 creature.befriended = True
                 if random.random() < .15:
-                    itemDrop = random.choice(self.world.possibleItems)
+                    if self.location.terrain == 'lake':
+                        itemDrop = random.choice(self.world.waterItems)
+                    else:
+                        itemDrop = random.choice(self.world.landItems)
                     print('The creature dropped an item!')
                     if itemDrop in self.location.items:
                         self.location.items[itemDrop] += 1
