@@ -76,8 +76,8 @@ class Snake(Creature):
 class Fish(Creature):
     def __init__(self,square,level):
         Creature.__init__(self,square,level)
-        self.health = random.randint(self.level*(5), self.level*(15))
-        self.strength = random.randint(self.level*(2), self.level*(8))
+        self.health = random.randint(self.level*(2), self.level*(5))
+        self.strength = random.randint(self.level*(2), self.level*(4))
         self.hostility = random.randint(self.level*(2), self.level*(8))
         self.speed = random.randint(self.level*(2), self.level*(8))
         self.fleeRate = random.uniform(0, 0.5)
