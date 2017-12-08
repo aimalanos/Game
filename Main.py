@@ -215,7 +215,7 @@ while playing and p.alive:
         clear()
         p.allstats()
     
-    elif 'inventory' in commandWords[0]:
+    elif commandWords[0] == 'inventory':
         showInventory(p)
 
     elif commandWords[0] == 'cheat':
