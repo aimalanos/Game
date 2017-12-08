@@ -323,6 +323,8 @@ class Player:
             elif choice.lower() == 'item use':
                 if self.experience >= 15:
                     self.abilities.append('item use')
+                    self.abilities.append('use items')
+                    self.abilities.append('Item use')
                     self.experience -= 15
                     transactionCompleted = True
                 else:
@@ -568,7 +570,7 @@ class Player:
                 target.speed -= target.speed // 2
                 self.inventory['sticky sap'] -= 1
                 self.inventorySize -= 1
-                self.invWeight -= self.world.itemWeights['sticky sap']
+                self.invweight -= self.world.itemWeights['sticky sap']
                 if self.inventory['sticky sap'] <= 0:
                     del self.inventory['sticky sap']
             elif item == 'poison berries':
@@ -576,34 +578,34 @@ class Player:
                 target.strength -= target.strength // 4
                 self.inventory['poison berries'] -= 1
                 self.inventorySize -= 1
-                self.invWeight -= self.world.itemWeights['poison berries']
+                self.invweight -= self.world.itemWeights['poison berries']
                 if self.inventory['poison berries'] <= 0:
                     del self.inventory['poison berries']
             elif item == 'healing salve':
                 self.fillStats()
                 self.inventory['healing salve'] -= 1
                 self.inventorySize -= 1
-                self.invWeight -= self.world.itemWeights['healing salve']
+                self.invweight -= self.world.itemWeights['healing salve']
                 if self.inventory['healing salve'] <=0:
                     del self.inventory['healing salve']
             elif item == 'flowers':
                 target.hostility -= target.hostility // 3
                 self.inventory['flowers'] -= 1
                 self.inventorySize -= 1
-                self.invWeight -= self.world.itemWeights['flowers']
+                self.invweight -= self.world.itemWeights['flowers']
                 if self.inventory['flowers'] <=0:
                     del self.inventory['flowers']
             elif item == 'seaweed':
                 target.strength -= random.randint(2,5)
                 self.inventory['seaweed'] -= 1
                 self.inventorySize -= 1
-                self.invWeight -= self.world.itemWeights['seaweed']
+                self.invweight -= self.world.itemWeights['seaweed']
                 if self.inventory['seaweed'] <=0:
                     del self.inventory['seaweed']
             elif item == 'driftwood':
                 self.inventory['driftwood'] -= 1
                 self.inventorySize -= 1
-                self.invWeight -= self.world.itemWeights['driftwood']
+                self.invweight -= self.world.itemWeights['driftwood']
                 if self.inventory['driftwood'] <=0:
                     del self.inventory['driftwood']
                 return True
@@ -611,7 +613,7 @@ class Player:
                 target.strength -= 2*target.level
                 self.inventory['seaweed'] -= 1
                 self.inventorySize -= 1
-                self.invWeight -= self.world.itemWeights['seaweed']
+                self.invweight -= self.world.itemWeights['seaweed']
                 if self.inventory['seaweed'] <=0:
                     del self.inventory['seaweed']
                     
@@ -703,6 +705,7 @@ class Player:
         print("Health = " + str(self.health))
         print("Sociability = " + str(self.sociability))
         print("Speed = " + str(self.speed))
+        print("Strength = " + str(self.strength))
         print("Intelligence = " + str(self.intelligence))
         print("Sociability = " + str(self.sociability))
         print("Abilities = " + str(self.abilities))
@@ -733,12 +736,12 @@ class Player:
                 print('Strength: ' + str(self.strength))
                 print('You may:')
                 print('\t attack')
-                if 'item use' in self.abilities:
+                if 'item use' in self.abilities or 'use items' in self.abilities:
                     print('\t use item')
                 print('\t flee')
                 choice = input('What will you do? ')
                 choice = choice.lower()
-                while choice != 'attack' and choice != 'flee' and 'item' != choice:
+                while choice != 'attack' and choice != 'flee' and 'item' != choice and 'use item' != choice:
                     if 'item use' in self.abilities:
                         print('Invalid command. Choose "attack," "item" or "flee."')
                     else:
