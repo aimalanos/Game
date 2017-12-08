@@ -16,12 +16,12 @@ class Player:
         self.name = input("What is your creature's name? ")
         print("Is your creature a carnivore or an herbivore?")
         self.diet = input("Herbivores need only find fruit to survive, while carnivores must kill their prey to have meat. ").lower()
-        while self.diet not in 'carnivore' and self.diet not in 'herbivore':
+        while self.diet != 'carnivore' and self.diet!= 'c' and self.diet != 'herbivore' and self.diet != 'h':
             self.diet = input('Invalid response. Choose "carnivore" or "herbivore." ')
-        if self.diet in 'carnivore':
-            self.diet = 'carnivore'
-        elif self.diet in 'herbivore':
+        if self.diet == 'h':
             self.diet = 'herbivore'
+        elif self.diet == 'c':
+            self.diet = 'carnivore'
         w.add_player(self)
         self.world = w
         self.location = random.choice(self.world.squares)
