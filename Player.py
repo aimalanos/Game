@@ -665,7 +665,7 @@ class Player:
                 return True
         if dir.lower() == 'west':
             if self.location.exits['west'] == None:
-                print('You may not go north. Try again.')
+                print('You may not go west. Try again.')
                 return False
             elif self.location.exits['west'].terrain == 'lake':
                 if 'semiaquatic' not in self.abilities:
