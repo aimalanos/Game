@@ -783,7 +783,7 @@ class Player:
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
                         print("The creature attacks!")
-                        if defense = True:
+                        if defense == True:
                             if random.random() < 0.5:
                                 creatureAttackStrength = 0
                                 print('Your driftwood barrier protects you!')
@@ -803,7 +803,7 @@ class Player:
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
                         print("The creature attacks!")
-                        if defense = True:
+                        if defense == True:
                             if random.random() < 0.5:
                                 creatureAttackStrength = 0
                                 print('Your driftwood barrier protects you!')
@@ -947,7 +947,7 @@ class Player:
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
                         print("The creature attacks!")
-                        if defense = True:
+                        if defense == True:
                             if random.random() < 0.5:
                                 creatureAttackStrength = 0
                                 print('Your driftwood barrier protects you!')
@@ -967,7 +967,7 @@ class Player:
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
                         print("The creature attacks!")
-                        if defense = True:
+                        if defense == True:
                             if random.random() < 0.5:
                                 creatureAttackStrength = 0
                                 print('Your driftwood barrier protects you!')
@@ -1117,7 +1117,7 @@ class Player:
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
                         print("The creature attacks!")
-                        if defense = True:
+                        if defense == True:
                             if random.random() < 0.5:
                                 creatureAttackStrength = 0
                                 print('Your driftwood barrier protects you!')
@@ -1137,7 +1137,7 @@ class Player:
                     elif creatureChoice < creatureAttackChance + creature.fleeRate:
                         creatureAttackStrength = random.randint(creature.strength // 2, creature.strength)
                         print("The creature attacks!")
-                        if defense = True:
+                        if defense == True:
                             if random.random() < 0.5:
                                 creatureAttackStrength = 0
                                 print('Your driftwood barrier protects you!')
