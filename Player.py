@@ -447,6 +447,7 @@ class Player:
                     else:
                         self.inventory[item] = 1
                         self.invweight += self.world.itemWeights[item]
+                    self.inventorySize += 1
                     self.location.items[item] -= 1
                     if self.location.items[item] <= 0:
                         del self.location.items[item]
@@ -463,6 +464,7 @@ class Player:
             else:
                 self.location.items[item] = 1
             self.inventory[item] -= 1
+            self.inventorySize -= 1
             self.invweight -= self.world.itemWeights[item]
             if self.inventory[item] <= 0:
                 del self.inventory[item]
