@@ -6,18 +6,16 @@ from Creature import Creature
 import os
 import random
 
-def help(p):
+def help():
     print('Use the "me" command to see an abbridged list of stats.')
     print('Use the "allstats" command to see a full list of stats.')
     print('Use the "inventory" command to see your inventory.')
     print('Use the "location" command to see details on your location.')
-#     print('Use the "friends" command to see a list of creatures you have befriended.')
     print('Use the "go __" command to move. Don\'t forget to say which direction!')
     print('Use the "eat __" command to eat.')
     print('Use the "pickup __" command to pick up an item.')
     print('Use the "drop __" command to drop an item.')
-    if 'Item use' in p.abilities:
-        print('Use the "use __" command to use an item.')
+    print('Use the "use __" command to use an item. You must unlock the "Item use" ability first, though!')
     print('Use the "show map" command to see a map of the world.')
     print('Use the "inspect __" command to learn more about your environment.')
     print('Use the "attack" command to attack a creature.')
@@ -32,17 +30,9 @@ def help(p):
     
 def clear():
     os.system('cls' if os.name == 'nt' else 'clear')
-
-def showInventory(p):
-    clear()
-    print('Your inventory contains the following items:')
-    orderedInventory = asOrderedList(p.inventory)
-    for kvp in orderedInventory:
-        weight = p.world.itemWeights[kvp[0]] * kvp[1]
-        print('\t' + kvp[0] + ' x' + str(kvp[1]) + ', ' + str(weight) + 'weight')
     
 def printSituation(w, p):
-    wc = ''
+    wc = '' # The flavor text for the weather
     if w.weather == 'rainy':
         wc = 'It slows you down.'
     elif w.weather == 'hailing':
@@ -51,7 +41,8 @@ def printSituation(w, p):
         wc = 'The poor weather reduces your sociability.'
     elif w.weather == 'drought':
         wc = 'You are getting hungry very quickly.'
-    tc = ''
+        
+    tc = '' # The flavor text for the terrain
     if p.location.terrain == 'mountainous':
         tc = 'The difficult terrain slows you down.'
     elif p.location.terrain == 'desert':
@@ -62,6 +53,7 @@ def printSituation(w, p):
         tc = "All the items here are in trees! You'll need a stick to get them out."
     elif p.location.terrain == 'grassy':
         tc = 'It\'s very nice here.'
+        
     print("Turn " + str(w.turn_count))
     print()
     print("Your coordinates are " + str(p.location.coordinates) + ".")
@@ -69,6 +61,7 @@ def printSituation(w, p):
         print('You\'re at home!')
     print("The weather is " + w.weather + ". " + wc)
     print("The terrain is " + p.location.terrain + ". " + tc)
+    # Tells the player if there is a creature here
     if p.location.creature != None:
         if p.ally == None or p.ally.location != p.location:
             if p.location.creature in p.friends:
@@ -77,6 +70,7 @@ def printSituation(w, p):
                 print("There is a creature here. It is a " + str(p.location.creature.name) + ".")
     else:
         print("You are alone here.")
+    # Tells the player if there are items here
     if len(p.location.items) > 0:
         print('There are the following items:')
         orderedInventory = asOrderedList(p.location.items)
@@ -84,8 +78,9 @@ def printSituation(w, p):
             print('\t' + kvp[0] + ' x' + str(kvp[1]))
     else:
         print("There is nothing of use to you here.")
+        
     print()
-    p.location.availableDirs()
+    p.location.availableDirs() # Tells the player where they can go
     print()
     print("Health: " + str(p.health))
     print("Food meter: " + str(p.hunger))
@@ -134,26 +129,26 @@ print()
 print('Use the "help" command at any time to see a list of commands available to you.')
 print()
 p = Player(w)
+
 clear()
 print('Before you get started, you may want to see a list of commands!')
-help(p)
+print()
+help()
 print()
 input('Press enter to continue. ')
 
+# We spawn the creatures
 for i in range(0,41):
     r = random.choice(w.squares)
-    if r == p.location:
-        if random.randint(0,1) == 1: #player should start with level 1 creature or no creature at home
-            creatureType = random.choice(w.possibleCreatures)
-    if not r.creature:
-        if r.terrain == 'lake':
+    if not r.creature and r != p.home: # Only one creature per square, and creatures don't spawn at the player's home
+        if r.terrain == 'lake': # Lakes get aquatic creatures
             creatureType = random.choice(w.aquaticCreatures)
         else:
             creatureType = random.choice(w.possibleCreatures)
         creatureType(r, 1)
 for i in range(0,28):
     r = random.choice(w.squares)
-    if not r.creature:
+    if not r.creature and r != p.home:
         if r.terrain == 'lake':
             creatureType = random.choice(w.aquaticCreatures)
         else:
@@ -161,19 +156,23 @@ for i in range(0,28):
         creatureType(r, 2)
 for i in range(0,15):
     r = random.choice(w.squares)
-    if not r.creature:
+    if not r.creature and r != p.home:
         if r.terrain == 'lake':
             creatureType = random.choice(w.aquaticCreatures)
         else:
             creatureType = random.choice(w.possibleCreatures)
         creatureType(r, 3)
+
+# We spawn food
 for i in range(0,60):
     r = random.choice(w.squares)
     if 'fruit' in r.items:
         r.items['fruit'] += 1
     else:
         r.items['fruit'] = 1
-for i in range(0,50):
+
+# We spawn items
+for i in range(0,45):
     r = random.choice(w.squares)
     rItem = random.choice(w.possibleItems)
     if 'rItem' in r.items:
@@ -192,11 +191,11 @@ while playing and p.alive:
         command = 'skip'
     commandWords = command.split()
     elem = commandWords[0]
-    for key in w.possibleCommands:
+    for key in w.possibleCommands: # This loop enables abbreviation
         if elem in w.possibleCommands[key]:
             commandWords[0] = key
             break
-    if len(commandWords) > 1:
+    if len(commandWords) > 1: # If the player uses a two-word variant of a command (e.g. "pick up" for "pickup"), then we change it to the one-word variant
         elem = commandWords[0] + ' ' + commandWords[1]
         for key in w.possibleCommands:
             if elem in w.possibleCommands[key]:
@@ -205,6 +204,7 @@ while playing and p.alive:
                 break
             
     if commandWords[0] == 'help':
+        clear()
         help(p)
         
     elif commandWords[0] == 'me':
@@ -216,7 +216,8 @@ while playing and p.alive:
         p.allstats()
     
     elif commandWords[0] == 'inventory':
-        showInventory(p)
+        clear()
+        p.showInventory()
 
     elif commandWords[0] == 'cheat':
         stat = commandWords[1]
@@ -248,14 +249,18 @@ while playing and p.alive:
         
       
     elif commandWords[0] == 'go':
-        direction = commandWords[1]
+        if len(commandWords) == 2:
+            direction = commandWords[1]
+        else:
+            direction = input('What direction do you want to go in? ')
+            direction = direction.lower()
         if p.go(direction):
             timePasses = True
             
     elif commandWords[0] == 'pickup':
-        if len(commandWords) == 3:
+        if len(commandWords) == 3: # i.e. if the player wants to pick up a two-word item
             item = commandWords[1] + ' ' + commandWords[2]
-        elif len(commandWords) == 2:
+        elif len(commandWords) == 2: # i.e. if the player wants to pick up a one-word item
             item = commandWords[1]
         else:
             item = input('What do want to pick up? ')
@@ -285,7 +290,7 @@ while playing and p.alive:
         
     elif commandWords[0] == 'eat':
         clear()
-        if len(commandWords) == 2:
+        if len(commandWords) == 2: # i.e. if the player says what they want to eat
             food = commandWords[1]
         elif len(commandWords) == 1:
             food = input("What would you like to eat? ")
@@ -298,11 +303,14 @@ while playing and p.alive:
                 i = int(commandWords[1])
         elif len(commandWords) == 1:
             i = 1
+        else:
+            i = input("Sorry, I don't understand. How many turns do you want to wait? ")
         j = 1
         while j <= i:
             w.update()
             if w.turn_count > 200:
                 gameOver()
+                break
             j += 1
         print('You wait ' + str(i) + ' turns.')
             
@@ -316,7 +324,6 @@ while playing and p.alive:
             item = input("Sorry, I didn't catch that. What would you like to inspect? ")
         p.inspect(item)
 
-            
     elif commandWords[0] == 'abbreviate':
         if 'as' in commandWords:
             if commandWords[2] == 'as':
@@ -327,8 +334,10 @@ while playing and p.alive:
             elif commandWords[3] == 'as':
                 comm = commandWords[1] + ' ' + commandWords[2]
                 abbrev = commandWords[4]
-                if comm in w.possibleCommands: #make this dict
+                if comm in w.possibleCommands:
                     w.possibleCommands[comm].append(abbrev)
+            else:
+                print('Sorry, I don\'t understand. Use the format "abbreviate __ as __" to abbreviate.')
                     
     elif commandWords[0] == 'quit':
         playing = False
