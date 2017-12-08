@@ -206,7 +206,7 @@ while playing and p.alive:
         p.allstats()
     
     elif 'inventory' in commandWords[0]:
-        showInventory(p)
+        p.showInventory()
 
     elif commandWords[0] == 'cheat':
         stat = commandWords[1]
@@ -230,7 +230,6 @@ while playing and p.alive:
                 amt = int(commandWords[2])
             p.experience += amt
         
-      
     elif commandWords[0] == 'go':
         direction = commandWords[1]
         if p.go(direction):
