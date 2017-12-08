@@ -530,7 +530,7 @@ class Player:
                 print('\t flee')
                 choice = input('What will you do? ')
                 choice = choice.lower()
-                while choice not in 'attack' and choice not in 'flee' and 'item' not in choice:
+                while choice != 'attack' and choice != 'fight' and choice != 'flee' and 'item' not in choice:
                     if 'item use' in self.abilities:
                         print('Invalid command. Choose "attack," "item" or "flee."')
                     else:
