@@ -126,6 +126,7 @@ class Player:
             self.speed -= self.speedPenalty
             if self.speed < 0:
                 self.speed = 0
+            print()
             print('You lose ' + str(self.healthLoss) + ' health from the terrain and weather.')
             print('Your sociability decreases by ' + str(self.socPenalty) + ' points.')
             print('Your speed decreases by ' + str(self.speedPenalty) + ' points.')
@@ -140,6 +141,7 @@ class Player:
             if self.hunger < 0:
                 self.hunger = 0
         elif self.hunger == 0: # If they player is starving...
+            print()
             r = random.randint(0,3) # then they will randomly take damage to health, strength, sociability, or speed
             if r == 0:
                 hungerPenalty = self.health // 10
@@ -875,7 +877,10 @@ class Player:
                 self.location.creature = None
                 self.location.items['meat'] = random.randint(1,3)
                 if random.random() < .15:
-                    itemDrop = random.choice(self.world.possibleItems)
+                    if self.location == 'lake':
+                        itemDrop = random.choice(self.world.waterItems)
+                    else:
+                        itemDrop = random.choice(self.world.landItems)
                     print('The creature dropped an item!')
                     if itemDrop in self.location.items:
                         self.location.items[itemDrop] += 1
@@ -1036,7 +1041,10 @@ class Player:
                 self.friends.append(creature)
                 creature.befriended = True
                 if random.random() < .15:
-                    itemDrop = random.choice(self.world.possibleItems)
+                    if self.location == 'lake':
+                        itemDrop = random.choice(self.world.waterItems)
+                    else:
+                        itemDrop = random.choice(self.world.landItems)
                     print('The creature dropped an item!')
                     if itemDrop in self.location.items:
                         self.location.items[itemDrop] += 1
