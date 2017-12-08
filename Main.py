@@ -124,8 +124,10 @@ def evolve(p):
     print('Intelligence increase: 5 exp')
     print('Pouches – can carry more items: 5 exp')
     print('Stronger back – can carry heaver items: 5 exp')
+    if p.diet != 'omnivore':
+        print('Omnivorous diet — eat any food you find: 10 exp')
     if 'Metabolism increase' not in p.abilities:
-        print('Metabolism increase – hunger increase more slowly: 10 exp')
+        print('Metabolism increase – hunger increases more slowly: 10 exp')
     if 'Fat reserves' not in p.abilities:
         print('Fat reserves – reduced penalty when starving: 10 exp')
     if 'Semiaquatic' not in p.abilities:
@@ -136,6 +138,7 @@ def evolve(p):
         print('Flexible responding – more options when you engage with other creatures: 20 exp') # Idk, maybe players will be able to change whether they want to socialize or attack. Also, I just thought that if the player attacks a creature, then the creature's hostility should go up
     if p.intelligence >= 20 and 'Flexible responding' in p.abilities:
         print('Fire: 30 exp')
+        
     print()
     print('Go back.')
     print()
@@ -206,14 +209,14 @@ def evolve(p):
                 print('Not enough experience. Try again.')
         elif choice.lower() == 'metabolism increase':
             if p.experience >= 15:
-                p.abilities.append('Improved metabolism') # Will implement this later
+                p.abilities.append('improved metabolism') # Will implement this later
                 p.experience -= 15
                 transactionCompleted = True
             else:
                 print('Not enough experience. Try again.')
         elif choice.lower() == 'fat reserves':
             if p.experience >= 15:
-                p.abilities.append('Fat reserves') # Will implement this later
+                p.abilities.append('fat reserves') # Will implement this later
                 p.experience -= 15
                 transactionCompleted = True
             else:
@@ -227,24 +230,27 @@ def evolve(p):
                 print('Not enough experience. Try again.')
         elif choice.lower() == 'item use':
             if p.experience >= 15:
-                p.abilities.append('Item use')
+                p.abilities.append('item use')
                 p.experience -= 15
                 transactionCompleted = True
             else:
                 print('Not enough experience. Try again.')
         elif choice.lower() == 'flexible responding':
             if p.experience >= 25:
-                p.abilities.append('Fat reserves')
+                p.abilities.append('flexible responding')
                 p.experience -= 30
                 transactionCompleted = True
             else:
                 print('Not enough experience. Try again.')
         elif choice.lower() == 'fire':
             if p.experience >= 35:
-                p.abilities.append('Fire')
+                p.abilities.append('fire')
                 victory()
             else:
                 print('Not enough experience. Try again.')
+        elif choice.lower() == 'omnivore':
+            p.diet = 'omnivore'
+            p.abilities.append('omnivore')
         elif choice.lower() == 'go back':
             transactionCompleted = True
         
