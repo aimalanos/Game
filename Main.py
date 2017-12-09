@@ -209,7 +209,7 @@ while playing and p.alive:
             
     if commandWords[0] == 'help':
         clear()
-        help(p)
+        help()
         
     elif commandWords[0] == 'me':
         clear()
