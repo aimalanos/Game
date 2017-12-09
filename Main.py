@@ -253,6 +253,10 @@ while playing and p.alive:
             p.abilities.append('semiaquatic')
         elif stat == 'drift':
             p.inventory['driftwood'] = 1
+        elif stat == 'meat':
+            p.location.items['meat'] = 1
+        elif stat == 'stick':
+            p.location.items['big stick'] = 1
       
     elif commandWords[0] == 'go':
         if len(commandWords) == 2:
