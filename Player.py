@@ -92,7 +92,6 @@ class Player:
             self.hunger = 100
         
         # Terrain effects
-        #@@@@@@@@@@@@@@@@@@@@@@@@@import pdb; pdb.set_trace()
         if self.location.terrain == "desert":
             self.hungerLoss += 5
         elif self.location.terrain == "hills":
@@ -1051,8 +1050,6 @@ class Player:
             elif self.health <= 0:
                 self.die()
             return True
-
-#######################################################################################
 
     def flexibleResponse(self, creature):
         if self.location.creature == None:
