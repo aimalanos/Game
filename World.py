@@ -300,3 +300,7 @@ class World:
                 if square.creature != None:
                     square.creature.hostility -= 1
             self.hostilityTime += 1
+        for square in self.squares:
+            if square.creature != None:
+                if square.creature.hostility < 0:
+                   square.creature.hostility = 0 
