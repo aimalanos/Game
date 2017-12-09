@@ -301,6 +301,8 @@ class Player:
                 if self.experience >= 10:
                     self.diet = 'omnivore'
                     self.abilities.append('omnivore')
+                    self.experience -= 10
+                    transactionCompleted = True
                 else:
                     print('Not enough experience. Try again.')
             elif choice.lower() in 'metabolism increase':
