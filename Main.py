@@ -7,7 +7,7 @@ import os
 import random
 
 def help():
-    print('Use the "me" command to see an abbridged list of stats.')
+    print('Use the "me" command to see an abridged list of stats.')
     print('Use the "allstats" command to see a full list of stats.')
     print('Use the "inventory" command to see your inventory.')
     print('Use the "location" command to see details on your location.')
