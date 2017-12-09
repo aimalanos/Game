@@ -446,7 +446,7 @@ class Player:
         if item in self.location.items:
             if self.invweight + self.world.itemWeights[item] > self.maxinvweight:
                 s = self.invweight + self.world.itemWeights[item] - self.maxinvweight
-                print("This item is too heavy for you to pick up! Leave it behind or free up " + str(s) + " points of weight in your inventory. ")
+                print("This item is too heavy for you to pick up! Leave it behind or free up " + str(s) + " kg in your inventory. ")
             elif self.inventorySize < self.inventoryCap:
                 if item in self.location.items:
                     if item in self.inventory:
