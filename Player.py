@@ -395,6 +395,13 @@ class Player:
         if food not in self.location.items and food not in self.inventory:
             print("There's no " + food + " for you to eat here!")
             return
+        if self.location.terrain == 'forest':
+            if 'big stick' not in self.inventory:
+                print("You'll need a stick or something to get the food out of the trees.")
+                return
+            elif 'big stick' in self.inventory and 'Item use' not in self.abilities:
+                print('You need to unlock the "item use" ability before that stick will help you!')
+                return
         if food == 'fruit':
             if self.diet == 'herbivore' or self.diet == 'omnivore':
                 if 'fruit' in self.location.items:
@@ -438,15 +445,18 @@ class Player:
     def pickup(self, item):
         if self.location.terrain == 'forest':
             if 'big stick' not in self.inventory:
-                print("You'll need a stick or something to get the item out of the trees.")
-                return
+                if item == 'big stick':
+                    print("Good thing that's a big stick...you're just able to pull it out of a tree without needing another big stick!")
+                else:
+                    print("You'll need a stick or something to get the item out of the trees.")
+                    return
             elif 'big stick' in self.inventory and 'Item use' not in self.abilities:
                 print('You need to unlock the "item use" ability before that stick will help you!')
                 return
         if item in self.location.items:
             if self.invweight + self.world.itemWeights[item] > self.maxinvweight:
                 s = self.invweight + self.world.itemWeights[item] - self.maxinvweight
-                print("This item is too heavy for you to pick up! Leave it behind or free up " + str(s) + " kg in your inventory. ")
+                print("This item is too heavy for you to pick up! Leave it behind or use the 'drop' command to free up " + str(s) + " kg in your inventory. ")
             elif self.inventorySize < self.inventoryCap:
                 if item in self.location.items:
                     if item in self.inventory:
