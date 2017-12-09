@@ -208,30 +208,28 @@ class Player:
         print('Stronger back – can carry heaver items: 5 exp')
         if self.diet != 'omnivore':
             print('Omnivorous diet — eat any food you find: 10 exp')
-        if 'Metabolism increase' not in self.abilities:
+        if 'metabolism increase' not in self.abilities:
             print('Metabolism increase – hunger increases more slowly: 10 exp')
-        if 'Fat reserves' not in self.abilities:
+        if 'fat reserves' not in self.abilities:
             print('Fat reserves – reduced penalty when starving: 10 exp')
-        if 'Semiaquatic' not in self.abilities:
+        if 'semiaquatic' not in self.abilities:
             print('Semiaquatic – access watery terrain: 10 exp')
-        if 'use items' not in self.abilities:
-            print('Use items: 10 exp')
-        if self.intelligence >= 8 and 'Item use' not in self.abilities:
+        if self.intelligence >= 5 and 'item use' not in self.abilities:
             print('Item use: 10 exp')
-        if self.intelligence >= 13 and 'Item use' in self.abilities and 'Flexible responding' not in self.abilities:
-            print('Flexible responding – more options when you engage with other creatures: 20 exp') # Idk, maybe players will be able to change whether they want to socialize or attack. Also, I just thought that if the player attacks a creature, then the creature's hostility should go up
-        if self.intelligence >= 20 and 'Flexible responding' in self.abilities:
+        if self.intelligence >= 10 and 'item use' in self.abilities and 'Flexible responding' not in self.abilities:
+            print('Flexible responding – more options when you engage with other creatures: 20 exp')
+        if self.intelligence >= 20 and 'flexible responding' in self.abilities:
             print('Fire: 30 exp')
             
         print()
-        print('Go back.')
+        print('Type "Go back" to return to the game.')
         print()
         print('You have ' + str(self.experience) + ' experience points.')
         print()
         transactionCompleted = False
         while not transactionCompleted:
             choice = input('What would you like to improve? ')
-            if choice.lower() == 'health increase':
+            if choice.lower() in 'health increase':
                 if self.experience >= 5:
                     self.maxHealth += 8
                     self.health = self.maxHealth
@@ -239,14 +237,14 @@ class Player:
                     transactionCompleted = True
                 else:
                     print('Not enough experience. Try again.')
-            elif choice.lower() == 'use items':
-                if self.experience >= 10:
-                    self.abilities.append('use items')
-                    self.abilities.append('Item use')
-                    transactionCompleted = True
-                else:
-                    print('Not enough experience. Try again.')
-            elif choice.lower() == 'stomach size increase':
+#             elif choice.lower() == 'use items':
+#                 if self.experience >= 10:
+#                     self.abilities.append('use items')
+#                     self.abilities.append('Item use')
+#                     transactionCompleted = True
+#                 else:
+#                     print('Not enough experience. Try again.')
+            elif choice.lower() in 'stomach size increase':
                 if self.experience >= 5:
                     self.maxHunger += 5
                     self.hunger = self.maxHunger
@@ -254,7 +252,7 @@ class Player:
                     transactionCompleted = True
                 else:
                     print('Not enough experience. Try again.')
-            elif choice.lower() == 'strength increase':
+            elif choice.lower() in 'strength increase':
                 if self.experience >= 5:
                     self.maxStrength += 3
                     self.strength = self.maxStrength
@@ -262,7 +260,7 @@ class Player:
                     transactionCompleted = True
                 else:
                     print('Not enough experience. Try again.')
-            elif choice.lower() == 'sociability increase':
+            elif choice.lower() in 'sociability increase':
                 if self.experience >= 5:
                     self.maxSociability += 3
                     self.sociability = self.maxSociability
@@ -270,7 +268,7 @@ class Player:
                     transactionCompleted = True
                 else:
                     print('Not enough experience. Try again.')
-            elif choice.lower() == 'speed increase':
+            elif choice.lower() in 'speed increase':
                 if self.experience >= 5:
                     self.maxSpeed += 3
                     self.speed = self.maxSpeed
@@ -278,70 +276,70 @@ class Player:
                     transactionCompleted = True
                 else:
                     print('Not enough experience. Try again.')
-            elif choice.lower() == 'intelligence increase':
+            elif choice.lower() in 'intelligence increase':
                 if self.experience >= 5:
                     self.intelligence += 4
                     self.experience -= 5
                     transactionCompleted = True
                 else:
                     print('Not enough experience. Try again.')
-            elif choice.lower() == 'pouches':
+            elif choice.lower() in 'pouches':
                 if self.experience >= 5:
                     self.inventoryCap += 3
                     self.experience -= 5
                     transactionCompleted = True
                 else:
                     print('Not enough experience. Try again.')
-            elif choice.lower() == 'stronger back':
+            elif choice.lower() in 'stronger back':
                 if self.experience >= 5:
                     self.maxinvweight += 3
                     self.experience -= 5
                     transactionCompleted = True
                 else:
                     print('Not enough experience. Try again.')
-            elif choice.lower() == 'omnivore':
+            elif 'omni' in choice.lower():
                 if self.experience >= 10:
                     self.diet = 'omnivore'
                     self.abilities.append('omnivore')
                 else:
                     print('Not enough experience. Try again.')
-            elif choice.lower() == 'metabolism increase':
-                if self.experience >= 15:
+            elif choice.lower() in 'metabolism increase':
+                if self.experience >= 10:
                     self.abilities.append('improved metabolism')
-                    self.experience -= 15
+                    self.experience -= 10
                     transactionCompleted = True
                 else:
                     print('Not enough experience. Try again.')
-            elif choice.lower() == 'fat reserves':
-                if self.experience >= 15:
+            elif choice.lower() in 'fat reserves':
+                if self.experience >= 10:
                     self.abilities.append('fat reserves')
-                    self.experience -= 15
+                    self.experience -= 10
                     transactionCompleted = True
                 else:
                     print('Not enough experience. Try again.')
-            elif choice.lower() == 'semiaquatic':
-                if self.experience >= 15:
+            elif choice.lower() in 'semiaquatic':
+                if self.experience >= 10:
                     self.abilities.append('semiaquatic')
-                    self.experience -= 15
+                    self.experience -= 10
                     transactionCompleted = True
                 else:
                     print('Not enough experience. Try again.')
-            elif choice.lower() == 'item use':
-                if self.experience >= 15:
+            elif choice.lower() in 'item use':
+                if self.experience >= 10:
                     self.abilities.append('item use')
-                    self.experience -= 15
+                    self.experience -= 10
                     transactionCompleted = True
                 else:
                     print('Not enough experience. Try again.')
-            elif choice.lower() == 'flexible responding':
-                if self.experience >= 25:
+            elif choice.lower() in 'flexible responding':
+                if self.experience >= 20:
                     self.abilities.append('flexible responding')
-                    self.experience -= 30
+                    self.experience -= 20
                     transactionCompleted = True
                 else:
                     print('Not enough experience. Try again.')
-            elif choice.lower() == 'fire':
-                if self.experience >= 35:
+            elif choice.lower() in 'fire':
+                if self.experience >= 30:
                     self.abilities.append('fire')
                     victory()
                 else:
@@ -438,7 +436,7 @@ class Player:
             if 'big stick' not in self.inventory:
                 print("You'll need a stick or something to get the item out of the trees.")
                 return
-            elif 'big stick' in self.inventory and 'Item use' not in p.abilities:
+            elif 'big stick' in self.inventory and 'item use' not in p.abilities:
                 print('You need to unlock the "item use" ability before that stick will help you!')
                 return
         if item in self.location.items:
@@ -515,7 +513,7 @@ class Player:
             print('There is nothing by that name here.')
                     
     def useItem(self, item):
-        if 'Item use' not in self.abilities and 'use items' not in self.abilities:
+        if 'item use' not in self.abilities: #and 'use items' not in self.abilities
             print('You need to unlock the "Item use" ability before you can use items!')
             return False
         else:
@@ -744,7 +742,7 @@ class Player:
                 print('\t flee')
                 choice = input('What will you do? ')
                 choice = choice.lower()
-                while choice != 'attack' and choice != 'flee' and 'item' != choice:
+                while choice != 'attack' and choice != 'flee' and 'item' not in choice:
                     if 'item use' in self.abilities:
                         print('Invalid command. Choose "attack," "item" or "flee."')
                     else:
@@ -753,7 +751,7 @@ class Player:
                 while 'item' in choice.lower() and len(self.inventory) == 0:
                     print('Your inventory is empty!')
                     choice = input('What will you do? ')
-                while 'item' in choice.lower() and 'item use' not in self.abilities == 0:
+                while 'item' in choice.lower() and 'item use' not in self.abilities:
                     print('You can\'t do that!')
                     choice = input('What will you do? ')
 
@@ -778,6 +776,8 @@ class Player:
                             defense = True
                     elif choice.lower() in 'flee':
                         print("You flee!")
+                        break
+                    if creature.health <= 0:
                         break
 
                     creatureAttackChance = creature.hostility * .1
@@ -913,7 +913,8 @@ class Player:
                     print('\t use item')
                 print('\t flee')
                 choice = input('What will you do? ')
-                while choice.lower() not in 'befriend' and choice.lower() not in 'flee' and 'item' not in choice.lower():
+                choice = choice.lower()
+                while choice not in 'befriend' and choice not in 'flee' and 'item' not in choice:
                     if 'item use' in self.abilities: #why say "not in 'befriend'?
                         print('Invalid command. Choose "befriend," "item" or "flee."')
                     else:
@@ -945,6 +946,8 @@ class Player:
                             defense = True
                     elif choice.lower() in 'flee':
                         print("You flee!")
+                        break
+                    if creature.hostility <= 0 or creature.health <= 0:
                         break
 
                     creatureAttackChance = creature.hostility * .1
@@ -1079,7 +1082,8 @@ class Player:
                     print('\t use item')
                 print('\t flee')
                 choice = input('What will you do? ')
-                while choice.lower() not in 'attack' and choice.lower() not in 'befriend' and choice.lower() not in 'flee' and 'item' not in choice.lower():
+                choice = choice.lower()
+                while choice not in 'attack' and choice not in 'befriend' and choice not in 'flee' and 'item' not in choice:
                     if 'item use' in self.abilities:
                         print('Invalid command. Choose "attack," "befriend," "item" or "flee."')
                     else:
@@ -1118,6 +1122,8 @@ class Player:
                             defense = True
                     elif choice.lower() in 'flee':
                         print("You flee!")
+                        break
+                    if creature.hostility <= 0 or creature.health <= 0:
                         break
 
                     creatureAttackChance = creature.hostility * .1
