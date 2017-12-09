@@ -66,7 +66,7 @@ def printSituation(w, p):
     if p.location.creature != None:
         if p.ally == None or p.ally.location != p.location:
             if p.location.creature in p.friends:
-                print("There is a creature here. It is your friend the " + str(p.location.creature.name) + ".")
+                print("There is a creature here. It is your friend the " + str(p.location.creature.name) + ". Type 'recruit' to have the " + str(p.location.creature.name) + " follow you around and fight with you!")
             else:
                 print("There is a creature here. It is a " + str(p.location.creature.name) + ".")
     else:
@@ -87,6 +87,9 @@ def printSituation(w, p):
     print("Food meter: " + str(p.hunger))
     if p.hunger == 0:
         print('STARVING')
+    print()
+    print("Type 'help' for a list of commands.")
+    print("Type 'show map' to show a map of the world.")
     print()
     
 def victory(p):
@@ -402,7 +405,7 @@ while playing and p.alive:
                 pass
             elif action.split()[0] == 'go':
                 p.go(action.split()[1])
-            elif action == 'close':
+            elif action == 'close' or action == 'close map':
                 close = True
 
     else:
