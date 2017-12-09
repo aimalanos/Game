@@ -82,6 +82,9 @@ class Player:
                 self.dirstring = elem
             else:
                 self.dirstring += ', ' + elem
+        if self.ally != None:
+            if self.ally.hostility < 0:
+                self.ally.hostility = 0
                 
         # We reset the penalties in order to implement the terrain and weather effects
         self.healthLoss = 2
@@ -484,6 +487,9 @@ class Player:
             else:
                 print("The creature is a " + self.location.creature.name + '!')
                 print("It has " + str(self.location.creature.health) + " health, " + str(self.location.creature.speed) + " speed, " + str(self.location.creature.strength) + " strength, and " + str(self.location.creature.hostility) + " hostility.")
+            if self.ally != None:
+                print("Your ally is a " + self.ally.name + '!')
+                print("It has " + str(self.ally.health) + " health, " + str(self.ally.speed) + " speed, " + str(self.ally.strength) + " strength, and " + str(self.ally.hostility) + " hostility.")
             #$$$
         elif item in self.location.items or item in self.inventory:
             if item == 'sticky sap':
