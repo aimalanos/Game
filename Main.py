@@ -90,6 +90,7 @@ def printSituation(w, p):
     print()
     print("Type 'help' for a list of commands.")
     print("Type 'show map' to show a map of the world.")
+    print("Type 'evolve' to see a list of potential upgrades.")
     print()
     
 def victory(p):
