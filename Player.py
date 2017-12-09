@@ -450,7 +450,7 @@ class Player:
                 else:
                     print("You'll need a stick or something to get the item out of the trees.")
                     return
-            elif 'big stick' in self.inventory and 'Item use' not in self.abilities:
+            elif 'big stick' in self.inventory and 'Item use' not in self.abilities and 'use items' not in self.abilities:
                 print('You need to unlock the "item use" ability before that stick will help you!')
                 return
         if item in self.location.items:
